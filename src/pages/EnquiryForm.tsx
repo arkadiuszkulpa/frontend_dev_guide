@@ -6,14 +6,14 @@ import { ProgressBar } from '../components/ProgressBar';
 import { FormNavigation } from '../components/FormNavigation';
 import { useEnquiryForm } from '../hooks/useEnquiryForm';
 
-import { ContactInfo, validateContactInfo } from './form/ContactInfo';
-import { BusinessType, validateBusinessType } from './form/BusinessType';
-import { Goals, validateGoals } from './form/Goals';
-import { CurrentSituation, validateCurrentSituation } from './form/CurrentSituation';
-import { Audience, validateAudience } from './form/Audience';
-import { ContentFeatures, validateContentFeatures } from './form/ContentFeatures';
-import { StylePreferences, validateStylePreferences } from './form/StylePreferences';
-import { Timeline, validateTimeline } from './form/Timeline';
+import { ContactInfo, validateContactInfo } from './form/01_ContactInfo';
+import { BusinessType, validateBusinessType } from './form/02_BusinessType';
+import { Goals, validateGoals } from './form/03_Goals';
+import { CurrentSituation, validateCurrentSituation } from './form/04_CurrentSituation';
+import { Audience, validateAudience } from './form/05_Audience';
+import { ContentFeatures, validateContentFeatures } from './form/06_ContentFeatures';
+import { StylePreferences, validateStylePreferences } from './form/07_StylePreferences';
+import { Timeline, validateTimeline } from './form/08_Timeline';
 
 const client = generateClient<Schema>();
 
