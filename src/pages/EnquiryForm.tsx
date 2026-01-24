@@ -56,7 +56,7 @@ export function EnquiryForm() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      await client.models.Enquiry.create({
+      const { data: enquiry } = await client.models.Enquiry.create({
         fullName: formData.fullName,
         email: formData.email,
         phone: formData.phone,
@@ -77,6 +77,47 @@ export function EnquiryForm() {
         budgetRange: formData.budgetRange || undefined,
         additionalNotes: formData.additionalNotes || undefined,
       });
+
+      // Send confirmation email with all form data
+      if (enquiry?.id) {
+        try {
+          await client.mutations.sendConfirmationEmail({
+            enquiryId: enquiry.id,
+            // Contact Information
+            fullName: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            businessName: formData.businessName || undefined,
+            // Business Understanding
+            businessDescription: formData.businessDescription,
+            // Goals
+            primaryGoal: formData.primaryGoal,
+            secondaryGoals: JSON.stringify(formData.secondaryGoals || []),
+            // Current Situation
+            hasExistingWebsite: formData.hasExistingWebsite ?? false,
+            existingWebsiteUrl: formData.existingWebsiteUrl || undefined,
+            currentChallenges: JSON.stringify(formData.currentChallenges || []),
+            // Audience
+            targetAudience: formData.targetAudience,
+            audienceLocation: formData.audienceLocation,
+            // Content & Features
+            contentTypes: JSON.stringify(formData.contentTypes || []),
+            desiredFeatures: JSON.stringify(formData.desiredFeatures || []),
+            // Preferences
+            stylePreference: formData.stylePreference,
+            exampleSites: JSON.stringify(formData.exampleSites || []),
+            // Timeline & Budget
+            urgency: formData.urgency,
+            budgetRange: formData.budgetRange || undefined,
+            // Additional Notes
+            additionalNotes: formData.additionalNotes || undefined,
+          });
+        } catch (emailError) {
+          console.error('Failed to send confirmation email:', emailError);
+          // Don't block navigation - enquiry was saved successfully
+        }
+      }
+
       navigate('/thank-you');
     } catch (error) {
       console.error('Error submitting enquiry:', error);

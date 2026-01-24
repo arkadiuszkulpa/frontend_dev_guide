@@ -1,0 +1,5 @@
+Type,Name,Value
+CNAME,4ljcj3h6x7aefy64wcbh4luc2ba4anz2._domainkey.arkadiuszkulpa.co.uk,4ljcj3h6x7aefy64wcbh4luc2ba4anz2.dkim.amazonses.com
+CNAME,fu5najhbxchimgea3mlqs34o6qujpp2d._domainkey.arkadiuszkulpa.co.uk,fu5najhbxchimgea3mlqs34o6qujpp2d.dkim.amazonses.com
+CNAME,khkkvo66ergn5ryndbi2adklicqhhqkl._domainkey.arkadiuszkulpa.co.uk,khkkvo66ergn5ryndbi2adklicqhhqkl.dkim.amazonses.com
+TXT,_dmarc.arkadiuszkulpa.co.uk,"v=DMARC1; p=none;"

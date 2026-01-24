@@ -1,6 +1,18 @@
 import { defineBackend } from '@aws-amplify/backend';
-import { data } from './data/resource';
+import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
+import { data, sendEmailHandler } from './data/resource';
 
-defineBackend({
+const backend = defineBackend({
   data,
+  sendEmailHandler,
 });
+
+// Grant SES permissions to the Lambda function
+const emailFunctionRole = backend.sendEmailHandler.resources.lambda.role!;
+emailFunctionRole.addToPrincipalPolicy(
+  new PolicyStatement({
+    effect: Effect.ALLOW,
+    actions: ['ses:SendEmail', 'ses:SendRawEmail'],
+    resources: ['*'],
+  })
+);
