@@ -49,8 +49,24 @@ const schema = a.schema({
 
       // Additional Notes
       additionalNotes: a.string(),
+
+      // Admin tracking fields
+      status: a.enum(['new', 'in_review', 'contacted', 'quoted', 'accepted', 'declined', 'completed']),
+      lastContactedAt: a.datetime(),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [
+      allow.publicApiKey().to(['create', 'read']),
+      allow.authenticated('userPools'),
+    ]),
+
+  EnquiryNote: a
+    .model({
+      enquiryId: a.id().required(),
+      content: a.string().required(),
+      createdBy: a.string().required(),
+      noteType: a.enum(['context', 'call_summary', 'quote_sent', 'follow_up', 'general']),
+    })
+    .authorization((allow) => [allow.authenticated('userPools')]),
 
   // Custom mutation to send confirmation email
   sendConfirmationEmail: a
