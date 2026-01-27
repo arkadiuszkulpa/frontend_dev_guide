@@ -1,27 +1,25 @@
 import { FormCard } from '../../components/FormCard';
 import { TextInput } from '../../components/TextInput';
-import { EnquiryFormData } from '../../types/enquiry';
+import { RadioGroup } from '../../components/RadioGroup';
+import { EnquiryFormData, PREFERRED_CONTACT_OPTIONS } from '../../types/enquiry';
 
-interface ContactInfoProps {
+interface StepProps {
   formData: EnquiryFormData;
   updateFormData: (updates: Partial<EnquiryFormData>) => void;
 }
 
-export function ContactInfo({ formData, updateFormData }: ContactInfoProps) {
+export function ContactInfo({ formData, updateFormData }: StepProps) {
   return (
-    <FormCard
-      title="Let's start with your details"
-      subtitle="So we know who to contact about your project"
-    >
+    <FormCard title="Last step — how do we reach you?">
       <div className="space-y-6">
         <TextInput
           label="Your full name"
-          type="text"
           value={formData.fullName}
           onChange={(e) => updateFormData({ fullName: e.target.value })}
           placeholder="John Smith"
           required
         />
+
         <TextInput
           label="Email address"
           type="email"
@@ -30,6 +28,7 @@ export function ContactInfo({ formData, updateFormData }: ContactInfoProps) {
           placeholder="john@example.com"
           required
         />
+
         <TextInput
           label="Phone number"
           type="tel"
@@ -38,13 +37,17 @@ export function ContactInfo({ formData, updateFormData }: ContactInfoProps) {
           placeholder="+44 7700 900000"
           required
         />
-        <TextInput
-          label="Business name (if applicable)"
-          type="text"
-          value={formData.businessName}
-          onChange={(e) => updateFormData({ businessName: e.target.value })}
-          placeholder="My Business Ltd"
-        />
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-3">
+            How would you prefer we contact you? <span className="text-red-500">*</span>
+          </label>
+          <RadioGroup
+            options={PREFERRED_CONTACT_OPTIONS}
+            selected={formData.preferredContact}
+            onChange={(value) => updateFormData({ preferredContact: value as EnquiryFormData['preferredContact'] })}
+          />
+        </div>
       </div>
     </FormCard>
   );
@@ -54,6 +57,7 @@ export function validateContactInfo(formData: EnquiryFormData): boolean {
   return (
     formData.fullName.trim() !== '' &&
     formData.email.trim() !== '' &&
-    formData.phone.trim() !== ''
+    formData.phone.trim() !== '' &&
+    formData.preferredContact !== ''
   );
 }

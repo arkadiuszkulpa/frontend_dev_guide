@@ -8,6 +8,81 @@ import { NotesList } from '../../components/admin/NotesList';
 import { AddNoteForm } from '../../components/admin/AddNoteForm';
 import type { EnquiryStatus, NoteType } from '../../types/admin';
 
+interface DesignAssets {
+  [key: string]: string;
+}
+
+function getInvolvementLabel(value?: string): string {
+  if (!value) return '';
+  const labels: Record<string, string> = {
+    'do-it-for-me': 'Do it for me',
+    'teach-me-basics': 'Teach me the basics',
+    'guide-me': 'Guide me through it',
+  };
+  return labels[value] || value;
+}
+
+function getAccountManagementLabel(value?: string): string {
+  if (!value) return '';
+  const labels: Record<string, string> = {
+    'you-manage': "You manage everything in your accounts",
+    'my-name-you-setup': 'Set them up in my name, but you do the setup',
+    'walk-me-through': 'Walk me through it so I own and understand it',
+  };
+  return labels[value] || value;
+}
+
+function getComplexityLabel(value?: string): string {
+  if (!value) return '';
+  const labels: Record<string, string> = {
+    'simple-static': 'Simple & static',
+    'some-moving-parts': 'Some moving parts',
+    'full-featured': 'Full-featured',
+  };
+  return labels[value] || value;
+}
+
+function getPreferredContactLabel(value?: string): string {
+  if (!value) return '';
+  const labels: Record<string, string> = {
+    'email': 'Email',
+    'phone': 'Phone',
+    'whatsapp': 'WhatsApp',
+  };
+  return labels[value] || value;
+}
+
+function parseDesignAssets(value: unknown): DesignAssets {
+  if (!value) return {};
+  if (typeof value === 'string') {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return {};
+    }
+  }
+  if (typeof value === 'object') return value as DesignAssets;
+  return {};
+}
+
+function summarizeAssets(assets: DesignAssets): string {
+  let ready = 0;
+  let needed = 0;
+  let notApplicable = 0;
+
+  Object.values(assets).forEach(status => {
+    if (['yes', 'draft', 'use-standard', 'create-from-logo', 'suggest-for-me'].includes(status)) {
+      ready++;
+    } else if (['no', 'not-sure'].includes(status)) {
+      needed++;
+    } else if (status === 'na') {
+      notApplicable++;
+    }
+  });
+
+  return `${ready} ready, ${needed} need help, ${notApplicable} N/A`;
+}
+
 export function EnquiryDetail() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuthenticator((context) => [context.user]);
@@ -44,6 +119,8 @@ export function EnquiryDetail() {
     const userEmail = user?.signInDetails?.loginId || 'Unknown';
     await addNote(content, noteType, userEmail);
   };
+
+  const designAssets = parseDesignAssets(enquiry.designAssets);
 
   return (
     <div>
@@ -99,70 +176,51 @@ export function EnquiryDetail() {
               { label: 'Full Name', value: enquiry.fullName },
               { label: 'Email', value: enquiry.email },
               { label: 'Phone', value: enquiry.phone },
+              { label: 'Preferred Contact', value: getPreferredContactLabel(enquiry.preferredContact) },
               { label: 'Business Name', value: enquiry.businessName },
             ]}
           />
 
           <EnquirySection
-            title="Business Understanding"
-            fields={[{ label: 'Business Description', value: enquiry.businessDescription }]}
-          />
-
-          <EnquirySection
-            title="Goals"
+            title="Working Relationship"
             fields={[
-              { label: 'Primary Goal', value: enquiry.primaryGoal },
-              { label: 'Secondary Goals', value: enquiry.secondaryGoals },
+              { label: 'Involvement Level', value: getInvolvementLabel(enquiry.involvementLevel) },
+              { label: 'Account Management', value: getAccountManagementLabel(enquiry.accountManagement || '') },
             ]}
           />
 
           <EnquirySection
-            title="Current Situation"
+            title="Website Requirements"
             fields={[
-              { label: 'Has Existing Website', value: enquiry.hasExistingWebsite },
-              { label: 'Existing Website URL', value: enquiry.existingWebsiteUrl },
-              { label: 'Current Challenges', value: enquiry.currentChallenges },
+              { label: 'Complexity Tier', value: getComplexityLabel(enquiry.websiteComplexity) },
+              { label: 'Core Pages', value: enquiry.corePages },
+              { label: 'Core Pages (Other)', value: enquiry.corePagesOther },
+              { label: 'Dynamic Features', value: enquiry.dynamicFeatures },
+              { label: 'Dynamic Features (Other)', value: enquiry.dynamicFeaturesOther },
+              { label: 'Advanced Features', value: enquiry.advancedFeatures },
+              { label: 'Advanced Features (Other)', value: enquiry.advancedFeaturesOther },
             ]}
           />
 
           <EnquirySection
-            title="Target Audience"
+            title="AI Features"
+            fields={[{ label: 'Selected AI Features', value: enquiry.aiFeatures }]}
+          />
+
+          <EnquirySection
+            title="Business Information"
             fields={[
-              { label: 'Target Audience', value: enquiry.targetAudience },
-              { label: 'Audience Location', value: enquiry.audienceLocation },
+              { label: 'Business Description', value: enquiry.businessDescription },
+              { label: 'Competitor Websites', value: enquiry.competitorWebsites },
+              { label: 'Inspiration Website', value: enquiry.inspirationWebsite },
+              { label: 'Inspiration Reason', value: enquiry.inspirationReason },
             ]}
           />
 
           <EnquirySection
-            title="Content & Features"
-            fields={[
-              { label: 'Content Types', value: enquiry.contentTypes },
-              { label: 'Desired Features', value: enquiry.desiredFeatures },
-            ]}
+            title="Design Assets"
+            fields={[{ label: 'Summary', value: summarizeAssets(designAssets) }]}
           />
-
-          <EnquirySection
-            title="Style Preferences"
-            fields={[
-              { label: 'Style Preference', value: enquiry.stylePreference },
-              { label: 'Example Sites', value: enquiry.exampleSites },
-            ]}
-          />
-
-          <EnquirySection
-            title="Timeline & Budget"
-            fields={[
-              { label: 'Urgency', value: enquiry.urgency },
-              { label: 'Budget Range', value: enquiry.budgetRange },
-            ]}
-          />
-
-          {enquiry.additionalNotes && (
-            <EnquirySection
-              title="Additional Notes"
-              fields={[{ label: 'Notes from Client', value: enquiry.additionalNotes }]}
-            />
-          )}
         </div>
 
         {/* Sidebar - Notes */}

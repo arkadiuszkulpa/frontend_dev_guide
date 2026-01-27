@@ -13,42 +13,39 @@ export const sendEmailHandler = defineFunction({
 const schema = a.schema({
   Enquiry: a
     .model({
-      // Contact Information
+      // Step 1: Involvement Level
+      involvementLevel: a.string().required(),
+      accountManagement: a.string(),
+
+      // Step 2: Website Complexity
+      websiteComplexity: a.string().required(),
+
+      // Step 2b: Features
+      corePages: a.string().array().required(),
+      corePagesOther: a.string(),
+      dynamicFeatures: a.string().array(),
+      dynamicFeaturesOther: a.string(),
+      advancedFeatures: a.string().array(),
+      advancedFeaturesOther: a.string(),
+
+      // Step 3: AI Features
+      aiFeatures: a.string().array().required(),
+
+      // Step 4: Your Business
+      businessName: a.string(),
+      businessDescription: a.string().required(),
+      competitorWebsites: a.string().array(),
+      inspirationWebsite: a.url(),
+      inspirationReason: a.string(),
+
+      // Step 5: Design Assets (stored as JSON blob)
+      designAssets: a.json().required(),
+
+      // Step 6: Contact Info
       fullName: a.string().required(),
       email: a.email().required(),
       phone: a.phone().required(),
-      businessName: a.string(),
-
-      // Business Understanding
-      businessDescription: a.string().required(),
-
-      // Goals
-      primaryGoal: a.string().required(),
-      secondaryGoals: a.string().array(),
-
-      // Current Situation
-      hasExistingWebsite: a.boolean().required(),
-      existingWebsiteUrl: a.url(),
-      currentChallenges: a.string().array(),
-
-      // Audience
-      targetAudience: a.string().required(),
-      audienceLocation: a.string().required(),
-
-      // Content & Features
-      contentTypes: a.string().array().required(),
-      desiredFeatures: a.string().array().required(),
-
-      // Preferences
-      stylePreference: a.string().required(),
-      exampleSites: a.string().array(),
-
-      // Timeline & Budget
-      urgency: a.string().required(),
-      budgetRange: a.string(),
-
-      // Additional Notes
-      additionalNotes: a.string(),
+      preferredContact: a.string().required(),
 
       // Admin tracking fields
       status: a.enum(['new', 'in_review', 'contacted', 'quoted', 'accepted', 'declined', 'completed']),
@@ -77,30 +74,29 @@ const schema = a.schema({
       fullName: a.string().required(),
       email: a.string().required(),
       phone: a.string().required(),
+      preferredContact: a.string().required(),
+      // Business Information
       businessName: a.string(),
-      // Business Understanding
       businessDescription: a.string().required(),
-      // Goals
-      primaryGoal: a.string().required(),
-      secondaryGoals: a.json(),
-      // Current Situation
-      hasExistingWebsite: a.boolean().required(),
-      existingWebsiteUrl: a.string(),
-      currentChallenges: a.json(),
-      // Audience
-      targetAudience: a.string().required(),
-      audienceLocation: a.string().required(),
-      // Content & Features
-      contentTypes: a.json().required(),
-      desiredFeatures: a.json().required(),
-      // Preferences
-      stylePreference: a.string().required(),
-      exampleSites: a.json(),
-      // Timeline & Budget
-      urgency: a.string().required(),
-      budgetRange: a.string(),
-      // Additional Notes
-      additionalNotes: a.string(),
+      // Involvement
+      involvementLevel: a.string().required(),
+      accountManagement: a.string(),
+      // Website Complexity + Features
+      websiteComplexity: a.string().required(),
+      corePages: a.json().required(),
+      corePagesOther: a.string(),
+      dynamicFeatures: a.json(),
+      dynamicFeaturesOther: a.string(),
+      advancedFeatures: a.json(),
+      advancedFeaturesOther: a.string(),
+      // AI Features
+      aiFeatures: a.json().required(),
+      // Competitor/Inspiration
+      competitorWebsites: a.json(),
+      inspirationWebsite: a.string(),
+      inspirationReason: a.string(),
+      // Design Assets
+      designAssets: a.json().required(),
     })
     .returns(a.boolean())
     .authorization((allow) => [allow.publicApiKey()])

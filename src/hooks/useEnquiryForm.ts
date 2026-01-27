@@ -1,11 +1,25 @@
 import { useState, useCallback } from 'react';
-import { EnquiryFormData, initialFormData } from '../types/enquiry';
+import { EnquiryFormData, createInitialFormData } from '../types/enquiry';
 
-const TOTAL_STEPS = 8;
+// 7 logical steps (0-6), displayed as 6 steps to user (step 2 and 2b shown as "Step 2")
+const TOTAL_STEPS = 7;
+
+// Maps logical step to display step for progress bar
+const DISPLAY_STEP_MAP: Record<number, number> = {
+  0: 1, // Involvement Level -> Step 1
+  1: 2, // Website Complexity -> Step 2
+  2: 2, // Features (2b) -> Step 2
+  3: 3, // AI Features -> Step 3
+  4: 4, // Your Business -> Step 4
+  5: 5, // Design Assets -> Step 5
+  6: 6, // Contact Info -> Step 6
+};
+
+const DISPLAY_TOTAL_STEPS = 6;
 
 export function useEnquiryForm() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<EnquiryFormData>(initialFormData);
+  const [formData, setFormData] = useState<EnquiryFormData>(createInitialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateFormData = useCallback((updates: Partial<EnquiryFormData>) => {
@@ -25,13 +39,16 @@ export function useEnquiryForm() {
   }, []);
 
   const resetForm = useCallback(() => {
-    setFormData(initialFormData);
+    setFormData(createInitialFormData());
     setCurrentStep(0);
   }, []);
 
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === TOTAL_STEPS - 1;
-  const progress = ((currentStep + 1) / TOTAL_STEPS) * 100;
+
+  // Calculate progress based on display steps
+  const displayStep = DISPLAY_STEP_MAP[currentStep];
+  const progress = (displayStep / DISPLAY_TOTAL_STEPS) * 100;
 
   return {
     currentStep,
@@ -45,6 +62,8 @@ export function useEnquiryForm() {
     isLastStep,
     progress,
     totalSteps: TOTAL_STEPS,
+    displayStep,
+    displayTotalSteps: DISPLAY_TOTAL_STEPS,
     isSubmitting,
     setIsSubmitting,
   };
