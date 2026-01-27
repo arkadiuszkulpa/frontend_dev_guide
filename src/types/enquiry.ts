@@ -10,6 +10,94 @@ export type AssetStatus = 'yes' | 'no' | 'na' | 'not-sure' | 'draft' | 'use-stan
 export type ContentTier = 'core' | 'dynamic' | 'advanced';
 
 // ============================================================================
+// Pricing Types
+// ============================================================================
+
+export interface PriceRange {
+  min: number;
+  max: number;
+}
+
+export interface PricingLineItem {
+  label: string;
+  price: PriceRange;
+}
+
+export interface PricingBreakdown {
+  base: { label: string; price: PriceRange };
+  aiFeatures: PricingLineItem[];
+  integrations: PricingLineItem[];
+  contentNeeds: PricingLineItem[];
+  total: PriceRange;
+}
+
+// ============================================================================
+// Pricing Constants
+// ============================================================================
+
+type NonEmptyInvolvementLevel = Exclude<InvolvementLevel, ''>;
+type NonEmptyWebsiteComplexity = Exclude<WebsiteComplexity, ''>;
+
+export const BASE_PRICES: Record<NonEmptyWebsiteComplexity, Record<NonEmptyInvolvementLevel, PriceRange>> = {
+  'simple-static': {
+    'do-it-for-me': { min: 400, max: 600 },
+    'teach-me-basics': { min: 400, max: 500 },
+    'guide-me': { min: 500, max: 700 },
+  },
+  'some-moving-parts': {
+    'do-it-for-me': { min: 700, max: 1200 },
+    'teach-me-basics': { min: 800, max: 1000 },
+    'guide-me': { min: 1000, max: 1400 },
+  },
+  'full-featured': {
+    'do-it-for-me': { min: 1500, max: 2500 },
+    'teach-me-basics': { min: 1200, max: 1800 },
+    'guide-me': { min: 1500, max: 2000 },
+  },
+};
+
+export const AI_FEATURE_PRICES: Record<string, { label: string; price: PriceRange }> = {
+  'ai-chatbot': { label: 'AI Chatbot', price: { min: 300, max: 500 } },
+  'ai-contact-form': { label: 'Smart Contact Form', price: { min: 400, max: 600 } },
+  'ai-search': { label: 'AI-powered Search', price: { min: 500, max: 800 } },
+  'ai-assistant': { label: 'AI Sales Assistant', price: { min: 800, max: 1500 } },
+  'ai-recommendations': { label: 'Personalised Recommendations', price: { min: 800, max: 1500 } },
+  'ai-content': { label: 'Content Generation', price: { min: 300, max: 500 } },
+  'ai-voice': { label: 'Voice Assistant', price: { min: 800, max: 1500 } },
+};
+
+export const INTEGRATION_PRICES: Record<string, { label: string; price: PriceRange }> = {
+  'payments': { label: 'Payment Processing', price: { min: 100, max: 200 } },
+  'calendar-booking': { label: 'Calendar Booking', price: { min: 50, max: 100 } },
+  'external-booking': { label: 'External Booking Link', price: { min: 50, max: 100 } },
+  'newsletter': { label: 'Newsletter Signup', price: { min: 50, max: 100 } },
+  'shop': { label: 'Online Shop', price: { min: 200, max: 400 } },
+  'cart-checkout': { label: 'Shopping Cart', price: { min: 200, max: 400 } },
+  'members-area': { label: 'Members Area', price: { min: 300, max: 500 } },
+  'crm': { label: 'CRM Integration', price: { min: 200, max: 400 } },
+  'integrations': { label: 'Custom Integrations', price: { min: 400, max: 800 } },
+};
+
+export const CONTENT_CREATION_PRICES: Record<string, { label: string; price: PriceRange }> = {
+  'logo': { label: 'Logo Design', price: { min: 200, max: 400 } },
+  'brandColours': { label: 'Brand Colours & Fonts', price: { min: 100, max: 200 } },
+  'copywriting': { label: 'Copywriting (per page)', price: { min: 50, max: 100 } },
+  'photoSourcing': { label: 'Photo Sourcing', price: { min: 50, max: 150 } },
+};
+
+export const COMPLEXITY_LABELS: Record<NonEmptyWebsiteComplexity, string> = {
+  'simple-static': 'Simple & Static',
+  'some-moving-parts': 'Some Moving Parts',
+  'full-featured': 'Full-Featured',
+};
+
+export const INVOLVEMENT_LABELS: Record<NonEmptyInvolvementLevel, string> = {
+  'do-it-for-me': 'Do it for me',
+  'teach-me-basics': 'Teach me basics',
+  'guide-me': 'Guide me through',
+};
+
+// ============================================================================
 // Design Assets Interface
 // ============================================================================
 

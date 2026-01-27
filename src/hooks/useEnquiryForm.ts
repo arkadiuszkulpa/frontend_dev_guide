@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import { EnquiryFormData, createInitialFormData } from '../types/enquiry';
 
-// 7 logical steps (0-6), displayed as 6 steps to user (step 2 and 2b shown as "Step 2")
-const TOTAL_STEPS = 7;
+// 8 logical steps (0-7), displayed as 7 steps to user (step 2 and 2b shown as "Step 2")
+const TOTAL_STEPS = 8;
 
 // Maps logical step to display step for progress bar
 const DISPLAY_STEP_MAP: Record<number, number> = {
@@ -13,9 +13,10 @@ const DISPLAY_STEP_MAP: Record<number, number> = {
   4: 4, // Your Business -> Step 4
   5: 5, // Design Assets -> Step 5
   6: 6, // Contact Info -> Step 6
+  7: 7, // Pricing Summary -> Step 7
 };
 
-const DISPLAY_TOTAL_STEPS = 6;
+const DISPLAY_TOTAL_STEPS = 7;
 
 export function useEnquiryForm() {
   const [currentStep, setCurrentStep] = useState(0);

@@ -14,6 +14,7 @@ import { AIFeatures, validateAIFeatures } from './form/03_AIFeatures';
 import { YourBusiness, validateYourBusiness } from './form/04_YourBusiness';
 import { DesignAssetsStep, validateDesignAssets } from './form/05_DesignAssets';
 import { ContactInfo, validateContactInfo } from './form/06_ContactInfo';
+import { PricingSummary, validatePricingSummary } from './form/07_PricingSummary';
 
 const client = generateClient<Schema>();
 
@@ -46,6 +47,7 @@ export function EnquiryForm() {
     validateYourBusiness,      // Step 4
     validateDesignAssets,      // Step 5
     validateContactInfo,       // Step 6
+    validatePricingSummary,    // Step 7
   ];
 
   const canProceed = validators[currentStep](formData);
@@ -161,6 +163,8 @@ export function EnquiryForm() {
         return <DesignAssetsStep {...props} />;
       case 6:
         return <ContactInfo {...props} />;
+      case 7:
+        return <PricingSummary {...props} />;
       default:
         return null;
     }
