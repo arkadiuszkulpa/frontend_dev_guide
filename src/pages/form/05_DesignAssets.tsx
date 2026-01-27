@@ -29,15 +29,40 @@ const COMPLEXITY_TO_TIER: Record<WebsiteComplexity, ContentTier> = {
   '': 'advanced', // fallback shows everything
 };
 
-function getVisibleCategories(complexity: WebsiteComplexity): AssetCategory[] {
+function getVisibleCategories(
+  complexity: WebsiteComplexity,
+  corePages: string[],
+  dynamicFeatures: string[],
+  advancedFeatures: string[],
+  aiFeatures: string[]
+): AssetCategory[] {
   const maxTier = COMPLEXITY_TO_TIER[complexity] || 'advanced';
   const maxOrder = TIER_ORDER[maxTier];
+
+  // Combine all selected features
+  const selectedFeatures = [
+    ...corePages,
+    ...dynamicFeatures,
+    ...advancedFeatures,
+    ...aiFeatures,
+  ];
 
   return ASSET_CATEGORIES
     .filter((cat) => TIER_ORDER[cat.tier] <= maxOrder)
     .map((cat) => ({
       ...cat,
-      assets: cat.assets.filter((asset) => TIER_ORDER[asset.minTier] <= maxOrder),
+      assets: cat.assets.filter((asset) => {
+        // First check tier
+        if (TIER_ORDER[asset.minTier] > maxOrder) return false;
+
+        // If no requiredFeatures, show based on tier alone
+        if (!asset.requiredFeatures || asset.requiredFeatures.length === 0) {
+          return true;
+        }
+
+        // Show if ANY required feature is selected
+        return asset.requiredFeatures.some((f) => selectedFeatures.includes(f));
+      }),
     }))
     .filter((cat) => cat.assets.length > 0);
 }
@@ -46,10 +71,22 @@ export function DesignAssetsStep({ formData, updateFormData }: StepProps) {
   // Open the first two sections by default
   const [openSections, setOpenSections] = useState<string[]>(['branding', 'content']);
 
-  // Filter categories based on website complexity
+  // Filter categories based on website complexity and selected features
   const visibleCategories = useMemo(
-    () => getVisibleCategories(formData.websiteComplexity),
-    [formData.websiteComplexity]
+    () => getVisibleCategories(
+      formData.websiteComplexity,
+      formData.corePages,
+      formData.dynamicFeatures,
+      formData.advancedFeatures,
+      formData.aiFeatures
+    ),
+    [
+      formData.websiteComplexity,
+      formData.corePages,
+      formData.dynamicFeatures,
+      formData.advancedFeatures,
+      formData.aiFeatures,
+    ]
   );
 
   const toggleSection = (key: string) => {

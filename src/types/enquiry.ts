@@ -401,6 +401,7 @@ export interface AssetItem {
   label: string;
   options: AssetOption[];
   minTier: ContentTier;
+  requiredFeatures?: string[];  // If set, only show when ANY of these features selected
 }
 
 export interface AssetCategory {
@@ -416,6 +417,7 @@ export const ASSET_CATEGORIES: AssetCategory[] = [
     title: 'Branding',
     tier: 'core',
     assets: [
+      // Always tier-based (no requiredFeatures)
       { key: 'logo', label: 'Logo (high resolution, PNG or SVG)', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
       { key: 'brandColours', label: 'Brand colours (hex codes or examples)', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
       { key: 'logoVariations', label: 'Logo variations (light/dark versions)', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'not-sure', label: 'Not sure' }] },
@@ -428,14 +430,16 @@ export const ASSET_CATEGORIES: AssetCategory[] = [
     title: 'Photography & Imagery',
     tier: 'core',
     assets: [
+      // Always tier-based
       { key: 'heroImage', label: 'Hero image / main banner', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
-      { key: 'teamPhotos', label: 'Team / staff photos', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'productPhotos', label: 'Product photos', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'servicePhotos', label: 'Service photos / action shots', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'locationPhotos', label: 'Location / premises photos', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      // Feature-triggered
+      { key: 'teamPhotos', label: 'Team / staff photos', minTier: 'core', requiredFeatures: ['team'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'productPhotos', label: 'Product photos', minTier: 'dynamic', requiredFeatures: ['shop', 'portfolio', 'updatable-gallery'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'servicePhotos', label: 'Service photos / action shots', minTier: 'dynamic', requiredFeatures: ['services', 'updatable-gallery'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'locationPhotos', label: 'Location / premises photos', minTier: 'dynamic', requiredFeatures: ['location', 'multi-location'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
       { key: 'stockImagery', label: "Stock imagery you've purchased", minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
-      { key: 'behindScenes', label: 'Behind-the-scenes / process photos', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'customerPhotos', label: 'Customer photos (with permission)', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'behindScenes', label: 'Behind-the-scenes / process photos', minTier: 'advanced', requiredFeatures: ['portfolio', 'case-studies'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'customerPhotos', label: 'Customer photos (with permission)', minTier: 'advanced', requiredFeatures: ['testimonials', 'case-studies'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
     ],
   },
   {
@@ -443,10 +447,12 @@ export const ASSET_CATEGORIES: AssetCategory[] = [
     title: 'Graphics & Visual Elements',
     tier: 'dynamic',
     assets: [
+      // Always tier-based
       { key: 'icons', label: 'Icons (custom set)', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'use-standard', label: 'Use standard' }] },
       { key: 'favicon', label: 'Favicon (small browser icon)', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'create-from-logo', label: 'Create from logo' }] },
-      { key: 'socialGraphics', label: 'Social media graphics', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
       { key: 'backgrounds', label: 'Background patterns / textures', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
+      // Feature-triggered
+      { key: 'socialGraphics', label: 'Social media graphics', minTier: 'dynamic', requiredFeatures: ['social-feed'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
       { key: 'illustrations', label: 'Illustrations', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
       { key: 'infographics', label: 'Infographics', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
       { key: 'charts', label: 'Charts / diagrams', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
@@ -455,13 +461,14 @@ export const ASSET_CATEGORIES: AssetCategory[] = [
   {
     key: 'video',
     title: 'Video & Media',
-    tier: 'advanced',
+    tier: 'dynamic',
     assets: [
-      { key: 'promoVideo', label: 'Promotional video', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'productDemos', label: 'Product demo videos', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'testimonialVideos', label: 'Testimonial videos', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'backgroundVideo', label: 'Background video (for hero sections)', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'audioFiles', label: 'Audio files (podcasts, music)', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      // All feature-triggered by video-embeds
+      { key: 'promoVideo', label: 'Promotional video', minTier: 'dynamic', requiredFeatures: ['video-embeds'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'productDemos', label: 'Product demo videos', minTier: 'dynamic', requiredFeatures: ['video-embeds', 'shop'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'testimonialVideos', label: 'Testimonial videos', minTier: 'dynamic', requiredFeatures: ['video-embeds', 'testimonials'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'backgroundVideo', label: 'Background video (for hero sections)', minTier: 'dynamic', requiredFeatures: ['video-embeds'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'audioFiles', label: 'Audio files (podcasts, music)', minTier: 'dynamic', requiredFeatures: ['video-embeds'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
     ],
   },
   {
@@ -469,17 +476,19 @@ export const ASSET_CATEGORIES: AssetCategory[] = [
     title: 'Written Content',
     tier: 'core',
     assets: [
+      // Always tier-based (core content always needed)
       { key: 'homepageText', label: 'Homepage text', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'draft', label: 'Draft' }, { value: 'no', label: 'No' }] },
-      { key: 'aboutText', label: 'About page text', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'draft', label: 'Draft' }, { value: 'no', label: 'No' }] },
-      { key: 'serviceDescriptions', label: 'Service/product descriptions', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'draft', label: 'Draft' }, { value: 'no', label: 'No' }] },
+      { key: 'aboutText', label: 'About page text', minTier: 'core', requiredFeatures: ['about'], options: [{ value: 'yes', label: 'Yes' }, { value: 'draft', label: 'Draft' }, { value: 'no', label: 'No' }] },
+      { key: 'serviceDescriptions', label: 'Service/product descriptions', minTier: 'core', requiredFeatures: ['services', 'ai-assistant'], options: [{ value: 'yes', label: 'Yes' }, { value: 'draft', label: 'Draft' }, { value: 'no', label: 'No' }] },
       { key: 'tagline', label: 'Tagline / slogan', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
       { key: 'callToAction', label: 'Call-to-action text', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'suggest-for-me', label: 'Suggest for me' }] },
-      { key: 'teamBios', label: 'Team member bios', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'draft', label: 'Draft' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'testimonials', label: 'Testimonials / reviews (text)', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
-      { key: 'faqContent', label: 'FAQ content', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
-      { key: 'blogPosts', label: 'Blog posts (existing)', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
-      { key: 'caseStudies', label: 'Case studies', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'legalText', label: 'Legal text (Terms, Privacy Policy)', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
+      // Feature-triggered
+      { key: 'teamBios', label: 'Team member bios', minTier: 'dynamic', requiredFeatures: ['team'], options: [{ value: 'yes', label: 'Yes' }, { value: 'draft', label: 'Draft' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'testimonials', label: 'Testimonials / reviews (text)', minTier: 'dynamic', requiredFeatures: ['testimonials'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
+      { key: 'faqContent', label: 'FAQ content', minTier: 'dynamic', requiredFeatures: ['faq', 'ai-chatbot', 'live-chat'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
+      { key: 'blogPosts', label: 'Blog posts (existing)', minTier: 'dynamic', requiredFeatures: ['blog'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
+      { key: 'caseStudies', label: 'Case studies', minTier: 'advanced', requiredFeatures: ['case-studies'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'legalText', label: 'Legal text (Terms, Privacy Policy)', minTier: 'dynamic', requiredFeatures: ['legal'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
     ],
   },
   {
@@ -487,9 +496,10 @@ export const ASSET_CATEGORIES: AssetCategory[] = [
     title: 'Documents & Files',
     tier: 'dynamic',
     assets: [
-      { key: 'brochures', label: 'Brochures / PDFs for download', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'priceLists', label: 'Price lists / menus', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'catalogues', label: 'Catalogues', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      // Feature-triggered
+      { key: 'brochures', label: 'Brochures / PDFs for download', minTier: 'dynamic', requiredFeatures: ['downloads'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'priceLists', label: 'Price lists / menus', minTier: 'dynamic', requiredFeatures: ['pricing'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'catalogues', label: 'Catalogues', minTier: 'advanced', requiredFeatures: ['shop'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
       { key: 'certificates', label: 'Certificates / awards', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
       { key: 'pressMentions', label: 'Press mentions / logos', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
     ],
@@ -499,8 +509,10 @@ export const ASSET_CATEGORIES: AssetCategory[] = [
     title: 'Social Proof & Trust Elements',
     tier: 'dynamic',
     assets: [
-      { key: 'clientLogos', label: 'Client logos (for "trusted by" section)', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'starRatings', label: 'Star ratings / review scores', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
+      // Feature-triggered
+      { key: 'clientLogos', label: 'Client logos (for "trusted by" section)', minTier: 'dynamic', requiredFeatures: ['testimonials'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'starRatings', label: 'Star ratings / review scores', minTier: 'dynamic', requiredFeatures: ['testimonials', 'reviews-ratings'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
+      // Always tier-based (advanced tier)
       { key: 'partnerLogos', label: 'Partner logos', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
       { key: 'certificationBadges', label: 'Certification badges', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
       { key: 'awardLogos', label: 'Award logos', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
@@ -512,13 +524,15 @@ export const ASSET_CATEGORIES: AssetCategory[] = [
     title: 'Existing Digital Assets',
     tier: 'core',
     assets: [
+      // Always tier-based
       { key: 'domainOwned', label: 'Domain name (already owned)', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
       { key: 'socialAccounts', label: 'Social media accounts', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
       { key: 'googleBusiness', label: 'Google Business profile', minTier: 'core', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
       { key: 'existingContent', label: 'Current website content to migrate', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
       { key: 'emailAccounts', label: 'Email accounts to keep', minTier: 'dynamic', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'customerDatabase', label: 'Existing customer database', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
-      { key: 'productDatabase', label: 'Product database / spreadsheet', minTier: 'advanced', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      // Feature-triggered
+      { key: 'customerDatabase', label: 'Existing customer database', minTier: 'advanced', requiredFeatures: ['crm', 'customer-dashboard', 'members-area'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
+      { key: 'productDatabase', label: 'Product database / spreadsheet', minTier: 'advanced', requiredFeatures: ['shop', 'inventory', 'ai-assistant'], options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'na', label: 'N/A' }] },
     ],
   },
 ];

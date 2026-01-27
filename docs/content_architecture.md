@@ -216,39 +216,131 @@ interface ContentDeliveryTracker {
 
 ---
 
+## Feature-Triggered Content (Granular Mapping)
+
+Content items can be triggered by **specific features** selected in Step 2b, not just by complexity tier.
+
+### Two-Level Filtering
+
+1. **Tier-Based**: Always-required items based on complexity (logo, brand colours, hero image)
+2. **Feature-Triggered**: Only shown if specific feature is selected
+
+### Feature → Content Asset Mapping
+
+#### Core Pages (Step 2b Tier 1)
+
+| Feature Value | Triggers Content Assets |
+|---------------|------------------------|
+| `home` | homepageText, heroImage, tagline, callToAction |
+| `about` | aboutText |
+| `services` | serviceDescriptions, servicePhotos |
+| `portfolio` | productPhotos, behindScenes |
+| `faq` | faqContent |
+| `testimonials` | testimonials, customerPhotos, clientLogos, starRatings |
+| `pricing` | priceLists |
+| `team` | teamBios, teamPhotos |
+| `location` | locationPhotos |
+| `legal` | legalText |
+
+#### Dynamic Features (Step 2b Tier 2)
+
+| Feature Value | Triggers Content Assets |
+|---------------|------------------------|
+| `blog` | blogPosts |
+| `case-studies` | caseStudies, behindScenes |
+| `social-feed` | socialAccounts, socialGraphics |
+| `updatable-gallery` | productPhotos, servicePhotos |
+| `video-embeds` | promoVideo, productDemos, testimonialVideos, backgroundVideo, audioFiles |
+| `downloads` | brochures |
+
+#### Advanced Features (Step 2b Tier 3)
+
+| Feature Value | Triggers Content Assets |
+|---------------|------------------------|
+| `shop` | productPhotos, productDatabase, catalogues |
+| `customer-dashboard` | customerDatabase |
+| `inventory` | productDatabase |
+| `crm` | customerDatabase |
+| `reviews-ratings` | starRatings |
+| `live-chat` | faqContent |
+| `multi-location` | locationPhotos |
+| `members-area` | customerDatabase |
+
+#### AI Features (Step 3)
+
+| Feature Value | Triggers Content Assets |
+|---------------|------------------------|
+| `ai-chatbot` | faqContent |
+| `ai-assistant` | productDatabase, serviceDescriptions |
+
+### Always Tier-Based (No Feature Trigger)
+
+These items show based on complexity tier only:
+
+**Core (Always):**
+- logo, brandColours
+- heroImage
+- homepageText, aboutText, serviceDescriptions
+- tagline, callToAction
+- domainOwned, socialAccounts, googleBusiness
+
+**Dynamic Tier:**
+- logoVariations, brandFonts
+- favicon, icons
+- backgrounds, stockImagery
+- existingContent, emailAccounts
+
+**Advanced Tier:**
+- brandGuidelines
+- partnerLogos, certificationBadges, awardLogos, asSeenIn
+- illustrations, infographics, charts
+
+---
+
 ## Implementation Notes
 
-### Form Changes (05_DesignAssets.tsx)
-
-1. Read `formData.websiteComplexity` to determine tier
-2. Filter `ASSET_CATEGORIES` to show only relevant categories
-3. Within each category, filter items by `minTier`
-4. Update validation to only require items visible to user
-
-### Types Changes (enquiry.ts)
-
-Add tier metadata to asset definitions:
+### Types (enquiry.ts)
 
 ```typescript
 interface AssetItem {
   key: keyof DesignAssets;
   label: string;
   options: AssetOption[];
-  minTier: 'core' | 'dynamic' | 'advanced';  // NEW
+  minTier: 'core' | 'dynamic' | 'advanced';
+  requiredFeatures?: string[];  // If set, only show when ANY of these features selected
 }
+```
 
-interface AssetCategory {
-  key: string;
-  title: string;
-  tier: 'core' | 'dynamic' | 'advanced';     // NEW
-  assets: AssetItem[];
+### Filtering Logic (05_DesignAssets.tsx)
+
+```typescript
+function getVisibleCategories(
+  complexity: WebsiteComplexity,
+  corePages: string[],
+  dynamicFeatures: string[],
+  advancedFeatures: string[],
+  aiFeatures: string[]
+) {
+  const selectedFeatures = [...corePages, ...dynamicFeatures, ...advancedFeatures, ...aiFeatures];
+
+  return ASSET_CATEGORIES
+    .filter(cat => tierAllowed(cat.tier, complexity))
+    .map(cat => ({
+      ...cat,
+      assets: cat.assets.filter(asset => {
+        if (!tierAllowed(asset.minTier, complexity)) return false;
+        if (!asset.requiredFeatures) return true;  // Tier-based only
+        return asset.requiredFeatures.some(f => selectedFeatures.includes(f));
+      })
+    }))
+    .filter(cat => cat.assets.length > 0);
 }
 ```
 
 ### Future: Admin Content Tracker
 
 When building the admin panel, use this architecture to:
-1. Generate a checklist based on enquiry's complexity + features
+1. Generate a checklist based on enquiry's complexity + features selected
 2. Allow marking items as received/approved
 3. Show "Ready to Start" indicator when all required items collected
 4. Track what's missing before project kickoff
