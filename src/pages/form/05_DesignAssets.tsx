@@ -79,8 +79,10 @@ export function DesignAssetsStep({ formData, updateFormData }: StepProps) {
   const assetLabels = useTranslatedAssetLabels();
   const statusLabels = useTranslatedAssetStatus();
 
-  // Open the first two sections by default
-  const [openSections, setOpenSections] = useState<string[]>(['branding', 'content']);
+  // All sections open by default since they're already filtered to be relevant
+  const [openSections, setOpenSections] = useState<string[]>(
+    ASSET_CATEGORIES.map((cat) => cat.key)
+  );
 
   // Filter categories based on website complexity and selected features
   const visibleCategories = useMemo(

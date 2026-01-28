@@ -1,7 +1,7 @@
 {
   "home": {
     "title": "Let's Build Your Website",
-    "subtitle": "Tell us about your business and what you need. No technical knowledge required.",
+    "subtitle": "Tell us about your business and what you need.\nNo technical knowledge required.",
     "startButton": "New Enquiry",
     "timeEstimate": "Takes about 5 minutes to complete"
   },
@@ -116,16 +116,16 @@
   "options": {
     "involvement": {
       "doItForMe": {
-        "label": "Do it for me",
-        "description": "You handle everything. I tell you what I want, you make it happen. I contact you for any changes."
+        "label": "Do it for me (website build only)",
+        "description": "You build the website and handle occasional updates like new photos, text changes, or a logo refresh. Day-to-day content like blog posts or sales I manage myself through the CMS."
       },
       "teachMeBasics": {
         "label": "Teach me the basics",
-        "description": "Set things up, but show me how to do simple updates myself (like adding posts or changing text)."
+        "description": "Set me up on a platform like Hostinger and spend a few hours showing me how everything works — from adding posts to editing pages — so I'm fully self-sufficient."
       },
       "guideMe": {
         "label": "Guide me through it",
-        "description": "I want to do it myself, but I need help when I get stuck. Maybe a call or two."
+        "description": "I'll buy my own domain and hosting. I want to understand how it all works. You guide me through setup and answer questions when I get stuck."
       }
     },
     "accountManagement": {

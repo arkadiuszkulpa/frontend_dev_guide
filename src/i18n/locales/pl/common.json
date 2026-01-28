@@ -2,9 +2,9 @@
   "navigation": {
     "back": "Wstecz",
     "continue": "Dalej",
-    "submit": "Wyslij",
-    "submitting": "Wysylanie...",
-    "backToHome": "Powrot na strone glowna",
+    "submit": "Wyślij",
+    "submitting": "Wysyłanie...",
+    "backToHome": "Powrót na stronę główną",
     "newEnquiry": "Nowe zapytanie"
   },
   "progress": {
