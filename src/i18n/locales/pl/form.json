@@ -95,7 +95,23 @@
     "contentNeedsTitle": "Moze byc potrzebna dodatkowa praca projektowa/contentowa",
     "contentNeedsSubtitle": "Na podstawie Twojego inwentarza:",
     "contentNeedsNote": "Sa wyceniane oddzielnie od budowy strony.",
-    "disclaimer": "To jest szacunek oparty na Twoich wyborach. Ostateczna wycena zostanie przedstawiona po szczegolowym omowieniu projektu."
+    "disclaimer": "To jest szacunek oparty na Twoich wyborach. Ostateczna wycena zostanie przedstawiona po szczegolowym omowieniu projektu.",
+    "matrix": {
+      "title": "Tabela cen bazowych",
+      "yourSelection": "Twoj wybor",
+      "completePreviousSteps": "Uzupelnij poprzednie kroki",
+      "legend": "Twoj wybor"
+    },
+    "complexityLabels": {
+      "simpleStatic": "Prosta i statyczna",
+      "someMovingParts": "Z elementami dynamicznymi",
+      "fullFeatured": "Pelna funkcjonalnosc"
+    },
+    "involvementLabels": {
+      "doItForMe": "Zrob to za mnie",
+      "teachMeBasics": "Naucz mnie podstaw",
+      "guideMe": "Poprowadz mnie"
+    }
   },
   "options": {
     "involvement": {

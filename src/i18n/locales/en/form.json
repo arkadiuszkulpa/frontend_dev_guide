@@ -95,7 +95,23 @@
     "contentNeedsTitle": "Additional Design/Content Work May Be Needed",
     "contentNeedsSubtitle": "Based on your asset inventory:",
     "contentNeedsNote": "These are quoted separately from the website build.",
-    "disclaimer": "This is an estimate based on your selections. Your final quote will be provided after we discuss your project in detail."
+    "disclaimer": "This is an estimate based on your selections. Your final quote will be provided after we discuss your project in detail.",
+    "matrix": {
+      "title": "Base Price Matrix",
+      "yourSelection": "Your Selection",
+      "completePreviousSteps": "Complete previous steps",
+      "legend": "Your selection"
+    },
+    "complexityLabels": {
+      "simpleStatic": "Simple & Static",
+      "someMovingParts": "Some Moving Parts",
+      "fullFeatured": "Full-Featured"
+    },
+    "involvementLabels": {
+      "doItForMe": "Do it for me",
+      "teachMeBasics": "Teach me basics",
+      "guideMe": "Guide me through"
+    }
   },
   "options": {
     "involvement": {

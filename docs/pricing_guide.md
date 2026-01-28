@@ -68,9 +68,9 @@ Client says: *"Guide me through it"*
 
 | Engagement | Tech Stack | My Time | Price |
 |------------|------------|---------|-------|
-| **Build** | Amplify | 1-2 days | £400-600 |
-| **Configure** | Hostinger AI | 1 day + training | £400-500 |
-| **Train** | Hostinger AI | 1-2 days (spread out) | £500-700 |
+| **Build** | Amplify | 1-2 days | £400-500 |
+| **Configure** | Hostinger AI | 1-2 days + training | £500-650 |
+| **Train** | Hostinger AI | 2-3 days (spread out) | £650-800 |
 
 **Hosting costs (client pays):**
 - Amplify: ~£5-20/month
@@ -82,9 +82,9 @@ Client says: *"Guide me through it"*
 
 | Engagement | Tech Stack | My Time | Price |
 |------------|------------|---------|-------|
-| **Build** | Amplify + CMS | 2-4 days | £700-1,200 |
-| **Configure** | WordPress | 2-3 days + training | £800-1,000 |
-| **Train** | WordPress | 3-4 days (spread out) | £1,000-1,400 |
+| **Build** | Amplify + CMS | 2-3 days | £700-1,000 |
+| **Configure** | WordPress | 3-4 days + training | £900-1,200 |
+| **Train** | WordPress | 4-5 days (spread out) | £1,100-1,500 |
 
 **Hosting costs (client pays):**
 - Amplify: ~£10-30/month
@@ -96,9 +96,9 @@ Client says: *"Guide me through it"*
 
 | Engagement | Tech Stack | My Time | Price |
 |------------|------------|---------|-------|
-| **Build** | Amplify + Integrations | 4-8 days | £1,500-2,500 |
-| **Configure** | Shopify/Platform | 3-5 days + training | £1,200-1,800 |
-| **Train** | Platform | 4-6 days (spread out) | £1,500-2,000 |
+| **Build** | Amplify + Integrations | 4-6 days | £1,400-2,000 |
+| **Configure** | Shopify/Platform | 5-7 days + training | £1,600-2,200 |
+| **Train** | Platform | 6-8 days (spread out) | £1,800-2,500 |
 
 **Platform costs (client pays):**
 - Shopify: £25-300/month

@@ -40,19 +40,19 @@ type NonEmptyWebsiteComplexity = Exclude<WebsiteComplexity, ''>;
 
 export const BASE_PRICES: Record<NonEmptyWebsiteComplexity, Record<NonEmptyInvolvementLevel, PriceRange>> = {
   'simple-static': {
-    'do-it-for-me': { min: 400, max: 600 },
-    'teach-me-basics': { min: 400, max: 500 },
-    'guide-me': { min: 500, max: 700 },
+    'do-it-for-me': { min: 400, max: 500 },
+    'teach-me-basics': { min: 500, max: 650 },
+    'guide-me': { min: 650, max: 800 },
   },
   'some-moving-parts': {
-    'do-it-for-me': { min: 700, max: 1200 },
-    'teach-me-basics': { min: 800, max: 1000 },
-    'guide-me': { min: 1000, max: 1400 },
+    'do-it-for-me': { min: 700, max: 1000 },
+    'teach-me-basics': { min: 900, max: 1200 },
+    'guide-me': { min: 1100, max: 1500 },
   },
   'full-featured': {
-    'do-it-for-me': { min: 1500, max: 2500 },
-    'teach-me-basics': { min: 1200, max: 1800 },
-    'guide-me': { min: 1500, max: 2000 },
+    'do-it-for-me': { min: 1400, max: 2000 },
+    'teach-me-basics': { min: 1600, max: 2200 },
+    'guide-me': { min: 1800, max: 2500 },
   },
 };
 
