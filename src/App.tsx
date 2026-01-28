@@ -19,9 +19,9 @@ function App() {
         <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Protected admin routes */}
+        {/* Protected account routes */}
         <Route
-          path="/admin"
+          path="/account"
           element={
             <RequireAuth>
               <AdminLayout />

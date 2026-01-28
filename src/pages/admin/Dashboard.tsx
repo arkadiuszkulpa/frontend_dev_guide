@@ -7,16 +7,20 @@ import type { EnquiryStatus } from '../../types/admin';
 
 export function Dashboard() {
   const { user } = useAuthenticator((context) => [context.user]);
-  const { enquiries, isLoading, stats } = useEnquiries();
+  const userEmail = user?.signInDetails?.loginId;
+  const { enquiries, isLoading, stats, isAdmin } = useEnquiries({ userEmail });
 
   const recentEnquiries = enquiries.slice(0, 5);
 
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-900">
+          {isAdmin ? 'Admin Dashboard' : 'Your Quotes'}
+        </h1>
         <p className="text-gray-600 mt-1">
-          Welcome back, {user?.signInDetails?.loginId?.split('@')[0] || 'Admin'}
+          Welcome back, {user?.signInDetails?.loginId?.split('@')[0] || 'User'}
+          {!isAdmin && ' - You can view quotes associated with your email address.'}
         </p>
       </div>
 
@@ -33,7 +37,7 @@ export function Dashboard() {
         <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">Recent Enquiries</h2>
           <Link
-            to="/admin/enquiries"
+            to="/account/enquiries"
             className="text-sm text-primary-600 hover:text-primary-700 font-medium"
           >
             View all
@@ -49,7 +53,7 @@ export function Dashboard() {
             {recentEnquiries.map((enquiry) => (
               <li key={enquiry.id}>
                 <Link
-                  to={`/admin/enquiries/${enquiry.id}`}
+                  to={`/account/enquiries/${enquiry.id}`}
                   className="block px-6 py-4 hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex items-center justify-between">

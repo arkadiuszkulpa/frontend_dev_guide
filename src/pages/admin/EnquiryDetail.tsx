@@ -86,9 +86,9 @@ function summarizeAssets(assets: DesignAssets): string {
 export function EnquiryDetail() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuthenticator((context) => [context.user]);
-  const { enquiry, notes, isLoading, error, updateStatus, addNote, deleteNote } = useEnquiry(
-    id || ''
-  );
+  const userEmail = user?.signInDetails?.loginId;
+  const { enquiry, notes, isLoading, error, updateStatus, addNote, deleteNote, isAdmin } =
+    useEnquiry(id || '', { userEmail });
 
   if (isLoading) {
     return (
@@ -106,7 +106,7 @@ export function EnquiryDetail() {
           {error?.message || 'Enquiry not found'}
         </p>
         <Link
-          to="/admin/enquiries"
+          to="/account/enquiries"
           className="text-primary-600 hover:text-primary-700 font-medium"
         >
           Back to enquiries
@@ -127,7 +127,7 @@ export function EnquiryDetail() {
       {/* Header */}
       <div className="mb-6">
         <Link
-          to="/admin/enquiries"
+          to="/account/enquiries"
           className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1 mb-4"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -159,17 +159,19 @@ export function EnquiryDetail() {
             </p>
           </div>
 
-          <StatusDropdown
-            currentStatus={(enquiry.status as EnquiryStatus) || 'new'}
-            onStatusChange={updateStatus}
-          />
+          {isAdmin && (
+            <StatusDropdown
+              currentStatus={(enquiry.status as EnquiryStatus) || 'new'}
+              onStatusChange={updateStatus}
+            />
+          )}
         </div>
       </div>
 
       {/* Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className={`grid grid-cols-1 ${isAdmin ? 'lg:grid-cols-3' : ''} gap-6`}>
         {/* Main Content - Enquiry Details */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className={`${isAdmin ? 'lg:col-span-2' : ''} space-y-6`}>
           <EnquirySection
             title="Contact Information"
             fields={[
@@ -223,30 +225,32 @@ export function EnquiryDetail() {
           />
         </div>
 
-        {/* Sidebar - Notes */}
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Admin Notes</h3>
+        {/* Sidebar - Notes (Admin only) */}
+        {isAdmin && (
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Admin Notes</h3>
 
-            <div className="mb-6">
-              <NotesList
-                notes={notes.map((n) => ({
-                  id: n.id,
-                  content: n.content,
-                  createdBy: n.createdBy,
-                  createdAt: n.createdAt,
-                  noteType: n.noteType as NoteType | null,
-                }))}
-                onDelete={deleteNote}
-              />
-            </div>
+              <div className="mb-6">
+                <NotesList
+                  notes={notes.map((n) => ({
+                    id: n.id,
+                    content: n.content,
+                    createdBy: n.createdBy,
+                    createdAt: n.createdAt,
+                    noteType: n.noteType as NoteType | null,
+                  }))}
+                  onDelete={deleteNote}
+                />
+              </div>
 
-            <div className="border-t border-gray-200 pt-6">
-              <h4 className="text-sm font-medium text-gray-700 mb-4">Add New Note</h4>
-              <AddNoteForm onSubmit={handleAddNote} />
+              <div className="border-t border-gray-200 pt-6">
+                <h4 className="text-sm font-medium text-gray-700 mb-4">Add New Note</h4>
+                <AddNoteForm onSubmit={handleAddNote} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

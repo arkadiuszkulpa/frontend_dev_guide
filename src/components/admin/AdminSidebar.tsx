@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
 
 const navItems = [
-  { to: '/admin', label: 'Dashboard', icon: DashboardIcon },
-  { to: '/admin/enquiries', label: 'Enquiries', icon: EnquiriesIcon },
+  { to: '/account', label: 'Dashboard', icon: DashboardIcon },
+  { to: '/account/enquiries', label: 'Enquiries', icon: EnquiriesIcon },
 ];
 
 export function AdminSidebar() {
@@ -16,7 +16,7 @@ export function AdminSidebar() {
           <NavLink
             key={item.to}
             to={item.to}
-            end={item.to === '/admin'}
+            end={item.to === '/account'}
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
                 isActive

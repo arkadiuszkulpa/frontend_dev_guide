@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
 import type { EnquiryStatus } from '../types/admin';
+import { isAdmin } from '../utils/authWhitelist';
 
 const client = generateClient<Schema>();
 
@@ -9,10 +10,12 @@ type Enquiry = Schema['Enquiry']['type'];
 
 interface UseEnquiriesOptions {
   statusFilter?: EnquiryStatus | 'all';
+  userEmail?: string;
 }
 
 export function useEnquiries(options: UseEnquiriesOptions = {}) {
-  const { statusFilter = 'all' } = options;
+  const { statusFilter = 'all', userEmail } = options;
+  const userIsAdmin = isAdmin(userEmail);
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -32,6 +35,13 @@ export function useEnquiries(options: UseEnquiriesOptions = {}) {
 
       let filteredData = data || [];
 
+      // Apply owner filter for non-admin users
+      if (!userIsAdmin && userEmail) {
+        filteredData = filteredData.filter(
+          (e) => e.email.toLowerCase() === userEmail.toLowerCase()
+        );
+      }
+
       // Apply status filter
       if (statusFilter !== 'all') {
         filteredData = filteredData.filter((e) => (e.status || 'new') === statusFilter);
@@ -50,7 +60,7 @@ export function useEnquiries(options: UseEnquiriesOptions = {}) {
     } finally {
       setIsLoading(false);
     }
-  }, [statusFilter]);
+  }, [statusFilter, userEmail, userIsAdmin]);
 
   useEffect(() => {
     fetchEnquiries();
@@ -74,5 +84,6 @@ export function useEnquiries(options: UseEnquiriesOptions = {}) {
     error,
     refetch: fetchEnquiries,
     stats,
+    isAdmin: userIsAdmin,
   };
 }

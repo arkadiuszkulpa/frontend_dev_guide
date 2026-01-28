@@ -2,13 +2,20 @@ import { useState, useEffect, useCallback } from 'react';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
 import type { EnquiryStatus, NoteType } from '../types/admin';
+import { isAdmin } from '../utils/authWhitelist';
 
 const client = generateClient<Schema>();
 
 type Enquiry = Schema['Enquiry']['type'];
 type EnquiryNote = Schema['EnquiryNote']['type'];
 
-export function useEnquiry(id: string) {
+interface UseEnquiryOptions {
+  userEmail?: string;
+}
+
+export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
+  const { userEmail } = options;
+  const userIsAdmin = isAdmin(userEmail);
   const [enquiry, setEnquiry] = useState<Enquiry | null>(null);
   const [notes, setNotes] = useState<EnquiryNote[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,13 +37,23 @@ export function useEnquiry(id: string) {
         throw new Error(errors[0]?.message || 'Failed to fetch enquiry');
       }
 
+      // Check if user has access to this enquiry
+      if (data && !userIsAdmin && userEmail) {
+        if (data.email.toLowerCase() !== userEmail.toLowerCase()) {
+          setError(new Error('You do not have permission to view this enquiry'));
+          setEnquiry(null);
+          setIsLoading(false);
+          return;
+        }
+      }
+
       setEnquiry(data);
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'));
     } finally {
       setIsLoading(false);
     }
-  }, [id]);
+  }, [id, userEmail, userIsAdmin]);
 
   const fetchNotes = useCallback(async () => {
     if (!id) return;
@@ -156,5 +173,6 @@ export function useEnquiry(id: string) {
     updateStatus,
     addNote,
     deleteNote,
+    isAdmin: userIsAdmin,
   };
 }

@@ -4,6 +4,16 @@ export const auth = defineAuth({
   loginWith: {
     email: true,
   },
-  // Admin-only access initially - users must be created manually in Cognito
-  // Self-registration can be enabled later for client access
+  senders: {
+    email: {
+      fromEmail: 'verification@arkadiuszkulpa.co.uk',
+      fromName: 'Arkadiusz Kulpa - Web Development',
+    },
+  },
+  userAttributes: {
+    email: {
+      required: true,
+      mutable: true,
+    },
+  },
 });
