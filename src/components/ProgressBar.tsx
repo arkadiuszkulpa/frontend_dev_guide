@@ -8,13 +8,13 @@ export function ProgressBar({ currentStep, totalSteps }: ProgressBarProps) {
     <div className="mb-8">
       <div className="flex justify-between mb-2">
         <span className="text-sm text-gray-500">
-          Step {currentStep + 1} of {totalSteps}
+          Step {currentStep} of {totalSteps}
         </span>
       </div>
       <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
         <div
           className="h-full bg-primary-500 transition-all duration-300 ease-out"
-          style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
+          style={{ width: `${(currentStep / totalSteps) * 100}%` }}
         />
       </div>
     </div>

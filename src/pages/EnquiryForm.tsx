@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
@@ -6,14 +7,14 @@ import { ProgressBar } from '../components/ProgressBar';
 import { FormNavigation } from '../components/FormNavigation';
 import { useEnquiryForm } from '../hooks/useEnquiryForm';
 
-import { ContactInfo, validateContactInfo } from './form/ContactInfo';
-import { BusinessType, validateBusinessType } from './form/BusinessType';
-import { Goals, validateGoals } from './form/Goals';
-import { CurrentSituation, validateCurrentSituation } from './form/CurrentSituation';
-import { Audience, validateAudience } from './form/Audience';
-import { ContentFeatures, validateContentFeatures } from './form/ContentFeatures';
-import { StylePreferences, validateStylePreferences } from './form/StylePreferences';
-import { Timeline, validateTimeline } from './form/Timeline';
+import { InvolvementLevel, validateInvolvementLevel } from './form/01_InvolvementLevel';
+import { WebsiteComplexity, validateWebsiteComplexity } from './form/02_WebsiteComplexity';
+import { Features, validateFeatures } from './form/02b_Features';
+import { AIFeatures, validateAIFeatures } from './form/03_AIFeatures';
+import { YourBusiness, validateYourBusiness } from './form/04_YourBusiness';
+import { DesignAssetsStep, validateDesignAssets } from './form/05_DesignAssets';
+import { ContactInfo, validateContactInfo } from './form/06_ContactInfo';
+import { PricingSummary, validatePricingSummary } from './form/07_PricingSummary';
 
 const client = generateClient<Schema>();
 
@@ -27,20 +28,26 @@ export function EnquiryForm() {
     prevStep,
     isFirstStep,
     isLastStep,
-    totalSteps,
+    displayStep,
+    displayTotalSteps,
     isSubmitting,
     setIsSubmitting,
   } = useEnquiryForm();
 
+  // Scroll to top when step changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentStep]);
+
   const validators = [
-    validateContactInfo,
-    validateBusinessType,
-    validateGoals,
-    validateCurrentSituation,
-    validateAudience,
-    validateContentFeatures,
-    validateStylePreferences,
-    validateTimeline,
+    validateInvolvementLevel,  // Step 0
+    validateWebsiteComplexity, // Step 1
+    validateFeatures,          // Step 2
+    validateAIFeatures,        // Step 3
+    validateYourBusiness,      // Step 4
+    validateDesignAssets,      // Step 5
+    validateContactInfo,       // Step 6
+    validatePricingSummary,    // Step 7
   ];
 
   const canProceed = validators[currentStep](formData);
@@ -57,25 +64,37 @@ export function EnquiryForm() {
     setIsSubmitting(true);
     try {
       const { data: enquiry } = await client.models.Enquiry.create({
+        // Step 1: Involvement
+        involvementLevel: formData.involvementLevel,
+        accountManagement: formData.accountManagement || undefined,
+
+        // Step 2: Complexity + Features
+        websiteComplexity: formData.websiteComplexity,
+        corePages: formData.corePages,
+        corePagesOther: formData.corePagesOther || undefined,
+        dynamicFeatures: formData.dynamicFeatures,
+        dynamicFeaturesOther: formData.dynamicFeaturesOther || undefined,
+        advancedFeatures: formData.advancedFeatures,
+        advancedFeaturesOther: formData.advancedFeaturesOther || undefined,
+
+        // Step 3: AI Features
+        aiFeatures: formData.aiFeatures,
+
+        // Step 4: Your Business
+        businessName: formData.businessName || undefined,
+        businessDescription: formData.businessDescription,
+        competitorWebsites: formData.competitorWebsites,
+        inspirationWebsite: formData.inspirationWebsite || undefined,
+        inspirationReason: formData.inspirationReason || undefined,
+
+        // Step 5: Design Assets (stored as JSON)
+        designAssets: JSON.stringify(formData.designAssets),
+
+        // Step 6: Contact Info
         fullName: formData.fullName,
         email: formData.email,
         phone: formData.phone,
-        businessName: formData.businessName || undefined,
-        businessDescription: formData.businessDescription,
-        primaryGoal: formData.primaryGoal,
-        secondaryGoals: formData.secondaryGoals,
-        hasExistingWebsite: formData.hasExistingWebsite ?? false,
-        existingWebsiteUrl: formData.existingWebsiteUrl || undefined,
-        currentChallenges: formData.currentChallenges,
-        targetAudience: formData.targetAudience,
-        audienceLocation: formData.audienceLocation,
-        contentTypes: formData.contentTypes,
-        desiredFeatures: formData.desiredFeatures,
-        stylePreference: formData.stylePreference,
-        exampleSites: formData.exampleSites,
-        urgency: formData.urgency,
-        budgetRange: formData.budgetRange || undefined,
-        additionalNotes: formData.additionalNotes || undefined,
+        preferredContact: formData.preferredContact,
       });
 
       // Send confirmation email with all form data
@@ -87,30 +106,29 @@ export function EnquiryForm() {
             fullName: formData.fullName,
             email: formData.email,
             phone: formData.phone,
+            preferredContact: formData.preferredContact,
+            // Business Information
             businessName: formData.businessName || undefined,
-            // Business Understanding
             businessDescription: formData.businessDescription,
-            // Goals
-            primaryGoal: formData.primaryGoal,
-            secondaryGoals: JSON.stringify(formData.secondaryGoals || []),
-            // Current Situation
-            hasExistingWebsite: formData.hasExistingWebsite ?? false,
-            existingWebsiteUrl: formData.existingWebsiteUrl || undefined,
-            currentChallenges: JSON.stringify(formData.currentChallenges || []),
-            // Audience
-            targetAudience: formData.targetAudience,
-            audienceLocation: formData.audienceLocation,
-            // Content & Features
-            contentTypes: JSON.stringify(formData.contentTypes || []),
-            desiredFeatures: JSON.stringify(formData.desiredFeatures || []),
-            // Preferences
-            stylePreference: formData.stylePreference,
-            exampleSites: JSON.stringify(formData.exampleSites || []),
-            // Timeline & Budget
-            urgency: formData.urgency,
-            budgetRange: formData.budgetRange || undefined,
-            // Additional Notes
-            additionalNotes: formData.additionalNotes || undefined,
+            // Involvement
+            involvementLevel: formData.involvementLevel,
+            accountManagement: formData.accountManagement || undefined,
+            // Website Complexity + Features
+            websiteComplexity: formData.websiteComplexity,
+            corePages: JSON.stringify(formData.corePages),
+            corePagesOther: formData.corePagesOther || undefined,
+            dynamicFeatures: JSON.stringify(formData.dynamicFeatures),
+            dynamicFeaturesOther: formData.dynamicFeaturesOther || undefined,
+            advancedFeatures: JSON.stringify(formData.advancedFeatures),
+            advancedFeaturesOther: formData.advancedFeaturesOther || undefined,
+            // AI Features
+            aiFeatures: JSON.stringify(formData.aiFeatures),
+            // Competitor/Inspiration
+            competitorWebsites: JSON.stringify(formData.competitorWebsites),
+            inspirationWebsite: formData.inspirationWebsite || undefined,
+            inspirationReason: formData.inspirationReason || undefined,
+            // Design Assets
+            designAssets: JSON.stringify(formData.designAssets),
           });
         } catch (emailError) {
           console.error('Failed to send confirmation email:', emailError);
@@ -132,21 +150,21 @@ export function EnquiryForm() {
 
     switch (currentStep) {
       case 0:
-        return <ContactInfo {...props} />;
+        return <InvolvementLevel {...props} />;
       case 1:
-        return <BusinessType {...props} />;
+        return <WebsiteComplexity {...props} />;
       case 2:
-        return <Goals {...props} />;
+        return <Features {...props} />;
       case 3:
-        return <CurrentSituation {...props} />;
+        return <AIFeatures {...props} />;
       case 4:
-        return <Audience {...props} />;
+        return <YourBusiness {...props} />;
       case 5:
-        return <ContentFeatures {...props} />;
+        return <DesignAssetsStep {...props} />;
       case 6:
-        return <StylePreferences {...props} />;
+        return <ContactInfo {...props} />;
       case 7:
-        return <Timeline {...props} />;
+        return <PricingSummary {...props} />;
       default:
         return null;
     }
@@ -154,7 +172,7 @@ export function EnquiryForm() {
 
   return (
     <Layout>
-      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
+      <ProgressBar currentStep={displayStep} totalSteps={displayTotalSteps} />
       {renderStep()}
       <FormNavigation
         onBack={prevStep}

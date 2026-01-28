@@ -1,0 +1,17 @@
+{
+  "navigation": {
+    "back": "Back",
+    "continue": "Continue",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "backToHome": "Back to home",
+    "newEnquiry": "New Enquiry"
+  },
+  "progress": {
+    "step": "Step {{current}} of {{total}}"
+  },
+  "language": {
+    "english": "English",
+    "polish": "Polski"
+  }
+}

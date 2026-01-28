@@ -1,23 +1,25 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout';
 
 export function Home() {
   const navigate = useNavigate();
+  const { t } = useTranslation('form');
 
   return (
     <Layout>
       <div className="text-center py-12">
         <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-          Let's Build Your Website
+          {t('home.title')}
         </h1>
         <p className="text-xl text-gray-600 mb-12 max-w-lg mx-auto">
-          Tell us about your business and what you need. No technical knowledge required.
+          {t('home.subtitle')}
         </p>
         <button
           onClick={() => navigate('/enquiry')}
           className="inline-flex items-center px-8 py-4 bg-primary-500 text-white text-lg font-semibold rounded-xl hover:bg-primary-600 transition-colors shadow-lg shadow-primary-500/25"
         >
-          New Enquiry
+          {t('home.startButton')}
           <svg
             className="ml-2 w-5 h-5"
             fill="none"
@@ -33,7 +35,7 @@ export function Home() {
           </svg>
         </button>
         <p className="mt-8 text-gray-500">
-          Takes about 5 minutes to complete
+          {t('home.timeEstimate')}
         </p>
       </div>
     </Layout>

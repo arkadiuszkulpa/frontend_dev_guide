@@ -5,7 +5,8 @@
       "Bash(npm run build:*)",
       "Bash(npm ls:*)",
       "Bash(npx ampx sandbox)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(ping:*)"
     ]
   }
 }

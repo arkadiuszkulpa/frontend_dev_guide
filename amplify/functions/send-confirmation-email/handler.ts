@@ -5,36 +5,39 @@ const sesClient = new SESClient({});
 const SENDER_EMAIL = process.env.SENDER_EMAIL || 'admin@arkadiuszkulpa.co.uk';
 const ADMIN_EMAIL = 'admin@arkadiuszkulpa.co.uk';
 
+interface DesignAssets {
+  [key: string]: string;
+}
+
 interface SendEmailArgumentsRaw {
   enquiryId: string;
   // Contact Information
   fullName: string;
   email: string;
   phone: string;
+  preferredContact: string;
+  // Business Information
   businessName?: string;
-  // Business Understanding
   businessDescription: string;
-  // Goals
-  primaryGoal: string;
-  secondaryGoals?: string | string[];
-  // Current Situation
-  hasExistingWebsite: boolean;
-  existingWebsiteUrl?: string;
-  currentChallenges?: string | string[];
-  // Audience
-  targetAudience: string;
-  audienceLocation: string;
-  // Content & Features
-  contentTypes: string | string[];
-  desiredFeatures: string | string[];
-  // Preferences
-  stylePreference: string;
-  exampleSites?: string | string[];
-  // Timeline & Budget
-  urgency: string;
-  budgetRange?: string;
-  // Additional Notes
-  additionalNotes?: string;
+  // Involvement
+  involvementLevel: string;
+  accountManagement?: string;
+  // Website Complexity + Features
+  websiteComplexity: string;
+  corePages: string | string[];
+  corePagesOther?: string;
+  dynamicFeatures?: string | string[];
+  dynamicFeaturesOther?: string;
+  advancedFeatures?: string | string[];
+  advancedFeaturesOther?: string;
+  // AI Features
+  aiFeatures: string | string[];
+  // Competitor/Inspiration
+  competitorWebsites?: string | string[];
+  inspirationWebsite?: string;
+  inspirationReason?: string;
+  // Design Assets
+  designAssets: string | DesignAssets;
 }
 
 interface SendEmailArguments {
@@ -42,22 +45,23 @@ interface SendEmailArguments {
   fullName: string;
   email: string;
   phone: string;
+  preferredContact: string;
   businessName?: string;
   businessDescription: string;
-  primaryGoal: string;
-  secondaryGoals?: string[];
-  hasExistingWebsite: boolean;
-  existingWebsiteUrl?: string;
-  currentChallenges?: string[];
-  targetAudience: string;
-  audienceLocation: string;
-  contentTypes: string[];
-  desiredFeatures: string[];
-  stylePreference: string;
-  exampleSites?: string[];
-  urgency: string;
-  budgetRange?: string;
-  additionalNotes?: string;
+  involvementLevel: string;
+  accountManagement?: string;
+  websiteComplexity: string;
+  corePages: string[];
+  corePagesOther?: string;
+  dynamicFeatures: string[];
+  dynamicFeaturesOther?: string;
+  advancedFeatures: string[];
+  advancedFeaturesOther?: string;
+  aiFeatures: string[];
+  competitorWebsites: string[];
+  inspirationWebsite?: string;
+  inspirationReason?: string;
+  designAssets: DesignAssets;
 }
 
 function parseJsonArray(value: string | string[] | undefined): string[] {
@@ -71,28 +75,40 @@ function parseJsonArray(value: string | string[] | undefined): string[] {
   }
 }
 
+function parseJsonObject(value: string | object | undefined): DesignAssets {
+  if (!value) return {};
+  if (typeof value === 'object') return value as DesignAssets;
+  try {
+    const parsed = JSON.parse(value);
+    return typeof parsed === 'object' && parsed !== null ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
 function parseArguments(raw: SendEmailArgumentsRaw): SendEmailArguments {
   return {
     enquiryId: raw.enquiryId,
     fullName: raw.fullName,
     email: raw.email,
     phone: raw.phone,
+    preferredContact: raw.preferredContact,
     businessName: raw.businessName,
     businessDescription: raw.businessDescription,
-    primaryGoal: raw.primaryGoal,
-    secondaryGoals: parseJsonArray(raw.secondaryGoals),
-    hasExistingWebsite: raw.hasExistingWebsite,
-    existingWebsiteUrl: raw.existingWebsiteUrl,
-    currentChallenges: parseJsonArray(raw.currentChallenges),
-    targetAudience: raw.targetAudience,
-    audienceLocation: raw.audienceLocation,
-    contentTypes: parseJsonArray(raw.contentTypes),
-    desiredFeatures: parseJsonArray(raw.desiredFeatures),
-    stylePreference: raw.stylePreference,
-    exampleSites: parseJsonArray(raw.exampleSites),
-    urgency: raw.urgency,
-    budgetRange: raw.budgetRange,
-    additionalNotes: raw.additionalNotes,
+    involvementLevel: raw.involvementLevel,
+    accountManagement: raw.accountManagement,
+    websiteComplexity: raw.websiteComplexity,
+    corePages: parseJsonArray(raw.corePages),
+    corePagesOther: raw.corePagesOther,
+    dynamicFeatures: parseJsonArray(raw.dynamicFeatures),
+    dynamicFeaturesOther: raw.dynamicFeaturesOther,
+    advancedFeatures: parseJsonArray(raw.advancedFeatures),
+    advancedFeaturesOther: raw.advancedFeaturesOther,
+    aiFeatures: parseJsonArray(raw.aiFeatures),
+    competitorWebsites: parseJsonArray(raw.competitorWebsites),
+    inspirationWebsite: raw.inspirationWebsite,
+    inspirationReason: raw.inspirationReason,
+    designAssets: parseJsonObject(raw.designAssets),
   };
 }
 
@@ -133,12 +149,135 @@ function formatArrayAsList(arr?: string[]): string {
 
 function formatArrayAsHtmlList(arr?: string[]): string {
   if (!arr || arr.length === 0) return '<em>None specified</em>';
-  return '<ul>' + arr.map(item => `<li>${item}</li>`).join('') + '</ul>';
+  return '<ul style="margin: 5px 0; padding-left: 20px;">' + arr.map(item => `<li>${item}</li>`).join('') + '</ul>';
+}
+
+function getInvolvementLabel(value: string): string {
+  const labels: Record<string, string> = {
+    'do-it-for-me': 'Do it for me',
+    'teach-me-basics': 'Teach me the basics',
+    'guide-me': 'Guide me through it',
+  };
+  return labels[value] || value;
+}
+
+function getAccountManagementLabel(value?: string): string {
+  if (!value) return '';
+  const labels: Record<string, string> = {
+    'you-manage': "You manage everything in your accounts",
+    'my-name-you-setup': 'Set them up in my name, but you do the setup',
+    'walk-me-through': 'Walk me through it so I own and understand it',
+  };
+  return labels[value] || value;
+}
+
+function getComplexityLabel(value: string): string {
+  const labels: Record<string, string> = {
+    'simple-static': 'Simple & static',
+    'some-moving-parts': 'Some moving parts',
+    'full-featured': 'Full-featured',
+  };
+  return labels[value] || value;
+}
+
+function getPreferredContactLabel(value: string): string {
+  const labels: Record<string, string> = {
+    'email': 'Email',
+    'phone': 'Phone',
+    'whatsapp': 'WhatsApp',
+  };
+  return labels[value] || value;
+}
+
+function summarizeAssets(assets: DesignAssets): { ready: number; needed: number; notApplicable: number; total: number } {
+  let ready = 0;
+  let needed = 0;
+  let notApplicable = 0;
+
+  Object.values(assets).forEach(status => {
+    if (['yes', 'draft', 'use-standard', 'create-from-logo', 'suggest-for-me'].includes(status)) {
+      ready++;
+    } else if (['no', 'not-sure'].includes(status)) {
+      needed++;
+    } else if (status === 'na') {
+      notApplicable++;
+    }
+  });
+
+  return { ready, needed, notApplicable, total: ready + needed + notApplicable };
+}
+
+function getAssetsNeedingHelp(assets: DesignAssets): string[] {
+  const assetLabels: Record<string, string> = {
+    logo: 'Logo',
+    logoVariations: 'Logo variations',
+    brandColours: 'Brand colours',
+    brandFonts: 'Brand fonts',
+    brandGuidelines: 'Brand guidelines',
+    heroImage: 'Hero image',
+    teamPhotos: 'Team photos',
+    productPhotos: 'Product photos',
+    servicePhotos: 'Service photos',
+    locationPhotos: 'Location photos',
+    behindScenes: 'Behind-the-scenes photos',
+    customerPhotos: 'Customer photos',
+    stockImagery: 'Stock imagery',
+    icons: 'Icons',
+    illustrations: 'Illustrations',
+    infographics: 'Infographics',
+    charts: 'Charts/diagrams',
+    backgrounds: 'Background patterns',
+    socialGraphics: 'Social media graphics',
+    favicon: 'Favicon',
+    promoVideo: 'Promotional video',
+    productDemos: 'Product demo videos',
+    testimonialVideos: 'Testimonial videos',
+    backgroundVideo: 'Background video',
+    audioFiles: 'Audio files',
+    homepageText: 'Homepage text',
+    aboutText: 'About page text',
+    serviceDescriptions: 'Service descriptions',
+    teamBios: 'Team bios',
+    testimonials: 'Testimonials',
+    caseStudies: 'Case studies',
+    faqContent: 'FAQ content',
+    blogPosts: 'Blog posts',
+    legalText: 'Legal text',
+    tagline: 'Tagline',
+    callToAction: 'Call-to-action text',
+    brochures: 'Brochures/PDFs',
+    priceLists: 'Price lists',
+    catalogues: 'Catalogues',
+    certificates: 'Certificates',
+    pressMentions: 'Press mentions',
+    clientLogos: 'Client logos',
+    partnerLogos: 'Partner logos',
+    certificationBadges: 'Certification badges',
+    awardLogos: 'Award logos',
+    asSeenIn: '"As seen in" logos',
+    starRatings: 'Star ratings',
+    existingContent: 'Existing content',
+    domainOwned: 'Domain name',
+    emailAccounts: 'Email accounts',
+    customerDatabase: 'Customer database',
+    productDatabase: 'Product database',
+    socialAccounts: 'Social media accounts',
+    googleBusiness: 'Google Business profile',
+  };
+
+  const needsHelp: string[] = [];
+  Object.entries(assets).forEach(([key, status]) => {
+    if (['no', 'not-sure'].includes(status)) {
+      needsHelp.push(assetLabels[key] || key);
+    }
+  });
+  return needsHelp;
 }
 
 async function sendUserConfirmationEmail(args: SendEmailArguments): Promise<void> {
   const referenceNumber = args.enquiryId.slice(0, 8).toUpperCase();
   const businessText = args.businessName ? ` for ${args.businessName}` : '';
+  const assetSummary = summarizeAssets(args.designAssets);
 
   const subject = `We've received your website enquiry - Ref: ${referenceNumber}`;
 
@@ -191,96 +330,86 @@ async function sendUserConfirmationEmail(args: SendEmailArguments): Promise<void
           <span class="detail-label">Phone:</span>
           <span class="detail-value">${args.phone}</span>
         </div>
+        <div class="detail-row">
+          <span class="detail-label">Preferred Contact:</span>
+          <span class="detail-value">${getPreferredContactLabel(args.preferredContact)}</span>
+        </div>
         ${args.businessName ? `<div class="detail-row"><span class="detail-label">Business:</span> <span class="detail-value">${args.businessName}</span></div>` : ''}
       </div>
+
+      <div class="section">
+        <div class="section-title">How We'll Work Together</div>
+        <div class="detail-row">
+          <span class="detail-label">Involvement Level:</span>
+          <span class="detail-value">${getInvolvementLabel(args.involvementLevel)}</span>
+        </div>
+        ${args.accountManagement ? `
+        <div class="detail-row">
+          <span class="detail-label">Account Management:</span>
+          <span class="detail-value">${getAccountManagementLabel(args.accountManagement)}</span>
+        </div>` : ''}
+      </div>
+
+      <div class="section">
+        <div class="section-title">Website Type</div>
+        <div class="detail-row">
+          <span class="detail-label">Complexity:</span>
+          <span class="detail-value">${getComplexityLabel(args.websiteComplexity)}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Core Pages:</span>
+          ${formatArrayAsHtmlList(args.corePages)}
+        </div>
+        ${args.dynamicFeatures.length > 0 ? `
+        <div class="detail-row">
+          <span class="detail-label">Dynamic Features:</span>
+          ${formatArrayAsHtmlList(args.dynamicFeatures)}
+        </div>` : ''}
+        ${args.advancedFeatures.length > 0 ? `
+        <div class="detail-row">
+          <span class="detail-label">Advanced Features:</span>
+          ${formatArrayAsHtmlList(args.advancedFeatures)}
+        </div>` : ''}
+      </div>
+
+      ${args.aiFeatures.length > 0 && !args.aiFeatures.includes('ai-none') ? `
+      <div class="section">
+        <div class="section-title">AI Features</div>
+        ${formatArrayAsHtmlList(args.aiFeatures)}
+      </div>` : ''}
 
       <div class="section">
         <div class="section-title">Your Business</div>
         <div class="detail-row">
           <span class="detail-value">${args.businessDescription}</span>
         </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Your Goals</div>
+        ${args.competitorWebsites.length > 0 ? `
         <div class="detail-row">
-          <span class="detail-label">Primary Goal:</span>
-          <span class="detail-value">${args.primaryGoal}</span>
-        </div>
-        ${args.secondaryGoals && args.secondaryGoals.length > 0 ? `
+          <span class="detail-label">Competitors:</span>
+          ${formatArrayAsHtmlList(args.competitorWebsites)}
+        </div>` : ''}
+        ${args.inspirationWebsite ? `
         <div class="detail-row">
-          <span class="detail-label">Additional Goals:</span>
-          ${formatArrayAsHtmlList(args.secondaryGoals)}
+          <span class="detail-label">Inspiration:</span>
+          <span class="detail-value">${args.inspirationWebsite}</span>
+        </div>` : ''}
+        ${args.inspirationReason ? `
+        <div class="detail-row">
+          <span class="detail-label">What you like:</span>
+          <span class="detail-value">${args.inspirationReason}</span>
         </div>` : ''}
       </div>
 
       <div class="section">
-        <div class="section-title">Current Situation</div>
+        <div class="section-title">Materials Summary</div>
         <div class="detail-row">
-          <span class="detail-label">Existing Website:</span>
-          <span class="detail-value">${args.hasExistingWebsite ? 'Yes' : 'No'}</span>
-        </div>
-        ${args.existingWebsiteUrl ? `<div class="detail-row"><span class="detail-label">Current URL:</span> <span class="detail-value">${args.existingWebsiteUrl}</span></div>` : ''}
-        ${args.currentChallenges && args.currentChallenges.length > 0 ? `
-        <div class="detail-row">
-          <span class="detail-label">Current Challenges:</span>
-          ${formatArrayAsHtmlList(args.currentChallenges)}
-        </div>` : ''}
-      </div>
-
-      <div class="section">
-        <div class="section-title">Target Audience</div>
-        <div class="detail-row">
-          <span class="detail-label">Who:</span>
-          <span class="detail-value">${args.targetAudience}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Location:</span>
-          <span class="detail-value">${args.audienceLocation}</span>
+          <span class="detail-value">
+            <strong>${assetSummary.ready}</strong> items ready |
+            <strong>${assetSummary.needed}</strong> items need help |
+            <strong>${assetSummary.notApplicable}</strong> not applicable
+          </span>
         </div>
       </div>
-
-      <div class="section">
-        <div class="section-title">Content & Features</div>
-        <div class="detail-row">
-          <span class="detail-label">Content Types:</span>
-          ${formatArrayAsHtmlList(args.contentTypes)}
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Desired Features:</span>
-          ${formatArrayAsHtmlList(args.desiredFeatures)}
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Style & Preferences</div>
-        <div class="detail-row">
-          <span class="detail-label">Style Preference:</span>
-          <span class="detail-value">${args.stylePreference}</span>
-        </div>
-        ${args.exampleSites && args.exampleSites.length > 0 ? `
-        <div class="detail-row">
-          <span class="detail-label">Example Sites:</span>
-          ${formatArrayAsHtmlList(args.exampleSites)}
-        </div>` : ''}
-      </div>
-
-      <div class="section">
-        <div class="section-title">Timeline & Budget</div>
-        <div class="detail-row">
-          <span class="detail-label">Urgency:</span>
-          <span class="detail-value">${args.urgency}</span>
-        </div>
-        ${args.budgetRange ? `<div class="detail-row"><span class="detail-label">Budget Range:</span> <span class="detail-value">${args.budgetRange}</span></div>` : ''}
-      </div>
-
-      ${args.additionalNotes ? `
-      <div class="section">
-        <div class="section-title">Additional Notes</div>
-        <div class="detail-row">
-          <span class="detail-value">${args.additionalNotes}</span>
-        </div>
-      </div>` : ''}
 
       <p><strong>What happens next?</strong></p>
       <ul>
@@ -317,47 +446,35 @@ CONTACT DETAILS
 Name: ${args.fullName}
 Email: ${args.email}
 Phone: ${args.phone}
+Preferred Contact: ${getPreferredContactLabel(args.preferredContact)}
 ${args.businessName ? `Business: ${args.businessName}` : ''}
+
+HOW WE'LL WORK TOGETHER
+-----------------------
+Involvement Level: ${getInvolvementLabel(args.involvementLevel)}
+${args.accountManagement ? `Account Management: ${getAccountManagementLabel(args.accountManagement)}` : ''}
+
+WEBSITE TYPE
+------------
+Complexity: ${getComplexityLabel(args.websiteComplexity)}
+
+Core Pages:
+${formatArrayAsList(args.corePages)}
+${args.dynamicFeatures.length > 0 ? `\nDynamic Features:\n${formatArrayAsList(args.dynamicFeatures)}` : ''}
+${args.advancedFeatures.length > 0 ? `\nAdvanced Features:\n${formatArrayAsList(args.advancedFeatures)}` : ''}
+
+${args.aiFeatures.length > 0 && !args.aiFeatures.includes('ai-none') ? `AI FEATURES\n-----------\n${formatArrayAsList(args.aiFeatures)}\n` : ''}
 
 YOUR BUSINESS
 -------------
 ${args.businessDescription}
+${args.competitorWebsites.length > 0 ? `\nCompetitors:\n${formatArrayAsList(args.competitorWebsites)}` : ''}
+${args.inspirationWebsite ? `\nInspiration: ${args.inspirationWebsite}` : ''}
+${args.inspirationReason ? `What you like: ${args.inspirationReason}` : ''}
 
-YOUR GOALS
-----------
-Primary Goal: ${args.primaryGoal}
-${args.secondaryGoals && args.secondaryGoals.length > 0 ? `Additional Goals:\n${formatArrayAsList(args.secondaryGoals)}` : ''}
-
-CURRENT SITUATION
+MATERIALS SUMMARY
 -----------------
-Existing Website: ${args.hasExistingWebsite ? 'Yes' : 'No'}
-${args.existingWebsiteUrl ? `Current URL: ${args.existingWebsiteUrl}` : ''}
-${args.currentChallenges && args.currentChallenges.length > 0 ? `Current Challenges:\n${formatArrayAsList(args.currentChallenges)}` : ''}
-
-TARGET AUDIENCE
----------------
-Who: ${args.targetAudience}
-Location: ${args.audienceLocation}
-
-CONTENT & FEATURES
-------------------
-Content Types:
-${formatArrayAsList(args.contentTypes)}
-
-Desired Features:
-${formatArrayAsList(args.desiredFeatures)}
-
-STYLE & PREFERENCES
--------------------
-Style Preference: ${args.stylePreference}
-${args.exampleSites && args.exampleSites.length > 0 ? `Example Sites:\n${formatArrayAsList(args.exampleSites)}` : ''}
-
-TIMELINE & BUDGET
------------------
-Urgency: ${args.urgency}
-${args.budgetRange ? `Budget Range: ${args.budgetRange}` : ''}
-
-${args.additionalNotes ? `ADDITIONAL NOTES\n----------------\n${args.additionalNotes}` : ''}
+${assetSummary.ready} items ready | ${assetSummary.needed} items need help | ${assetSummary.notApplicable} not applicable
 
 ========================================
 
@@ -405,8 +522,10 @@ async function sendAdminNotificationEmail(args: SendEmailArguments): Promise<voi
     dateStyle: 'full',
     timeStyle: 'short'
   });
+  const assetSummary = summarizeAssets(args.designAssets);
+  const assetsNeedingHelp = getAssetsNeedingHelp(args.designAssets);
 
-  const subject = `🔔 New Website Enquiry - ${args.fullName}${args.businessName ? ` (${args.businessName})` : ''} - Ref: ${referenceNumber}`;
+  const subject = `New Website Enquiry - ${args.fullName}${args.businessName ? ` (${args.businessName})` : ''} - Ref: ${referenceNumber}`;
 
   const htmlBody = `
 <!DOCTYPE html>
@@ -424,19 +543,21 @@ async function sendAdminNotificationEmail(args: SendEmailArguments): Promise<voi
     .section { background: white; padding: 20px; border-radius: 6px; margin: 15px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
     .section-title { font-weight: bold; color: #059669; margin-bottom: 12px; font-size: 16px; border-bottom: 2px solid #d1fae5; padding-bottom: 8px; }
     .detail-row { margin: 10px 0; display: flex; }
-    .detail-label { color: #6b7280; min-width: 140px; font-weight: 500; }
+    .detail-label { color: #6b7280; min-width: 160px; font-weight: 500; }
     .detail-value { color: #111827; flex: 1; }
     .highlight { background: #fef3c7; padding: 2px 6px; border-radius: 3px; }
     ul { margin: 5px 0; padding-left: 20px; }
     li { margin: 4px 0; }
     .quick-actions { background: #eff6ff; padding: 15px; border-radius: 6px; margin-top: 20px; }
     .quick-actions a { color: #2563eb; text-decoration: none; font-weight: 500; }
+    .warning { background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; border-radius: 6px; margin: 15px 0; }
+    .warning-title { color: #dc2626; font-weight: bold; margin-bottom: 5px; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>📋 New Website Enquiry Received</h1>
+      <h1>New Website Enquiry Received</h1>
       <p>Reference: ${referenceNumber}</p>
     </div>
     <div class="content">
@@ -446,7 +567,7 @@ async function sendAdminNotificationEmail(args: SendEmailArguments): Promise<voi
       </div>
 
       <div class="section">
-        <div class="section-title">👤 Contact Information</div>
+        <div class="section-title">Contact Information</div>
         <div class="detail-row">
           <span class="detail-label">Full Name:</span>
           <span class="detail-value"><strong>${args.fullName}</strong></span>
@@ -459,6 +580,10 @@ async function sendAdminNotificationEmail(args: SendEmailArguments): Promise<voi
           <span class="detail-label">Phone:</span>
           <span class="detail-value"><a href="tel:${args.phone}">${args.phone}</a></span>
         </div>
+        <div class="detail-row">
+          <span class="detail-label">Preferred Contact:</span>
+          <span class="detail-value"><span class="highlight">${getPreferredContactLabel(args.preferredContact)}</span></span>
+        </div>
         ${args.businessName ? `
         <div class="detail-row">
           <span class="detail-label">Business Name:</span>
@@ -467,100 +592,106 @@ async function sendAdminNotificationEmail(args: SendEmailArguments): Promise<voi
       </div>
 
       <div class="section">
-        <div class="section-title">🏢 Business Description</div>
-        <p style="margin: 0; white-space: pre-wrap;">${args.businessDescription}</p>
-      </div>
-
-      <div class="section">
-        <div class="section-title">🎯 Goals</div>
+        <div class="section-title">Working Relationship</div>
         <div class="detail-row">
-          <span class="detail-label">Primary Goal:</span>
-          <span class="detail-value"><span class="highlight">${args.primaryGoal}</span></span>
+          <span class="detail-label">Involvement Level:</span>
+          <span class="detail-value"><span class="highlight">${getInvolvementLabel(args.involvementLevel)}</span></span>
         </div>
-        ${args.secondaryGoals && args.secondaryGoals.length > 0 ? `
+        ${args.accountManagement ? `
         <div class="detail-row">
-          <span class="detail-label">Secondary Goals:</span>
-          <span class="detail-value">${formatArrayAsHtmlList(args.secondaryGoals)}</span>
+          <span class="detail-label">Account Management:</span>
+          <span class="detail-value">${getAccountManagementLabel(args.accountManagement)}</span>
         </div>` : ''}
       </div>
 
       <div class="section">
-        <div class="section-title">📊 Current Situation</div>
+        <div class="section-title">Website Requirements</div>
         <div class="detail-row">
-          <span class="detail-label">Has Website:</span>
-          <span class="detail-value">${args.hasExistingWebsite ? '<span style="color: #059669;">✓ Yes</span>' : '<span style="color: #dc2626;">✗ No</span>'}</span>
+          <span class="detail-label">Complexity Tier:</span>
+          <span class="detail-value"><span class="highlight">${getComplexityLabel(args.websiteComplexity)}</span></span>
         </div>
-        ${args.existingWebsiteUrl ? `
         <div class="detail-row">
-          <span class="detail-label">Current URL:</span>
-          <span class="detail-value"><a href="${args.existingWebsiteUrl}" target="_blank">${args.existingWebsiteUrl}</a></span>
+          <span class="detail-label">Core Pages:</span>
+          <span class="detail-value">${formatArrayAsHtmlList(args.corePages)}</span>
+        </div>
+        ${args.corePagesOther ? `
+        <div class="detail-row">
+          <span class="detail-label">Other Core Pages:</span>
+          <span class="detail-value">${args.corePagesOther}</span>
         </div>` : ''}
-        ${args.currentChallenges && args.currentChallenges.length > 0 ? `
+        ${args.dynamicFeatures.length > 0 ? `
         <div class="detail-row">
-          <span class="detail-label">Challenges:</span>
-          <span class="detail-value">${formatArrayAsHtmlList(args.currentChallenges)}</span>
+          <span class="detail-label">Dynamic Features:</span>
+          <span class="detail-value">${formatArrayAsHtmlList(args.dynamicFeatures)}</span>
         </div>` : ''}
-      </div>
-
-      <div class="section">
-        <div class="section-title">👥 Target Audience</div>
+        ${args.dynamicFeaturesOther ? `
         <div class="detail-row">
-          <span class="detail-label">Who:</span>
-          <span class="detail-value">${args.targetAudience}</span>
-        </div>
+          <span class="detail-label">Other Dynamic:</span>
+          <span class="detail-value">${args.dynamicFeaturesOther}</span>
+        </div>` : ''}
+        ${args.advancedFeatures.length > 0 ? `
         <div class="detail-row">
-          <span class="detail-label">Location:</span>
-          <span class="detail-value"><span class="highlight">${args.audienceLocation}</span></span>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">📄 Content & Features Required</div>
+          <span class="detail-label">Advanced Features:</span>
+          <span class="detail-value">${formatArrayAsHtmlList(args.advancedFeatures)}</span>
+        </div>` : ''}
+        ${args.advancedFeaturesOther ? `
         <div class="detail-row">
-          <span class="detail-label">Content Types:</span>
-          <span class="detail-value">${formatArrayAsHtmlList(args.contentTypes)}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Features:</span>
-          <span class="detail-value">${formatArrayAsHtmlList(args.desiredFeatures)}</span>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">🎨 Style Preferences</div>
-        <div class="detail-row">
-          <span class="detail-label">Style:</span>
-          <span class="detail-value"><span class="highlight">${args.stylePreference}</span></span>
-        </div>
-        ${args.exampleSites && args.exampleSites.length > 0 ? `
-        <div class="detail-row">
-          <span class="detail-label">Example Sites:</span>
-          <span class="detail-value">${formatArrayAsHtmlList(args.exampleSites)}</span>
+          <span class="detail-label">Other Advanced:</span>
+          <span class="detail-value">${args.advancedFeaturesOther}</span>
         </div>` : ''}
       </div>
 
       <div class="section">
-        <div class="section-title">⏰ Timeline & Budget</div>
-        <div class="detail-row">
-          <span class="detail-label">Urgency:</span>
-          <span class="detail-value"><span class="highlight">${args.urgency}</span></span>
-        </div>
-        ${args.budgetRange ? `
-        <div class="detail-row">
-          <span class="detail-label">Budget Range:</span>
-          <span class="detail-value"><strong>${args.budgetRange}</strong></span>
-        </div>` : '<div class="detail-row"><span class="detail-label">Budget Range:</span><span class="detail-value"><em>Not specified</em></span></div>'}
+        <div class="section-title">AI Features</div>
+        ${args.aiFeatures.includes('ai-none') ? '<p><em>No AI features requested</em></p>' : formatArrayAsHtmlList(args.aiFeatures)}
       </div>
 
-      ${args.additionalNotes ? `
       <div class="section">
-        <div class="section-title">📝 Additional Notes</div>
-        <p style="margin: 0; white-space: pre-wrap;">${args.additionalNotes}</p>
+        <div class="section-title">Business Information</div>
+        <p style="margin: 0 0 15px 0; white-space: pre-wrap;">${args.businessDescription}</p>
+        ${args.competitorWebsites.length > 0 ? `
+        <div class="detail-row">
+          <span class="detail-label">Competitors:</span>
+          <span class="detail-value">${formatArrayAsHtmlList(args.competitorWebsites)}</span>
+        </div>` : ''}
+        ${args.inspirationWebsite ? `
+        <div class="detail-row">
+          <span class="detail-label">Inspiration Site:</span>
+          <span class="detail-value"><a href="${args.inspirationWebsite}" target="_blank">${args.inspirationWebsite}</a></span>
+        </div>` : ''}
+        ${args.inspirationReason ? `
+        <div class="detail-row">
+          <span class="detail-label">What They Like:</span>
+          <span class="detail-value">${args.inspirationReason}</span>
+        </div>` : ''}
+      </div>
+
+      <div class="section">
+        <div class="section-title">Design Assets Summary</div>
+        <div class="detail-row">
+          <span class="detail-label">Ready to use:</span>
+          <span class="detail-value"><strong>${assetSummary.ready}</strong> items</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Need help with:</span>
+          <span class="detail-value"><strong>${assetSummary.needed}</strong> items</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Not applicable:</span>
+          <span class="detail-value"><strong>${assetSummary.notApplicable}</strong> items</span>
+        </div>
+      </div>
+
+      ${assetsNeedingHelp.length > 0 ? `
+      <div class="warning">
+        <div class="warning-title">Assets Requiring Additional Work</div>
+        <p style="margin: 0;">The client needs help with:</p>
+        ${formatArrayAsHtmlList(assetsNeedingHelp)}
       </div>` : ''}
 
       <div class="quick-actions">
         <strong>Quick Actions:</strong><br>
-        <a href="mailto:${args.email}?subject=Re: Your Website Enquiry - Ref: ${referenceNumber}">↩️ Reply to ${args.fullName}</a>
+        <a href="mailto:${args.email}?subject=Re: Your Website Enquiry - Ref: ${referenceNumber}">Reply to ${args.fullName}</a>
       </div>
     </div>
   </div>
@@ -583,54 +714,52 @@ CONTACT INFORMATION
 Full Name: ${args.fullName}
 Email: ${args.email}
 Phone: ${args.phone}
+Preferred Contact: ${getPreferredContactLabel(args.preferredContact)}
 ${args.businessName ? `Business Name: ${args.businessName}` : ''}
 
 ========================================
-BUSINESS DESCRIPTION
+WORKING RELATIONSHIP
+========================================
+Involvement Level: ${getInvolvementLabel(args.involvementLevel)}
+${args.accountManagement ? `Account Management: ${getAccountManagementLabel(args.accountManagement)}` : ''}
+
+========================================
+WEBSITE REQUIREMENTS
+========================================
+Complexity Tier: ${getComplexityLabel(args.websiteComplexity)}
+
+Core Pages:
+${formatArrayAsList(args.corePages)}
+${args.corePagesOther ? `Other Core Pages: ${args.corePagesOther}` : ''}
+
+${args.dynamicFeatures.length > 0 ? `Dynamic Features:\n${formatArrayAsList(args.dynamicFeatures)}` : ''}
+${args.dynamicFeaturesOther ? `Other Dynamic: ${args.dynamicFeaturesOther}` : ''}
+
+${args.advancedFeatures.length > 0 ? `Advanced Features:\n${formatArrayAsList(args.advancedFeatures)}` : ''}
+${args.advancedFeaturesOther ? `Other Advanced: ${args.advancedFeaturesOther}` : ''}
+
+========================================
+AI FEATURES
+========================================
+${args.aiFeatures.includes('ai-none') ? 'No AI features requested' : formatArrayAsList(args.aiFeatures)}
+
+========================================
+BUSINESS INFORMATION
 ========================================
 ${args.businessDescription}
 
-========================================
-GOALS
-========================================
-Primary Goal: ${args.primaryGoal}
-${args.secondaryGoals && args.secondaryGoals.length > 0 ? `Secondary Goals:\n${formatArrayAsList(args.secondaryGoals)}` : ''}
+${args.competitorWebsites.length > 0 ? `Competitors:\n${formatArrayAsList(args.competitorWebsites)}` : ''}
+${args.inspirationWebsite ? `Inspiration Site: ${args.inspirationWebsite}` : ''}
+${args.inspirationReason ? `What They Like: ${args.inspirationReason}` : ''}
 
 ========================================
-CURRENT SITUATION
+DESIGN ASSETS SUMMARY
 ========================================
-Has Website: ${args.hasExistingWebsite ? 'Yes' : 'No'}
-${args.existingWebsiteUrl ? `Current URL: ${args.existingWebsiteUrl}` : ''}
-${args.currentChallenges && args.currentChallenges.length > 0 ? `Challenges:\n${formatArrayAsList(args.currentChallenges)}` : ''}
+Ready to use: ${assetSummary.ready} items
+Need help with: ${assetSummary.needed} items
+Not applicable: ${assetSummary.notApplicable} items
 
-========================================
-TARGET AUDIENCE
-========================================
-Who: ${args.targetAudience}
-Location: ${args.audienceLocation}
-
-========================================
-CONTENT & FEATURES REQUIRED
-========================================
-Content Types:
-${formatArrayAsList(args.contentTypes)}
-
-Features:
-${formatArrayAsList(args.desiredFeatures)}
-
-========================================
-STYLE PREFERENCES
-========================================
-Style: ${args.stylePreference}
-${args.exampleSites && args.exampleSites.length > 0 ? `Example Sites:\n${formatArrayAsList(args.exampleSites)}` : ''}
-
-========================================
-TIMELINE & BUDGET
-========================================
-Urgency: ${args.urgency}
-Budget Range: ${args.budgetRange || 'Not specified'}
-
-${args.additionalNotes ? `========================================\nADDITIONAL NOTES\n========================================\n${args.additionalNotes}` : ''}
+${assetsNeedingHelp.length > 0 ? `\nASSETS REQUIRING ADDITIONAL WORK:\n${formatArrayAsList(assetsNeedingHelp)}` : ''}
 
 ========================================
 `;

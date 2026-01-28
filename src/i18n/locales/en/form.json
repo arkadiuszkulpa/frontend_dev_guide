@@ -1,0 +1,294 @@
+{
+  "home": {
+    "title": "Let's Build Your Website",
+    "subtitle": "Tell us about your business and what you need. No technical knowledge required.",
+    "startButton": "New Enquiry",
+    "timeEstimate": "Takes about 5 minutes to complete"
+  },
+  "thankYou": {
+    "title": "Thank you!",
+    "message": "We've received your enquiry and will be in touch soon to discuss your project.",
+    "whatNext": "What happens next?",
+    "step1": "We'll review your requirements",
+    "step2": "We'll reach out within 24-48 hours",
+    "step3": "We'll discuss options that match your needs",
+    "backToHome": "Back to home"
+  },
+  "steps": {
+    "involvement": {
+      "title": "How hands-on do you want to be?",
+      "subtitle": "This affects how we work together and what you'll pay for ongoing changes.",
+      "accountManagementPrompt": "For things like buying a domain, setting up hosting, or managing logins—how would you like to handle that?"
+    },
+    "complexity": {
+      "title": "What kind of website do you need?"
+    },
+    "features": {
+      "title": "What features do you need?",
+      "corePages": {
+        "title": "What pages do you need?",
+        "helper": "Select all that apply",
+        "otherLabel": "Please specify other pages",
+        "otherPlaceholder": "e.g., Custom landing pages, Partner page..."
+      },
+      "dynamicFeatures": {
+        "title": "What do you need to regularly update or manage?",
+        "helper": "Select all that apply",
+        "otherLabel": "Please specify other dynamic features",
+        "otherPlaceholder": "e.g., Member directory, Resource library..."
+      },
+      "advancedFeatures": {
+        "title": "What advanced features do you need?",
+        "helper": "Select all that apply",
+        "otherLabel": "Please specify other advanced features",
+        "otherPlaceholder": "e.g., Custom API integrations, Auction system..."
+      }
+    },
+    "aiFeatures": {
+      "title": "Are you interested in AI-powered features?",
+      "subtitle": "These can be added to any type of website."
+    },
+    "yourBusiness": {
+      "title": "Tell us about your business",
+      "businessName": "Business name",
+      "businessNamePlaceholder": "My Business Ltd",
+      "businessDescription": "Describe what you do",
+      "businessDescriptionPlaceholder": "For example: I run a small bakery in Manchester. We make fresh bread, pastries, and custom cakes for special occasions. We've been in business for 3 years.",
+      "businessDescriptionHelper": "2-3 sentences is perfect",
+      "competitors": {
+        "label": "Who are your competitors?",
+        "helper": "Share up to 3 competitor websites so we understand your market."
+      },
+      "inspiration": {
+        "label": "Any websites you like the look of?",
+        "helper": "Can be the same as a competitor, or completely different.",
+        "reasonLabel": "What do you like about it?",
+        "reasonPlaceholder": "e.g. the layout, colours, how it feels, specific features..."
+      }
+    },
+    "designAssets": {
+      "title": "What materials do you have ready?",
+      "subtitle": "Anything you don't have, we can help create — but design work is quoted separately from the website build.",
+      "note": "Any assets marked \"No\" or \"I need help\" may require additional design or copywriting work, quoted separately from the website build."
+    },
+    "contactInfo": {
+      "title": "Last step — how do we reach you?",
+      "fullName": "Your full name",
+      "fullNamePlaceholder": "John Smith",
+      "email": "Email address",
+      "emailPlaceholder": "john@example.com",
+      "phone": "Phone number",
+      "phonePlaceholder": "+44 7700 900000",
+      "preferredContact": "How would you prefer we contact you?"
+    },
+    "pricingSummary": {
+      "title": "Your Estimated Quote",
+      "subtitle": "Based on your selections, here's what you can expect to invest."
+    }
+  },
+  "pricing": {
+    "basePrice": "Base Price",
+    "aiFeatures": "AI Features",
+    "integrations": "Integrations",
+    "estimatedTotal": "Estimated Total",
+    "basePriceOnly": "Base price only — no add-ons selected",
+    "contentNeedsTitle": "Additional Design/Content Work May Be Needed",
+    "contentNeedsSubtitle": "Based on your asset inventory:",
+    "contentNeedsNote": "These are quoted separately from the website build.",
+    "disclaimer": "This is an estimate based on your selections. Your final quote will be provided after we discuss your project in detail.",
+    "matrix": {
+      "title": "Base Price Matrix",
+      "yourSelection": "Your Selection",
+      "completePreviousSteps": "Complete previous steps",
+      "legend": "Your selection"
+    },
+    "complexityLabels": {
+      "simpleStatic": "Simple & Static",
+      "someMovingParts": "Some Moving Parts",
+      "fullFeatured": "Full-Featured"
+    },
+    "involvementLabels": {
+      "doItForMe": "Do it for me",
+      "teachMeBasics": "Teach me basics",
+      "guideMe": "Guide me through"
+    }
+  },
+  "options": {
+    "involvement": {
+      "doItForMe": {
+        "label": "Do it for me",
+        "description": "You handle everything. I tell you what I want, you make it happen. I contact you for any changes."
+      },
+      "teachMeBasics": {
+        "label": "Teach me the basics",
+        "description": "Set things up, but show me how to do simple updates myself (like adding posts or changing text)."
+      },
+      "guideMe": {
+        "label": "Guide me through it",
+        "description": "I want to do it myself, but I need help when I get stuck. Maybe a call or two."
+      }
+    },
+    "accountManagement": {
+      "youManage": "You manage everything in your accounts, I don't need access",
+      "myNameYouSetup": "Set them up in my name, but you do the setup",
+      "walkMeThrough": "Walk me through it so I own and understand it"
+    },
+    "complexity": {
+      "simpleStatic": {
+        "label": "Simple & static",
+        "description": "A clean online presence. People find you, see what you do, and contact you. Content rarely changes."
+      },
+      "someMovingParts": {
+        "label": "Some moving parts",
+        "description": "Everything above, plus you'll regularly add content or need interactive elements."
+      },
+      "fullFeatured": {
+        "label": "Full-featured",
+        "description": "Everything above, plus manage products, payments, bookings, members, or other advanced needs."
+      }
+    },
+    "corePages": {
+      "home": "Home page",
+      "about": "About me / About us",
+      "services": "Services or what I offer",
+      "portfolio": "Portfolio / Gallery / My work",
+      "contact": "Contact page (basic)",
+      "faq": "FAQs",
+      "testimonials": "Testimonials / Reviews",
+      "pricing": "Pricing page",
+      "team": "Team / Staff page",
+      "location": "Location / Map",
+      "legal": "Terms & Conditions / Privacy Policy",
+      "other": "Other"
+    },
+    "dynamicFeatures": {
+      "blog": "Blog or news posts",
+      "caseStudies": "Project showcase / case studies",
+      "events": "Events or announcements",
+      "jobs": "Job listings / Careers page",
+      "contactForm": "Contact form with email notifications",
+      "newsletter": "Newsletter signup",
+      "externalBooking": "Link to external booking (e.g. Calendly)",
+      "socialFeed": "Social media feed integration",
+      "updatableGallery": "Image gallery you can update",
+      "videoEmbeds": "Video embeds (YouTube, Vimeo)",
+      "downloads": "Downloadable files (PDFs, brochures)",
+      "other": "Other"
+    },
+    "advancedFeatures": {
+      "shop": "Online shop / product catalogue",
+      "cartCheckout": "Shopping cart & checkout",
+      "payments": "Payment processing (Stripe, PayPal, etc.)",
+      "calendarBooking": "Appointment or calendar booking (built-in)",
+      "serviceDeposits": "Service booking with deposits",
+      "membersArea": "Members-only area / user logins",
+      "courses": "Course or content library",
+      "customerDashboard": "Customer accounts / dashboard",
+      "subscriptions": "Subscription or recurring payments",
+      "discountCodes": "Discount codes / promotions",
+      "inventory": "Inventory management",
+      "orderTracking": "Order tracking / notifications",
+      "emailAutomations": "Email automations (confirmations, reminders, follow-ups)",
+      "crm": "CRM / customer management",
+      "reviewsRatings": "Reviews & ratings system",
+      "wishlist": "Wishlist / favourites",
+      "liveChat": "Live chat (non-AI)",
+      "multiLanguage": "Multi-language support",
+      "multiLocation": "Multi-location / franchise support",
+      "integrations": "Integration with external tools (Zapier, Mailchimp, etc.)",
+      "other": "Other"
+    },
+    "aiFeatures": {
+      "chatbot": "Chatbot that answers visitor questions automatically",
+      "assistant": "AI assistant that helps customers find products/services",
+      "contactForm": "Smart contact form (AI triages, categorises, or auto-responds)",
+      "search": "AI-powered search on your site",
+      "content": "Content generation help (AI writes drafts for your blog/products)",
+      "recommendations": "Personalised recommendations for visitors",
+      "voice": "Voice assistant integration",
+      "notSure": "Not sure — tell me more later",
+      "none": "No AI features needed"
+    },
+    "preferredContact": {
+      "email": "Email",
+      "phone": "Phone",
+      "whatsapp": "WhatsApp"
+    },
+    "assetStatus": {
+      "yes": "Yes",
+      "no": "No",
+      "na": "N/A",
+      "notSure": "Not sure",
+      "draft": "Draft",
+      "useStandard": "Use standard",
+      "createFromLogo": "Create from logo",
+      "suggestForMe": "Suggest for me"
+    }
+  },
+  "assetCategories": {
+    "branding": "Branding",
+    "photography": "Photography & Imagery",
+    "graphics": "Graphics & Visual Elements",
+    "video": "Video & Media",
+    "content": "Written Content",
+    "documents": "Documents & Files",
+    "socialProof": "Social Proof & Trust Elements",
+    "digital": "Existing Digital Assets"
+  },
+  "assets": {
+    "logo": "Logo (high resolution, PNG or SVG)",
+    "logoVariations": "Logo variations (light/dark versions)",
+    "brandColours": "Brand colours (hex codes or examples)",
+    "brandFonts": "Brand fonts / typography",
+    "brandGuidelines": "Brand guidelines document",
+    "heroImage": "Hero image / main banner",
+    "teamPhotos": "Team / staff photos",
+    "productPhotos": "Product photos",
+    "servicePhotos": "Service photos / action shots",
+    "locationPhotos": "Location / premises photos",
+    "behindScenes": "Behind-the-scenes / process photos",
+    "customerPhotos": "Customer photos (with permission)",
+    "stockImagery": "Stock imagery you've purchased",
+    "icons": "Icons (custom set)",
+    "illustrations": "Illustrations",
+    "infographics": "Infographics",
+    "charts": "Charts / diagrams",
+    "backgrounds": "Background patterns / textures",
+    "socialGraphics": "Social media graphics",
+    "favicon": "Favicon (small browser icon)",
+    "promoVideo": "Promotional video",
+    "productDemos": "Product demo videos",
+    "testimonialVideos": "Testimonial videos",
+    "backgroundVideo": "Background video (for hero sections)",
+    "audioFiles": "Audio files (podcasts, music)",
+    "homepageText": "Homepage text",
+    "aboutText": "About page text",
+    "serviceDescriptions": "Service/product descriptions",
+    "teamBios": "Team member bios",
+    "testimonials": "Testimonials / reviews (text)",
+    "caseStudies": "Case studies",
+    "faqContent": "FAQ content",
+    "blogPosts": "Blog posts (existing)",
+    "legalText": "Legal text (Terms, Privacy Policy)",
+    "tagline": "Tagline / slogan",
+    "callToAction": "Call-to-action text",
+    "brochures": "Brochures / PDFs for download",
+    "priceLists": "Price lists / menus",
+    "catalogues": "Catalogues",
+    "certificates": "Certificates / awards",
+    "pressMentions": "Press mentions / logos",
+    "clientLogos": "Client logos (for \"trusted by\" section)",
+    "partnerLogos": "Partner logos",
+    "certificationBadges": "Certification badges",
+    "awardLogos": "Award logos",
+    "asSeenIn": "\"As seen in\" media logos",
+    "starRatings": "Star ratings / review scores",
+    "existingContent": "Current website content to migrate",
+    "domainOwned": "Domain name (already owned)",
+    "emailAccounts": "Email accounts to keep",
+    "customerDatabase": "Existing customer database",
+    "productDatabase": "Product database / spreadsheet",
+    "socialAccounts": "Social media accounts",
+    "googleBusiness": "Google Business profile"
+  }
+}

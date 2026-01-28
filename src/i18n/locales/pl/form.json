@@ -1,0 +1,294 @@
+{
+  "home": {
+    "title": "Zbudujmy Twoja Strone",
+    "subtitle": "Opowiedz nam o swojej firmie i czego potrzebujesz. Wiedza techniczna nie jest wymagana.",
+    "startButton": "Nowe zapytanie",
+    "timeEstimate": "Zajmie okolo 5 minut"
+  },
+  "thankYou": {
+    "title": "Dziekujemy!",
+    "message": "Otrzymalismy Twoje zapytanie i wkrotce skontaktujemy sie, aby omowic Twoj projekt.",
+    "whatNext": "Co dalej?",
+    "step1": "Przeanalizujemy Twoje wymagania",
+    "step2": "Skontaktujemy sie w ciagu 24-48 godzin",
+    "step3": "Omowimy opcje dopasowane do Twoich potrzeb",
+    "backToHome": "Powrot na strone glowna"
+  },
+  "steps": {
+    "involvement": {
+      "title": "Jak bardzo chcesz byc zaangazowany?",
+      "subtitle": "To wplywa na sposob naszej wspolpracy i koszty biezacych zmian.",
+      "accountManagementPrompt": "Jezeli chodzi o zakup domeny, hosting lub zarzadzanie loginami — jak chcialbys to zorganizowac?"
+    },
+    "complexity": {
+      "title": "Jakiej strony internetowej potrzebujesz?"
+    },
+    "features": {
+      "title": "Jakich funkcji potrzebujesz?",
+      "corePages": {
+        "title": "Jakich stron potrzebujesz?",
+        "helper": "Wybierz wszystkie pasujace",
+        "otherLabel": "Prosze okreslic inne strony",
+        "otherPlaceholder": "np. Strony docelowe, Strona partnerow..."
+      },
+      "dynamicFeatures": {
+        "title": "Co musisz regularnie aktualizowac lub zarzadzac?",
+        "helper": "Wybierz wszystkie pasujace",
+        "otherLabel": "Prosze okreslic inne funkcje dynamiczne",
+        "otherPlaceholder": "np. Katalog czlonkow, Biblioteka zasobow..."
+      },
+      "advancedFeatures": {
+        "title": "Jakich zaawansowanych funkcji potrzebujesz?",
+        "helper": "Wybierz wszystkie pasujace",
+        "otherLabel": "Prosze okreslic inne zaawansowane funkcje",
+        "otherPlaceholder": "np. Niestandardowe integracje API, System aukcyjny..."
+      }
+    },
+    "aiFeatures": {
+      "title": "Czy interesujesz sie funkcjami AI?",
+      "subtitle": "Mozna je dodac do kazdego typu strony."
+    },
+    "yourBusiness": {
+      "title": "Opowiedz nam o swojej firmie",
+      "businessName": "Nazwa firmy",
+      "businessNamePlaceholder": "Moja Firma Sp. z o.o.",
+      "businessDescription": "Opisz czym sie zajmujesz",
+      "businessDescriptionPlaceholder": "Na przyklad: Prowadze mala piekarnie w Warszawie. Pieczemy swieze pieczywo, ciasta i torty na specjalne okazje. Dzialamy od 3 lat.",
+      "businessDescriptionHelper": "2-3 zdania wystarczy",
+      "competitors": {
+        "label": "Kim sa Twoi konkurenci?",
+        "helper": "Podaj do 3 stron konkurencji, abysmy zrozumieli Twoj rynek."
+      },
+      "inspiration": {
+        "label": "Czy sa strony, ktore Ci sie podobaja?",
+        "helper": "Moze byc ta sama co konkurencja lub zupelnie inna.",
+        "reasonLabel": "Co Ci sie w niej podoba?",
+        "reasonPlaceholder": "np. uklad, kolory, jak sie czuje, konkretne funkcje..."
+      }
+    },
+    "designAssets": {
+      "title": "Jakie materialy masz gotowe?",
+      "subtitle": "Wszystko czego nie masz, mozemy pomoc stworzyc — ale prace projektowe sa wyceniane oddzielnie od budowy strony.",
+      "note": "Materialy oznaczone jako \"Nie\" lub \"Potrzebuje pomocy\" moga wymagac dodatkowych prac projektowych lub copywriterskich, wycenianych oddzielnie."
+    },
+    "contactInfo": {
+      "title": "Ostatni krok — jak sie z Toba skontaktowac?",
+      "fullName": "Imie i nazwisko",
+      "fullNamePlaceholder": "Jan Kowalski",
+      "email": "Adres email",
+      "emailPlaceholder": "jan@przyklad.pl",
+      "phone": "Numer telefonu",
+      "phonePlaceholder": "+48 123 456 789",
+      "preferredContact": "Jak wolisz, zebysmy sie z Toba kontaktowali?"
+    },
+    "pricingSummary": {
+      "title": "Szacunkowa wycena",
+      "subtitle": "Na podstawie Twoich wybranow, oto czego mozesz sie spodziewac."
+    }
+  },
+  "pricing": {
+    "basePrice": "Cena bazowa",
+    "aiFeatures": "Funkcje AI",
+    "integrations": "Integracje",
+    "estimatedTotal": "Szacunkowa suma",
+    "basePriceOnly": "Tylko cena bazowa — brak dodatkow",
+    "contentNeedsTitle": "Moze byc potrzebna dodatkowa praca projektowa/contentowa",
+    "contentNeedsSubtitle": "Na podstawie Twojego inwentarza:",
+    "contentNeedsNote": "Sa wyceniane oddzielnie od budowy strony.",
+    "disclaimer": "To jest szacunek oparty na Twoich wyborach. Ostateczna wycena zostanie przedstawiona po szczegolowym omowieniu projektu.",
+    "matrix": {
+      "title": "Tabela cen bazowych",
+      "yourSelection": "Twoj wybor",
+      "completePreviousSteps": "Uzupelnij poprzednie kroki",
+      "legend": "Twoj wybor"
+    },
+    "complexityLabels": {
+      "simpleStatic": "Prosta i statyczna",
+      "someMovingParts": "Z elementami dynamicznymi",
+      "fullFeatured": "Pelna funkcjonalnosc"
+    },
+    "involvementLabels": {
+      "doItForMe": "Zrob to za mnie",
+      "teachMeBasics": "Naucz mnie podstaw",
+      "guideMe": "Poprowadz mnie"
+    }
+  },
+  "options": {
+    "involvement": {
+      "doItForMe": {
+        "label": "Zrob to za mnie",
+        "description": "Zajmujesz sie wszystkim. Mowie co chce, Ty to realizujesz. Kontaktuje sie z Toba w sprawie zmian."
+      },
+      "teachMeBasics": {
+        "label": "Naucz mnie podstaw",
+        "description": "Skonfiguruj wszystko, ale pokaz mi jak samemu robic proste aktualizacje (np. dodawanie postow czy zmiane tekstu)."
+      },
+      "guideMe": {
+        "label": "Poprowadz mnie",
+        "description": "Chce to zrobic sam, ale potrzebuje pomocy gdy utkne. Moze rozmowa lub dwie."
+      }
+    },
+    "accountManagement": {
+      "youManage": "Zarzadzasz wszystkim na swoich kontach, nie potrzebuje dostepu",
+      "myNameYouSetup": "Zaloz je na moje nazwisko, ale Ty dokonaj konfiguracji",
+      "walkMeThrough": "Przeprowadz mnie przez to, zebym byl wlascicielem i rozumial"
+    },
+    "complexity": {
+      "simpleStatic": {
+        "label": "Prosta i statyczna",
+        "description": "Czysta obecnosc online. Ludzie Cie znajduja, widza czym sie zajmujesz i kontaktuja sie. Zawartosc rzadko sie zmienia."
+      },
+      "someMovingParts": {
+        "label": "Z elementami dynamicznymi",
+        "description": "Wszystko powyzej, plus regularnie dodajesz tresc lub potrzebujesz interaktywnych elementow."
+      },
+      "fullFeatured": {
+        "label": "Pelna funkcjonalnosc",
+        "description": "Wszystko powyzej, plus zarzadzanie produktami, platnosciami, rezerwacjami, czlonkami lub innymi zaawansowanymi potrzebami."
+      }
+    },
+    "corePages": {
+      "home": "Strona glowna",
+      "about": "O mnie / O nas",
+      "services": "Uslugi lub co oferuje",
+      "portfolio": "Portfolio / Galeria / Moje prace",
+      "contact": "Strona kontaktowa (podstawowa)",
+      "faq": "FAQ",
+      "testimonials": "Referencje / Opinie",
+      "pricing": "Cennik",
+      "team": "Zespol / Pracownicy",
+      "location": "Lokalizacja / Mapa",
+      "legal": "Regulamin / Polityka prywatnosci",
+      "other": "Inne"
+    },
+    "dynamicFeatures": {
+      "blog": "Blog lub aktualnosci",
+      "caseStudies": "Prezentacja projektow / case studies",
+      "events": "Wydarzenia lub ogloszenia",
+      "jobs": "Oferty pracy / Kariera",
+      "contactForm": "Formularz kontaktowy z powiadomieniami email",
+      "newsletter": "Zapis do newslettera",
+      "externalBooking": "Link do zewnetrznej rezerwacji (np. Calendly)",
+      "socialFeed": "Integracja z mediami spolecznosciowymi",
+      "updatableGallery": "Galeria zdjec z mozliwoscia aktualizacji",
+      "videoEmbeds": "Osadzone filmy (YouTube, Vimeo)",
+      "downloads": "Pliki do pobrania (PDF, broszury)",
+      "other": "Inne"
+    },
+    "advancedFeatures": {
+      "shop": "Sklep internetowy / katalog produktow",
+      "cartCheckout": "Koszyk i platnosci",
+      "payments": "Obsluga platnosci (Stripe, PayPal itp.)",
+      "calendarBooking": "Rezerwacja wizyt / kalendarz (wbudowany)",
+      "serviceDeposits": "Rezerwacja uslug z zaliczka",
+      "membersArea": "Strefa tylko dla czlonkow / logowanie",
+      "courses": "Kursy lub biblioteka tresci",
+      "customerDashboard": "Konta klientow / panel",
+      "subscriptions": "Subskrypcje lub platnosci cykliczne",
+      "discountCodes": "Kody rabatowe / promocje",
+      "inventory": "Zarzadzanie magazynem",
+      "orderTracking": "Sledzenie zamowien / powiadomienia",
+      "emailAutomations": "Automatyzacja email (potwierdzenia, przypomnienia)",
+      "crm": "CRM / zarzadzanie klientami",
+      "reviewsRatings": "System ocen i recenzji",
+      "wishlist": "Lista zyczen / ulubione",
+      "liveChat": "Czat na zywo (bez AI)",
+      "multiLanguage": "Obsluga wielu jezykow",
+      "multiLocation": "Obsluga wielu lokalizacji / franczyza",
+      "integrations": "Integracja z zewnetrznymi narzedziami (Zapier, Mailchimp itp.)",
+      "other": "Inne"
+    },
+    "aiFeatures": {
+      "chatbot": "Chatbot odpowiadajacy automatycznie na pytania",
+      "assistant": "Asystent AI pomagajacy klientom znalezc produkty/uslugi",
+      "contactForm": "Inteligentny formularz kontaktowy (AI segreguje, kategoryzuje lub auto-odpowiada)",
+      "search": "Wyszukiwarka AI na stronie",
+      "content": "Pomoc w generowaniu tresci (AI pisze szkice postow/produktow)",
+      "recommendations": "Spersonalizowane rekomendacje dla odwiedzajacych",
+      "voice": "Integracja z asystentem glosowym",
+      "notSure": "Nie jestem pewien — powiedz mi wiecej pozniej",
+      "none": "Nie potrzebuje funkcji AI"
+    },
+    "preferredContact": {
+      "email": "Email",
+      "phone": "Telefon",
+      "whatsapp": "WhatsApp"
+    },
+    "assetStatus": {
+      "yes": "Tak",
+      "no": "Nie",
+      "na": "Nie dotyczy",
+      "notSure": "Nie jestem pewien",
+      "draft": "Szkic",
+      "useStandard": "Uzyj standardowych",
+      "createFromLogo": "Stworz z logo",
+      "suggestForMe": "Zaproponuj mi"
+    }
+  },
+  "assetCategories": {
+    "branding": "Branding",
+    "photography": "Fotografia i obrazy",
+    "graphics": "Grafika i elementy wizualne",
+    "video": "Wideo i media",
+    "content": "Tresc pisana",
+    "documents": "Dokumenty i pliki",
+    "socialProof": "Dowody spoleczne i zaufanie",
+    "digital": "Istniejace zasoby cyfrowe"
+  },
+  "assets": {
+    "logo": "Logo (wysoka rozdzielczosc, PNG lub SVG)",
+    "logoVariations": "Warianty logo (wersje jasna/ciemna)",
+    "brandColours": "Kolory marki (kody hex lub przyklady)",
+    "brandFonts": "Czcionki marki / typografia",
+    "brandGuidelines": "Ksiega znaku",
+    "heroImage": "Glowny obraz / baner",
+    "teamPhotos": "Zdjecia zespolu / pracownikow",
+    "productPhotos": "Zdjecia produktow",
+    "servicePhotos": "Zdjecia uslug / w akcji",
+    "locationPhotos": "Zdjecia lokalizacji / siedziby",
+    "behindScenes": "Zdjecia zza kulis / procesu",
+    "customerPhotos": "Zdjecia klientow (za zgoda)",
+    "stockImagery": "Zakupione zdjecia stockowe",
+    "icons": "Ikony (niestandardowy zestaw)",
+    "illustrations": "Ilustracje",
+    "infographics": "Infografiki",
+    "charts": "Wykresy / diagramy",
+    "backgrounds": "Wzory tla / tekstury",
+    "socialGraphics": "Grafiki do mediow spolecznosciowych",
+    "favicon": "Favicon (mala ikona przegladarki)",
+    "promoVideo": "Film promocyjny",
+    "productDemos": "Filmy demonstracyjne produktow",
+    "testimonialVideos": "Filmy z referencjami",
+    "backgroundVideo": "Film w tle (dla sekcji hero)",
+    "audioFiles": "Pliki audio (podcasty, muzyka)",
+    "homepageText": "Tekst strony glownej",
+    "aboutText": "Tekst strony O nas",
+    "serviceDescriptions": "Opisy uslug/produktow",
+    "teamBios": "Biogramy zespolu",
+    "testimonials": "Referencje / opinie (tekst)",
+    "caseStudies": "Case studies",
+    "faqContent": "Tresc FAQ",
+    "blogPosts": "Posty na blogu (istniejace)",
+    "legalText": "Teksty prawne (Regulamin, Polityka prywatnosci)",
+    "tagline": "Slogan / haslo",
+    "callToAction": "Teksty CTA",
+    "brochures": "Broszury / PDF do pobrania",
+    "priceLists": "Cenniki / menu",
+    "catalogues": "Katalogi",
+    "certificates": "Certyfikaty / nagrody",
+    "pressMentions": "Wzmianki prasowe / logo",
+    "clientLogos": "Logo klientow (dla sekcji \"zaufali nam\")",
+    "partnerLogos": "Logo partnerow",
+    "certificationBadges": "Odznaki certyfikatow",
+    "awardLogos": "Logo nagrod",
+    "asSeenIn": "Logo mediow \"widziane w\"",
+    "starRatings": "Oceny gwiazdkowe / wyniki recenzji",
+    "existingContent": "Aktualna zawartosc strony do migracji",
+    "domainOwned": "Domena (juz posiadana)",
+    "emailAccounts": "Konta email do zachowania",
+    "customerDatabase": "Istniejaca baza klientow",
+    "productDatabase": "Baza produktow / arkusz",
+    "socialAccounts": "Konta w mediach spolecznosciowych",
+    "googleBusiness": "Profil Google Moja Firma"
+  }
+}
