@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { FormCard } from '../../components/FormCard';
 import { TextInput } from '../../components/TextInput';
 import { TextArea } from '../../components/TextArea';
@@ -10,33 +11,34 @@ interface StepProps {
 }
 
 export function YourBusiness({ formData, updateFormData }: StepProps) {
+  const { t } = useTranslation('form');
   const showInspirationReason = formData.inspirationWebsite.trim() !== '';
 
   return (
-    <FormCard title="Tell us about your business">
+    <FormCard title={t('steps.yourBusiness.title')}>
       <div className="space-y-6">
         <TextInput
-          label="Business name"
+          label={t('steps.yourBusiness.businessName')}
           value={formData.businessName}
           onChange={(e) => updateFormData({ businessName: e.target.value })}
-          placeholder="My Business Ltd"
+          placeholder={t('steps.yourBusiness.businessNamePlaceholder')}
         />
 
         <div>
           <TextArea
-            label="Describe what you do"
+            label={t('steps.yourBusiness.businessDescription')}
             value={formData.businessDescription}
             onChange={(e) => updateFormData({ businessDescription: e.target.value })}
-            placeholder="For example: I run a small bakery in Manchester. We make fresh bread, pastries, and custom cakes for special occasions. We've been in business for 3 years."
+            placeholder={t('steps.yourBusiness.businessDescriptionPlaceholder')}
             rows={4}
             required
           />
-          <p className="mt-1 text-sm text-gray-500">2-3 sentences is perfect</p>
+          <p className="mt-1 text-sm text-gray-500">{t('steps.yourBusiness.businessDescriptionHelper')}</p>
         </div>
 
         <DynamicUrlList
-          label="Who are your competitors?"
-          helperText="Share up to 3 competitor websites so we understand your market."
+          label={t('steps.yourBusiness.competitors.label')}
+          helperText={t('steps.yourBusiness.competitors.helper')}
           urls={formData.competitorWebsites}
           onChange={(urls) => updateFormData({ competitorWebsites: urls })}
           maxItems={3}
@@ -45,21 +47,21 @@ export function YourBusiness({ formData, updateFormData }: StepProps) {
         />
 
         <TextInput
-          label="Any websites you like the look of?"
+          label={t('steps.yourBusiness.inspiration.label')}
           value={formData.inspirationWebsite}
           onChange={(e) => updateFormData({ inspirationWebsite: e.target.value })}
           placeholder="https://www.example.com"
         />
         <p className="-mt-4 text-sm text-gray-500">
-          Can be the same as a competitor, or completely different.
+          {t('steps.yourBusiness.inspiration.helper')}
         </p>
 
         {showInspirationReason && (
           <TextArea
-            label="What do you like about it?"
+            label={t('steps.yourBusiness.inspiration.reasonLabel')}
             value={formData.inspirationReason}
             onChange={(e) => updateFormData({ inspirationReason: e.target.value })}
-            placeholder="e.g. the layout, colours, how it feels, specific features..."
+            placeholder={t('steps.yourBusiness.inspiration.reasonPlaceholder')}
             rows={3}
           />
         )}

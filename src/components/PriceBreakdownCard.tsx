@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { PricingBreakdown, PricingLineItem } from '../types/enquiry';
 import { formatPriceRange } from '../utils/calculatePricing';
 
@@ -33,6 +34,7 @@ function PriceSection({ title, items }: SectionProps) {
 }
 
 export function PriceBreakdownCard({ pricing }: PriceBreakdownCardProps) {
+  const { t } = useTranslation('form');
   const hasAddOns =
     pricing.aiFeatures.length > 0 || pricing.integrations.length > 0;
 
@@ -43,7 +45,7 @@ export function PriceBreakdownCard({ pricing }: PriceBreakdownCardProps) {
         <div className="flex justify-between items-start">
           <div>
             <h4 className="text-xs font-semibold text-green-700 uppercase tracking-wide">
-              Base Price
+              {t('pricing.basePrice')}
             </h4>
             <p className="text-sm text-green-600 mt-1">{pricing.base.label}</p>
           </div>
@@ -55,15 +57,15 @@ export function PriceBreakdownCard({ pricing }: PriceBreakdownCardProps) {
 
       {/* Add-ons section */}
       <div className="px-4">
-        <PriceSection title="AI Features" items={pricing.aiFeatures} />
-        <PriceSection title="Integrations" items={pricing.integrations} />
+        <PriceSection title={t('pricing.aiFeatures')} items={pricing.aiFeatures} />
+        <PriceSection title={t('pricing.integrations')} items={pricing.integrations} />
       </div>
 
       {/* Total */}
       <div className="p-4 bg-gray-50 border-t border-gray-200 mt-2">
         <div className="flex justify-between items-center">
           <span className="text-sm font-semibold text-gray-700">
-            Estimated Total
+            {t('pricing.estimatedTotal')}
           </span>
           <span className="text-xl font-bold text-gray-900">
             {formatPriceRange(pricing.total)}
@@ -71,7 +73,7 @@ export function PriceBreakdownCard({ pricing }: PriceBreakdownCardProps) {
         </div>
         {!hasAddOns && (
           <p className="text-xs text-gray-500 mt-1">
-            Base price only — no add-ons selected
+            {t('pricing.basePriceOnly')}
           </p>
         )}
       </div>
@@ -84,15 +86,17 @@ interface ContentNeedsWarningProps {
 }
 
 export function ContentNeedsWarning({ items }: ContentNeedsWarningProps) {
+  const { t } = useTranslation('form');
+
   if (items.length === 0) return null;
 
   return (
     <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
       <h4 className="text-sm font-semibold text-amber-800 mb-2">
-        Additional Design/Content Work May Be Needed
+        {t('pricing.contentNeedsTitle')}
       </h4>
       <p className="text-sm text-amber-700 mb-3">
-        Based on your asset inventory:
+        {t('pricing.contentNeedsSubtitle')}
       </p>
       <ul className="space-y-1">
         {items.map((item, index) => (
@@ -105,13 +109,15 @@ export function ContentNeedsWarning({ items }: ContentNeedsWarningProps) {
         ))}
       </ul>
       <p className="text-xs text-amber-600 mt-3 pt-3 border-t border-amber-200">
-        These are quoted separately from the website build.
+        {t('pricing.contentNeedsNote')}
       </p>
     </div>
   );
 }
 
 export function DisclaimerNote() {
+  const { t } = useTranslation('form');
+
   return (
     <div className="flex items-start gap-2 p-3 bg-blue-50 border border-blue-100 rounded-lg">
       <svg
@@ -128,8 +134,7 @@ export function DisclaimerNote() {
         />
       </svg>
       <p className="text-sm text-blue-700">
-        This is an estimate based on your selections. Your final quote will be
-        provided after we discuss your project in detail.
+        {t('pricing.disclaimer')}
       </p>
     </div>
   );

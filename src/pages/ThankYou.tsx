@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout';
 
 export function ThankYou() {
   const navigate = useNavigate();
+  const { t } = useTranslation('form');
 
   return (
     <Layout>
@@ -23,25 +25,25 @@ export function ThankYou() {
           </svg>
         </div>
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-          Thank you!
+          {t('thankYou.title')}
         </h1>
         <p className="text-xl text-gray-600 mb-8 max-w-md mx-auto">
-          We've received your enquiry and will be in touch soon to discuss your project.
+          {t('thankYou.message')}
         </p>
         <div className="bg-gray-50 rounded-xl p-6 max-w-md mx-auto mb-8">
-          <h2 className="font-semibold text-gray-900 mb-2">What happens next?</h2>
+          <h2 className="font-semibold text-gray-900 mb-2">{t('thankYou.whatNext')}</h2>
           <ul className="text-left text-gray-600 space-y-2">
             <li className="flex items-start">
               <span className="text-primary-500 mr-2">1.</span>
-              We'll review your requirements
+              {t('thankYou.step1')}
             </li>
             <li className="flex items-start">
               <span className="text-primary-500 mr-2">2.</span>
-              We'll reach out within 24-48 hours
+              {t('thankYou.step2')}
             </li>
             <li className="flex items-start">
               <span className="text-primary-500 mr-2">3.</span>
-              We'll discuss options that match your needs
+              {t('thankYou.step3')}
             </li>
           </ul>
         </div>
@@ -49,7 +51,7 @@ export function ThankYou() {
           onClick={() => navigate('/')}
           className="text-primary-500 hover:text-primary-600 font-medium"
         >
-          &larr; Back to home
+          &larr; {t('thankYou.backToHome')}
         </button>
       </div>
     </Layout>

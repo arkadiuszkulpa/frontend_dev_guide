@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import { FormCard } from '../../components/FormCard';
 import { TextInput } from '../../components/TextInput';
 import { RadioGroup } from '../../components/RadioGroup';
-import { EnquiryFormData, PREFERRED_CONTACT_OPTIONS } from '../../types/enquiry';
+import { EnquiryFormData } from '../../types/enquiry';
+import { usePreferredContactOptions } from '../../hooks/useTranslatedOptions';
 
 interface StepProps {
   formData: EnquiryFormData;
@@ -9,41 +11,44 @@ interface StepProps {
 }
 
 export function ContactInfo({ formData, updateFormData }: StepProps) {
+  const { t } = useTranslation('form');
+  const preferredContactOptions = usePreferredContactOptions();
+
   return (
-    <FormCard title="Last step — how do we reach you?">
+    <FormCard title={t('steps.contactInfo.title')}>
       <div className="space-y-6">
         <TextInput
-          label="Your full name"
+          label={t('steps.contactInfo.fullName')}
           value={formData.fullName}
           onChange={(e) => updateFormData({ fullName: e.target.value })}
-          placeholder="John Smith"
+          placeholder={t('steps.contactInfo.fullNamePlaceholder')}
           required
         />
 
         <TextInput
-          label="Email address"
+          label={t('steps.contactInfo.email')}
           type="email"
           value={formData.email}
           onChange={(e) => updateFormData({ email: e.target.value })}
-          placeholder="john@example.com"
+          placeholder={t('steps.contactInfo.emailPlaceholder')}
           required
         />
 
         <TextInput
-          label="Phone number"
+          label={t('steps.contactInfo.phone')}
           type="tel"
           value={formData.phone}
           onChange={(e) => updateFormData({ phone: e.target.value })}
-          placeholder="+44 7700 900000"
+          placeholder={t('steps.contactInfo.phonePlaceholder')}
           required
         />
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-3">
-            How would you prefer we contact you? <span className="text-red-500">*</span>
+            {t('steps.contactInfo.preferredContact')} <span className="text-red-500">*</span>
           </label>
           <RadioGroup
-            options={PREFERRED_CONTACT_OPTIONS}
+            options={preferredContactOptions}
             selected={formData.preferredContact}
             onChange={(value) => updateFormData({ preferredContact: value as EnquiryFormData['preferredContact'] })}
           />

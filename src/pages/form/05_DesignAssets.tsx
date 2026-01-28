@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FormCard } from '../../components/FormCard';
 import { CollapsibleSection } from '../../components/CollapsibleSection';
 import { AssetStatusSelector } from '../../components/AssetStatusSelector';
@@ -10,6 +11,11 @@ import {
   WebsiteComplexity,
   ContentTier,
 } from '../../types/enquiry';
+import {
+  useTranslatedAssetCategories,
+  useTranslatedAssetLabels,
+  useTranslatedAssetStatus,
+} from '../../hooks/useTranslatedOptions';
 
 interface StepProps {
   formData: EnquiryFormData;
@@ -68,6 +74,11 @@ function getVisibleCategories(
 }
 
 export function DesignAssetsStep({ formData, updateFormData }: StepProps) {
+  const { t } = useTranslation('form');
+  const categoryLabels = useTranslatedAssetCategories();
+  const assetLabels = useTranslatedAssetLabels();
+  const statusLabels = useTranslatedAssetStatus();
+
   // Open the first two sections by default
   const [openSections, setOpenSections] = useState<string[]>(['branding', 'content']);
 
@@ -111,16 +122,23 @@ export function DesignAssetsStep({ formData, updateFormData }: StepProps) {
     return { completed, total: category.assets.length };
   };
 
+  const getTranslatedOptions = (options: { value: string; label: string }[]) => {
+    return options.map((opt) => ({
+      value: opt.value,
+      label: statusLabels[opt.value] || opt.label,
+    }));
+  };
+
   return (
     <FormCard
-      title="What materials do you have ready?"
-      subtitle="Anything you don't have, we can help create — but design work is quoted separately from the website build."
+      title={t('steps.designAssets.title')}
+      subtitle={t('steps.designAssets.subtitle')}
     >
       <div className="space-y-4">
         {visibleCategories.map((category) => (
           <CollapsibleSection
             key={category.key}
-            title={category.title}
+            title={categoryLabels[category.key] || category.title}
             isOpen={openSections.includes(category.key)}
             onToggle={() => toggleSection(category.key)}
             completionCount={getCompletionCount(category)}
@@ -129,8 +147,8 @@ export function DesignAssetsStep({ formData, updateFormData }: StepProps) {
               {category.assets.map((asset) => (
                 <AssetStatusSelector
                   key={asset.key}
-                  label={asset.label}
-                  options={asset.options}
+                  label={assetLabels[asset.key] || asset.label}
+                  options={getTranslatedOptions(asset.options)}
                   value={formData.designAssets[asset.key]}
                   onChange={(value) => handleAssetChange(asset.key, value)}
                 />
@@ -141,8 +159,7 @@ export function DesignAssetsStep({ formData, updateFormData }: StepProps) {
 
         <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
           <p className="text-sm text-amber-800">
-            <strong>Note:</strong> Any assets marked "No" or "I need help" may require additional
-            design or copywriting work, quoted separately from the website build.
+            <strong>Note:</strong> {t('steps.designAssets.note')}
           </p>
         </div>
       </div>

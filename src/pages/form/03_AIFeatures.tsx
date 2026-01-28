@@ -1,6 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import { FormCard } from '../../components/FormCard';
 import { CheckboxGroup } from '../../components/CheckboxGroup';
-import { EnquiryFormData, AI_FEATURE_OPTIONS } from '../../types/enquiry';
+import { EnquiryFormData } from '../../types/enquiry';
+import { useAIFeatureOptions } from '../../hooks/useTranslatedOptions';
 
 interface StepProps {
   formData: EnquiryFormData;
@@ -8,6 +10,9 @@ interface StepProps {
 }
 
 export function AIFeatures({ formData, updateFormData }: StepProps) {
+  const { t } = useTranslation('form');
+  const aiFeatureOptions = useAIFeatureOptions();
+
   const handleAIFeatureChange = (selected: string[]) => {
     const previouslyHadNone = formData.aiFeatures.includes('ai-none');
     const nowHasNone = selected.includes('ai-none');
@@ -40,11 +45,11 @@ export function AIFeatures({ formData, updateFormData }: StepProps) {
 
   return (
     <FormCard
-      title="Are you interested in AI-powered features?"
-      subtitle="These can be added to any type of website."
+      title={t('steps.aiFeatures.title')}
+      subtitle={t('steps.aiFeatures.subtitle')}
     >
       <CheckboxGroup
-        options={AI_FEATURE_OPTIONS}
+        options={aiFeatureOptions}
         selected={formData.aiFeatures}
         onChange={handleAIFeatureChange}
       />

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FormCard } from '../../components/FormCard';
 import { PriceMatrixGraphic } from '../../components/PriceMatrixGraphic';
 import {
@@ -15,12 +16,13 @@ interface StepProps {
 }
 
 export function PricingSummary({ formData }: StepProps) {
+  const { t } = useTranslation('form');
   const pricing = useMemo(() => calculatePricing(formData), [formData]);
 
   return (
     <FormCard
-      title="Your Estimated Quote"
-      subtitle="Based on your selections, here's what you can expect to invest."
+      title={t('steps.pricingSummary.title')}
+      subtitle={t('steps.pricingSummary.subtitle')}
     >
       <div className="space-y-8">
         {/* Price Matrix Graphic */}

@@ -1,0 +1,17 @@
+{
+  "navigation": {
+    "back": "Wstecz",
+    "continue": "Dalej",
+    "submit": "Wyslij",
+    "submitting": "Wysylanie...",
+    "backToHome": "Powrot na strone glowna",
+    "newEnquiry": "Nowe zapytanie"
+  },
+  "progress": {
+    "step": "Krok {{current}} z {{total}}"
+  },
+  "language": {
+    "english": "English",
+    "polish": "Polski"
+  }
+}

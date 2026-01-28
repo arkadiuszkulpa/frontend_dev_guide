@@ -1,10 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import { FormCard } from '../../components/FormCard';
 import { RadioGroup } from '../../components/RadioGroup';
-import {
-  EnquiryFormData,
-  INVOLVEMENT_OPTIONS,
-  ACCOUNT_MANAGEMENT_OPTIONS,
-} from '../../types/enquiry';
+import { EnquiryFormData } from '../../types/enquiry';
+import { useInvolvementOptions, useAccountManagementOptions } from '../../hooks/useTranslatedOptions';
 
 interface StepProps {
   formData: EnquiryFormData;
@@ -12,16 +10,20 @@ interface StepProps {
 }
 
 export function InvolvementLevel({ formData, updateFormData }: StepProps) {
+  const { t } = useTranslation('form');
+  const involvementOptions = useInvolvementOptions();
+  const accountManagementOptions = useAccountManagementOptions();
+
   const showAccountManagement = formData.involvementLevel !== '' && formData.involvementLevel !== 'guide-me';
 
   return (
     <FormCard
-      title="How hands-on do you want to be?"
-      subtitle="This affects how we work together and what you'll pay for ongoing changes."
+      title={t('steps.involvement.title')}
+      subtitle={t('steps.involvement.subtitle')}
     >
       <div className="space-y-8">
         <RadioGroup
-          options={INVOLVEMENT_OPTIONS}
+          options={involvementOptions}
           selected={formData.involvementLevel}
           onChange={(value) => updateFormData({ involvementLevel: value as EnquiryFormData['involvementLevel'] })}
         />
@@ -29,10 +31,10 @@ export function InvolvementLevel({ formData, updateFormData }: StepProps) {
         {showAccountManagement && (
           <div className="pt-6 border-t border-gray-200">
             <p className="text-sm font-medium text-gray-700 mb-4">
-              For things like buying a domain, setting up hosting, or managing logins—how would you like to handle that?
+              {t('steps.involvement.accountManagementPrompt')}
             </p>
             <RadioGroup
-              options={ACCOUNT_MANAGEMENT_OPTIONS}
+              options={accountManagementOptions}
               selected={formData.accountManagement}
               onChange={(value) => updateFormData({ accountManagement: value as EnquiryFormData['accountManagement'] })}
             />

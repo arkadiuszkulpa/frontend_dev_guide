@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 interface FormNavigationProps {
   onBack: () => void;
   onNext: () => void;
@@ -15,6 +17,14 @@ export function FormNavigation({
   isSubmitting = false,
   canProceed = true,
 }: FormNavigationProps) {
+  const { t } = useTranslation();
+
+  const getButtonText = () => {
+    if (isSubmitting) return t('navigation.submitting');
+    if (isLastStep) return t('navigation.submit');
+    return t('navigation.continue');
+  };
+
   return (
     <div className="flex justify-between mt-8 pt-6 border-t border-gray-200">
       <button
@@ -27,7 +37,7 @@ export function FormNavigation({
             : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
         }`}
       >
-        Back
+        {t('navigation.back')}
       </button>
       <button
         type="button"
@@ -39,7 +49,7 @@ export function FormNavigation({
             : 'bg-gray-200 text-gray-400 cursor-not-allowed'
         }`}
       >
-        {isSubmitting ? 'Submitting...' : isLastStep ? 'Submit' : 'Continue'}
+        {getButtonText()}
       </button>
     </div>
   );

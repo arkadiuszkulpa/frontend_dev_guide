@@ -1,12 +1,13 @@
+import { useTranslation } from 'react-i18next';
 import { FormCard } from '../../components/FormCard';
 import { CheckboxGroup } from '../../components/CheckboxGroup';
 import { TextInput } from '../../components/TextInput';
+import { EnquiryFormData } from '../../types/enquiry';
 import {
-  EnquiryFormData,
-  CORE_PAGE_OPTIONS,
-  DYNAMIC_FEATURE_OPTIONS,
-  ADVANCED_FEATURE_OPTIONS,
-} from '../../types/enquiry';
+  useCorePageOptions,
+  useDynamicFeatureOptions,
+  useAdvancedFeatureOptions,
+} from '../../hooks/useTranslatedOptions';
 
 interface StepProps {
   formData: EnquiryFormData;
@@ -14,6 +15,11 @@ interface StepProps {
 }
 
 export function Features({ formData, updateFormData }: StepProps) {
+  const { t } = useTranslation('form');
+  const corePageOptions = useCorePageOptions();
+  const dynamicFeatureOptions = useDynamicFeatureOptions();
+  const advancedFeatureOptions = useAdvancedFeatureOptions();
+
   const showDynamicFeatures =
     formData.websiteComplexity === 'some-moving-parts' ||
     formData.websiteComplexity === 'full-featured';
@@ -25,24 +31,26 @@ export function Features({ formData, updateFormData }: StepProps) {
   const showAdvancedFeaturesOther = formData.advancedFeatures.includes('advanced-other');
 
   return (
-    <FormCard title="What features do you need?">
+    <FormCard title={t('steps.features.title')}>
       <div className="space-y-10">
         {/* Core Pages - Always shown */}
         <div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">What pages do you need?</h3>
-          <p className="text-sm text-gray-500 mb-4">Select all that apply</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            {t('steps.features.corePages.title')}
+          </h3>
+          <p className="text-sm text-gray-500 mb-4">{t('steps.features.corePages.helper')}</p>
           <CheckboxGroup
-            options={CORE_PAGE_OPTIONS}
+            options={corePageOptions}
             selected={formData.corePages}
             onChange={(selected) => updateFormData({ corePages: selected })}
           />
           {showCorePagesOther && (
             <div className="mt-4">
               <TextInput
-                label="Please specify other pages"
+                label={t('steps.features.corePages.otherLabel')}
                 value={formData.corePagesOther}
                 onChange={(e) => updateFormData({ corePagesOther: e.target.value })}
-                placeholder="e.g., Custom landing pages, Partner page..."
+                placeholder={t('steps.features.corePages.otherPlaceholder')}
               />
             </div>
           )}
@@ -52,21 +60,21 @@ export function Features({ formData, updateFormData }: StepProps) {
         {showDynamicFeatures && (
           <div className="pt-6 border-t border-gray-200">
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              What do you need to regularly update or manage?
+              {t('steps.features.dynamicFeatures.title')}
             </h3>
-            <p className="text-sm text-gray-500 mb-4">Select all that apply</p>
+            <p className="text-sm text-gray-500 mb-4">{t('steps.features.dynamicFeatures.helper')}</p>
             <CheckboxGroup
-              options={DYNAMIC_FEATURE_OPTIONS}
+              options={dynamicFeatureOptions}
               selected={formData.dynamicFeatures}
               onChange={(selected) => updateFormData({ dynamicFeatures: selected })}
             />
             {showDynamicFeaturesOther && (
               <div className="mt-4">
                 <TextInput
-                  label="Please specify other dynamic features"
+                  label={t('steps.features.dynamicFeatures.otherLabel')}
                   value={formData.dynamicFeaturesOther}
                   onChange={(e) => updateFormData({ dynamicFeaturesOther: e.target.value })}
-                  placeholder="e.g., Member directory, Resource library..."
+                  placeholder={t('steps.features.dynamicFeatures.otherPlaceholder')}
                 />
               </div>
             )}
@@ -77,21 +85,21 @@ export function Features({ formData, updateFormData }: StepProps) {
         {showAdvancedFeatures && (
           <div className="pt-6 border-t border-gray-200">
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              What advanced features do you need?
+              {t('steps.features.advancedFeatures.title')}
             </h3>
-            <p className="text-sm text-gray-500 mb-4">Select all that apply</p>
+            <p className="text-sm text-gray-500 mb-4">{t('steps.features.advancedFeatures.helper')}</p>
             <CheckboxGroup
-              options={ADVANCED_FEATURE_OPTIONS}
+              options={advancedFeatureOptions}
               selected={formData.advancedFeatures}
               onChange={(selected) => updateFormData({ advancedFeatures: selected })}
             />
             {showAdvancedFeaturesOther && (
               <div className="mt-4">
                 <TextInput
-                  label="Please specify other advanced features"
+                  label={t('steps.features.advancedFeatures.otherLabel')}
                   value={formData.advancedFeaturesOther}
                   onChange={(e) => updateFormData({ advancedFeaturesOther: e.target.value })}
-                  placeholder="e.g., Custom API integrations, Auction system..."
+                  placeholder={t('steps.features.advancedFeatures.otherPlaceholder')}
                 />
               </div>
             )}
