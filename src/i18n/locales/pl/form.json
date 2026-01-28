@@ -1,24 +1,24 @@
 {
   "home": {
-    "title": "Zbudujmy Twoja Strone",
-    "subtitle": "Opowiedz nam o swojej firmie i czego potrzebujesz. Wiedza techniczna nie jest wymagana.",
+    "title": "Zbudujmy Twoją Stronę",
+    "subtitle": "Opowiedz nam o swojej firmie i czego potrzebujesz.\nWiedza techniczna nie jest wymagana.",
     "startButton": "Nowe zapytanie",
-    "timeEstimate": "Zajmie okolo 5 minut"
+    "timeEstimate": "Zajmie około 5 minut"
   },
   "thankYou": {
-    "title": "Dziekujemy!",
-    "message": "Otrzymalismy Twoje zapytanie i wkrotce skontaktujemy sie, aby omowic Twoj projekt.",
+    "title": "Dziękujemy!",
+    "message": "Otrzymaliśmy Twoje zapytanie i wkrótce skontaktujemy się, aby omówić Twój projekt.",
     "whatNext": "Co dalej?",
     "step1": "Przeanalizujemy Twoje wymagania",
-    "step2": "Skontaktujemy sie w ciagu 24-48 godzin",
-    "step3": "Omowimy opcje dopasowane do Twoich potrzeb",
-    "backToHome": "Powrot na strone glowna"
+    "step2": "Skontaktujemy się w ciągu 24-48 godzin",
+    "step3": "Omówimy opcje dopasowane do Twoich potrzeb",
+    "backToHome": "Powrót na stronę główną"
   },
   "steps": {
     "involvement": {
-      "title": "Jak bardzo chcesz byc zaangazowany?",
-      "subtitle": "To wplywa na sposob naszej wspolpracy i koszty biezacych zmian.",
-      "accountManagementPrompt": "Jezeli chodzi o zakup domeny, hosting lub zarzadzanie loginami — jak chcialbys to zorganizowac?"
+      "title": "Jak bardzo chcesz być zaangażowany?",
+      "subtitle": "To wpływa na sposób naszej współpracy i koszty bieżących zmian.",
+      "accountManagementPrompt": "Jeżeli chodzi o zakup domeny, hosting lub zarządzanie loginami — jak chciałbyś to zorganizować?"
     },
     "complexity": {
       "title": "Jakiej strony internetowej potrzebujesz?"
@@ -27,63 +27,63 @@
       "title": "Jakich funkcji potrzebujesz?",
       "corePages": {
         "title": "Jakich stron potrzebujesz?",
-        "helper": "Wybierz wszystkie pasujace",
-        "otherLabel": "Prosze okreslic inne strony",
-        "otherPlaceholder": "np. Strony docelowe, Strona partnerow..."
+        "helper": "Wybierz wszystkie pasujące",
+        "otherLabel": "Proszę określić inne strony",
+        "otherPlaceholder": "np. Strony docelowe, Strona partnerów..."
       },
       "dynamicFeatures": {
-        "title": "Co musisz regularnie aktualizowac lub zarzadzac?",
-        "helper": "Wybierz wszystkie pasujace",
-        "otherLabel": "Prosze okreslic inne funkcje dynamiczne",
-        "otherPlaceholder": "np. Katalog czlonkow, Biblioteka zasobow..."
+        "title": "Co musisz regularnie aktualizować lub zarządzać?",
+        "helper": "Wybierz wszystkie pasujące",
+        "otherLabel": "Proszę określić inne funkcje dynamiczne",
+        "otherPlaceholder": "np. Katalog członków, Biblioteka zasobów..."
       },
       "advancedFeatures": {
         "title": "Jakich zaawansowanych funkcji potrzebujesz?",
-        "helper": "Wybierz wszystkie pasujace",
-        "otherLabel": "Prosze okreslic inne zaawansowane funkcje",
+        "helper": "Wybierz wszystkie pasujące",
+        "otherLabel": "Proszę określić inne zaawansowane funkcje",
         "otherPlaceholder": "np. Niestandardowe integracje API, System aukcyjny..."
       }
     },
     "aiFeatures": {
-      "title": "Czy interesujesz sie funkcjami AI?",
-      "subtitle": "Mozna je dodac do kazdego typu strony."
+      "title": "Czy interesujesz się funkcjami AI?",
+      "subtitle": "Można je dodać do każdego typu strony."
     },
     "yourBusiness": {
       "title": "Opowiedz nam o swojej firmie",
       "businessName": "Nazwa firmy",
       "businessNamePlaceholder": "Moja Firma Sp. z o.o.",
-      "businessDescription": "Opisz czym sie zajmujesz",
-      "businessDescriptionPlaceholder": "Na przyklad: Prowadze mala piekarnie w Warszawie. Pieczemy swieze pieczywo, ciasta i torty na specjalne okazje. Dzialamy od 3 lat.",
+      "businessDescription": "Opisz czym się zajmujesz",
+      "businessDescriptionPlaceholder": "Na przykład: Prowadzę małą piekarnię w Warszawie. Pieczemy świeże pieczywo, ciasta i torty na specjalne okazje. Działamy od 3 lat.",
       "businessDescriptionHelper": "2-3 zdania wystarczy",
       "competitors": {
-        "label": "Kim sa Twoi konkurenci?",
-        "helper": "Podaj do 3 stron konkurencji, abysmy zrozumieli Twoj rynek."
+        "label": "Kim są Twoi konkurenci?",
+        "helper": "Podaj do 3 stron konkurencji, abyśmy zrozumieli Twój rynek."
       },
       "inspiration": {
-        "label": "Czy sa strony, ktore Ci sie podobaja?",
-        "helper": "Moze byc ta sama co konkurencja lub zupelnie inna.",
-        "reasonLabel": "Co Ci sie w niej podoba?",
-        "reasonPlaceholder": "np. uklad, kolory, jak sie czuje, konkretne funkcje..."
+        "label": "Czy są strony, które Ci się podobają?",
+        "helper": "Może być ta sama co konkurencja lub zupełnie inna.",
+        "reasonLabel": "Co Ci się w niej podoba?",
+        "reasonPlaceholder": "np. układ, kolory, jak się czuje, konkretne funkcje..."
       }
     },
     "designAssets": {
-      "title": "Jakie materialy masz gotowe?",
-      "subtitle": "Wszystko czego nie masz, mozemy pomoc stworzyc — ale prace projektowe sa wyceniane oddzielnie od budowy strony.",
-      "note": "Materialy oznaczone jako \"Nie\" lub \"Potrzebuje pomocy\" moga wymagac dodatkowych prac projektowych lub copywriterskich, wycenianych oddzielnie."
+      "title": "Jakie materiały masz gotowe?",
+      "subtitle": "Wszystko czego nie masz, możemy pomóc stworzyć — ale prace projektowe są wyceniane oddzielnie od budowy strony.",
+      "note": "Materiały oznaczone jako \"Nie\" lub \"Potrzebuję pomocy\" mogą wymagać dodatkowych prac projektowych lub copywriterskich, wycenianych oddzielnie."
     },
     "contactInfo": {
-      "title": "Ostatni krok — jak sie z Toba skontaktowac?",
-      "fullName": "Imie i nazwisko",
+      "title": "Ostatni krok — jak się z Tobą skontaktować?",
+      "fullName": "Imię i nazwisko",
       "fullNamePlaceholder": "Jan Kowalski",
       "email": "Adres email",
       "emailPlaceholder": "jan@przyklad.pl",
       "phone": "Numer telefonu",
       "phonePlaceholder": "+48 123 456 789",
-      "preferredContact": "Jak wolisz, zebysmy sie z Toba kontaktowali?"
+      "preferredContact": "Jak wolisz, żebyśmy się z Tobą kontaktowali?"
     },
     "pricingSummary": {
       "title": "Szacunkowa wycena",
-      "subtitle": "Na podstawie Twoich wybranow, oto czego mozesz sie spodziewac."
+      "subtitle": "Na podstawie Twoich wyborów, oto czego możesz się spodziewać."
     }
   },
   "pricing": {
@@ -91,123 +91,123 @@
     "aiFeatures": "Funkcje AI",
     "integrations": "Integracje",
     "estimatedTotal": "Szacunkowa suma",
-    "basePriceOnly": "Tylko cena bazowa — brak dodatkow",
-    "contentNeedsTitle": "Moze byc potrzebna dodatkowa praca projektowa/contentowa",
+    "basePriceOnly": "Tylko cena bazowa — brak dodatków",
+    "contentNeedsTitle": "Może być potrzebna dodatkowa praca projektowa/contentowa",
     "contentNeedsSubtitle": "Na podstawie Twojego inwentarza:",
-    "contentNeedsNote": "Sa wyceniane oddzielnie od budowy strony.",
-    "disclaimer": "To jest szacunek oparty na Twoich wyborach. Ostateczna wycena zostanie przedstawiona po szczegolowym omowieniu projektu.",
+    "contentNeedsNote": "Są wyceniane oddzielnie od budowy strony.",
+    "disclaimer": "To jest szacunek oparty na Twoich wyborach. Ostateczna wycena zostanie przedstawiona po szczegółowym omówieniu projektu.",
     "matrix": {
       "title": "Tabela cen bazowych",
-      "yourSelection": "Twoj wybor",
-      "completePreviousSteps": "Uzupelnij poprzednie kroki",
-      "legend": "Twoj wybor"
+      "yourSelection": "Twój wybór",
+      "completePreviousSteps": "Uzupełnij poprzednie kroki",
+      "legend": "Twój wybór"
     },
     "complexityLabels": {
       "simpleStatic": "Prosta i statyczna",
       "someMovingParts": "Z elementami dynamicznymi",
-      "fullFeatured": "Pelna funkcjonalnosc"
+      "fullFeatured": "Pełna funkcjonalność"
     },
     "involvementLabels": {
-      "doItForMe": "Zrob to za mnie",
+      "doItForMe": "Zrób to za mnie",
       "teachMeBasics": "Naucz mnie podstaw",
-      "guideMe": "Poprowadz mnie"
+      "guideMe": "Poprowadź mnie"
     }
   },
   "options": {
     "involvement": {
       "doItForMe": {
-        "label": "Zrob to za mnie",
-        "description": "Zajmujesz sie wszystkim. Mowie co chce, Ty to realizujesz. Kontaktuje sie z Toba w sprawie zmian."
+        "label": "Zrób to za mnie (tylko budowa strony)",
+        "description": "Budujesz stronę i zajmujesz się okazjonalnymi zmianami jak nowe zdjęcia, teksty czy odświeżenie logo. Codzienne treści jak posty czy sprzedaż zarządzam sam przez CMS."
       },
       "teachMeBasics": {
         "label": "Naucz mnie podstaw",
-        "description": "Skonfiguruj wszystko, ale pokaz mi jak samemu robic proste aktualizacje (np. dodawanie postow czy zmiane tekstu)."
+        "description": "Skonfiguruj mnie na platformie jak Hostinger i poświęć kilka godzin na pokazanie jak wszystko działa — od dodawania postów po edycję stron — żebym był w pełni samodzielny."
       },
       "guideMe": {
-        "label": "Poprowadz mnie",
-        "description": "Chce to zrobic sam, ale potrzebuje pomocy gdy utkne. Moze rozmowa lub dwie."
+        "label": "Poprowadź mnie",
+        "description": "Sam kupię domenę i hosting. Chcę zrozumieć jak to wszystko działa. Prowadzisz mnie przez konfigurację i odpowiadasz na pytania gdy utknę."
       }
     },
     "accountManagement": {
-      "youManage": "Zarzadzasz wszystkim na swoich kontach, nie potrzebuje dostepu",
-      "myNameYouSetup": "Zaloz je na moje nazwisko, ale Ty dokonaj konfiguracji",
-      "walkMeThrough": "Przeprowadz mnie przez to, zebym byl wlascicielem i rozumial"
+      "youManage": "Zarządzasz wszystkim na swoich kontach, nie potrzebuję dostępu",
+      "myNameYouSetup": "Załóż je na moje nazwisko, ale Ty dokonaj konfiguracji",
+      "walkMeThrough": "Przeprowadź mnie przez to, żebym był właścicielem i rozumiał"
     },
     "complexity": {
       "simpleStatic": {
         "label": "Prosta i statyczna",
-        "description": "Czysta obecnosc online. Ludzie Cie znajduja, widza czym sie zajmujesz i kontaktuja sie. Zawartosc rzadko sie zmienia."
+        "description": "Czysta obecność online. Ludzie Cię znajdują, widzą czym się zajmujesz i kontaktują się. Zawartość rzadko się zmienia."
       },
       "someMovingParts": {
         "label": "Z elementami dynamicznymi",
-        "description": "Wszystko powyzej, plus regularnie dodajesz tresc lub potrzebujesz interaktywnych elementow."
+        "description": "Wszystko powyżej, plus regularnie dodajesz treść lub potrzebujesz interaktywnych elementów."
       },
       "fullFeatured": {
-        "label": "Pelna funkcjonalnosc",
-        "description": "Wszystko powyzej, plus zarzadzanie produktami, platnosciami, rezerwacjami, czlonkami lub innymi zaawansowanymi potrzebami."
+        "label": "Pełna funkcjonalność",
+        "description": "Wszystko powyżej, plus zarządzanie produktami, płatnościami, rezerwacjami, członkami lub innymi zaawansowanymi potrzebami."
       }
     },
     "corePages": {
-      "home": "Strona glowna",
+      "home": "Strona główna",
       "about": "O mnie / O nas",
-      "services": "Uslugi lub co oferuje",
+      "services": "Usługi lub co oferuję",
       "portfolio": "Portfolio / Galeria / Moje prace",
       "contact": "Strona kontaktowa (podstawowa)",
       "faq": "FAQ",
       "testimonials": "Referencje / Opinie",
       "pricing": "Cennik",
-      "team": "Zespol / Pracownicy",
+      "team": "Zespół / Pracownicy",
       "location": "Lokalizacja / Mapa",
-      "legal": "Regulamin / Polityka prywatnosci",
+      "legal": "Regulamin / Polityka prywatności",
       "other": "Inne"
     },
     "dynamicFeatures": {
-      "blog": "Blog lub aktualnosci",
-      "caseStudies": "Prezentacja projektow / case studies",
-      "events": "Wydarzenia lub ogloszenia",
+      "blog": "Blog lub aktualności",
+      "caseStudies": "Prezentacja projektów / case studies",
+      "events": "Wydarzenia lub ogłoszenia",
       "jobs": "Oferty pracy / Kariera",
       "contactForm": "Formularz kontaktowy z powiadomieniami email",
       "newsletter": "Zapis do newslettera",
-      "externalBooking": "Link do zewnetrznej rezerwacji (np. Calendly)",
-      "socialFeed": "Integracja z mediami spolecznosciowymi",
-      "updatableGallery": "Galeria zdjec z mozliwoscia aktualizacji",
+      "externalBooking": "Link do zewnętrznej rezerwacji (np. Calendly)",
+      "socialFeed": "Integracja z mediami społecznościowymi",
+      "updatableGallery": "Galeria zdjęć z możliwością aktualizacji",
       "videoEmbeds": "Osadzone filmy (YouTube, Vimeo)",
       "downloads": "Pliki do pobrania (PDF, broszury)",
       "other": "Inne"
     },
     "advancedFeatures": {
-      "shop": "Sklep internetowy / katalog produktow",
-      "cartCheckout": "Koszyk i platnosci",
-      "payments": "Obsluga platnosci (Stripe, PayPal itp.)",
+      "shop": "Sklep internetowy / katalog produktów",
+      "cartCheckout": "Koszyk i płatności",
+      "payments": "Obsługa płatności (Stripe, PayPal itp.)",
       "calendarBooking": "Rezerwacja wizyt / kalendarz (wbudowany)",
-      "serviceDeposits": "Rezerwacja uslug z zaliczka",
-      "membersArea": "Strefa tylko dla czlonkow / logowanie",
-      "courses": "Kursy lub biblioteka tresci",
-      "customerDashboard": "Konta klientow / panel",
-      "subscriptions": "Subskrypcje lub platnosci cykliczne",
+      "serviceDeposits": "Rezerwacja usług z zaliczką",
+      "membersArea": "Strefa tylko dla członków / logowanie",
+      "courses": "Kursy lub biblioteka treści",
+      "customerDashboard": "Konta klientów / panel",
+      "subscriptions": "Subskrypcje lub płatności cykliczne",
       "discountCodes": "Kody rabatowe / promocje",
-      "inventory": "Zarzadzanie magazynem",
-      "orderTracking": "Sledzenie zamowien / powiadomienia",
+      "inventory": "Zarządzanie magazynem",
+      "orderTracking": "Śledzenie zamówień / powiadomienia",
       "emailAutomations": "Automatyzacja email (potwierdzenia, przypomnienia)",
-      "crm": "CRM / zarzadzanie klientami",
+      "crm": "CRM / zarządzanie klientami",
       "reviewsRatings": "System ocen i recenzji",
-      "wishlist": "Lista zyczen / ulubione",
-      "liveChat": "Czat na zywo (bez AI)",
-      "multiLanguage": "Obsluga wielu jezykow",
-      "multiLocation": "Obsluga wielu lokalizacji / franczyza",
-      "integrations": "Integracja z zewnetrznymi narzedziami (Zapier, Mailchimp itp.)",
+      "wishlist": "Lista życzeń / ulubione",
+      "liveChat": "Czat na żywo (bez AI)",
+      "multiLanguage": "Obsługa wielu języków",
+      "multiLocation": "Obsługa wielu lokalizacji / franczyza",
+      "integrations": "Integracja z zewnętrznymi narzędziami (Zapier, Mailchimp itp.)",
       "other": "Inne"
     },
     "aiFeatures": {
-      "chatbot": "Chatbot odpowiadajacy automatycznie na pytania",
-      "assistant": "Asystent AI pomagajacy klientom znalezc produkty/uslugi",
+      "chatbot": "Chatbot odpowiadający automatycznie na pytania",
+      "assistant": "Asystent AI pomagający klientom znaleźć produkty/usługi",
       "contactForm": "Inteligentny formularz kontaktowy (AI segreguje, kategoryzuje lub auto-odpowiada)",
       "search": "Wyszukiwarka AI na stronie",
-      "content": "Pomoc w generowaniu tresci (AI pisze szkice postow/produktow)",
-      "recommendations": "Spersonalizowane rekomendacje dla odwiedzajacych",
-      "voice": "Integracja z asystentem glosowym",
-      "notSure": "Nie jestem pewien — powiedz mi wiecej pozniej",
-      "none": "Nie potrzebuje funkcji AI"
+      "content": "Pomoc w generowaniu treści (AI pisze szkice postów/produktów)",
+      "recommendations": "Spersonalizowane rekomendacje dla odwiedzających",
+      "voice": "Integracja z asystentem głosowym",
+      "notSure": "Nie jestem pewien — powiedz mi więcej później",
+      "none": "Nie potrzebuję funkcji AI"
     },
     "preferredContact": {
       "email": "Email",
@@ -220,8 +220,8 @@
       "na": "Nie dotyczy",
       "notSure": "Nie jestem pewien",
       "draft": "Szkic",
-      "useStandard": "Uzyj standardowych",
-      "createFromLogo": "Stworz z logo",
+      "useStandard": "Użyj standardowych",
+      "createFromLogo": "Stwórz z logo",
       "suggestForMe": "Zaproponuj mi"
     }
   },
@@ -230,65 +230,65 @@
     "photography": "Fotografia i obrazy",
     "graphics": "Grafika i elementy wizualne",
     "video": "Wideo i media",
-    "content": "Tresc pisana",
+    "content": "Treść pisana",
     "documents": "Dokumenty i pliki",
-    "socialProof": "Dowody spoleczne i zaufanie",
-    "digital": "Istniejace zasoby cyfrowe"
+    "socialProof": "Dowody społeczne i zaufanie",
+    "digital": "Istniejące zasoby cyfrowe"
   },
   "assets": {
-    "logo": "Logo (wysoka rozdzielczosc, PNG lub SVG)",
+    "logo": "Logo (wysoka rozdzielczość, PNG lub SVG)",
     "logoVariations": "Warianty logo (wersje jasna/ciemna)",
-    "brandColours": "Kolory marki (kody hex lub przyklady)",
+    "brandColours": "Kolory marki (kody hex lub przykłady)",
     "brandFonts": "Czcionki marki / typografia",
-    "brandGuidelines": "Ksiega znaku",
-    "heroImage": "Glowny obraz / baner",
-    "teamPhotos": "Zdjecia zespolu / pracownikow",
-    "productPhotos": "Zdjecia produktow",
-    "servicePhotos": "Zdjecia uslug / w akcji",
-    "locationPhotos": "Zdjecia lokalizacji / siedziby",
-    "behindScenes": "Zdjecia zza kulis / procesu",
-    "customerPhotos": "Zdjecia klientow (za zgoda)",
-    "stockImagery": "Zakupione zdjecia stockowe",
+    "brandGuidelines": "Księga znaku",
+    "heroImage": "Główny obraz / baner",
+    "teamPhotos": "Zdjęcia zespołu / pracowników",
+    "productPhotos": "Zdjęcia produktów",
+    "servicePhotos": "Zdjęcia usług / w akcji",
+    "locationPhotos": "Zdjęcia lokalizacji / siedziby",
+    "behindScenes": "Zdjęcia zza kulis / procesu",
+    "customerPhotos": "Zdjęcia klientów (za zgodą)",
+    "stockImagery": "Zakupione zdjęcia stockowe",
     "icons": "Ikony (niestandardowy zestaw)",
     "illustrations": "Ilustracje",
     "infographics": "Infografiki",
     "charts": "Wykresy / diagramy",
-    "backgrounds": "Wzory tla / tekstury",
-    "socialGraphics": "Grafiki do mediow spolecznosciowych",
-    "favicon": "Favicon (mala ikona przegladarki)",
+    "backgrounds": "Wzory tła / tekstury",
+    "socialGraphics": "Grafiki do mediów społecznościowych",
+    "favicon": "Favicon (mała ikona przeglądarki)",
     "promoVideo": "Film promocyjny",
-    "productDemos": "Filmy demonstracyjne produktow",
+    "productDemos": "Filmy demonstracyjne produktów",
     "testimonialVideos": "Filmy z referencjami",
     "backgroundVideo": "Film w tle (dla sekcji hero)",
     "audioFiles": "Pliki audio (podcasty, muzyka)",
-    "homepageText": "Tekst strony glownej",
+    "homepageText": "Tekst strony głównej",
     "aboutText": "Tekst strony O nas",
-    "serviceDescriptions": "Opisy uslug/produktow",
-    "teamBios": "Biogramy zespolu",
+    "serviceDescriptions": "Opisy usług/produktów",
+    "teamBios": "Biogramy zespołu",
     "testimonials": "Referencje / opinie (tekst)",
     "caseStudies": "Case studies",
-    "faqContent": "Tresc FAQ",
-    "blogPosts": "Posty na blogu (istniejace)",
-    "legalText": "Teksty prawne (Regulamin, Polityka prywatnosci)",
-    "tagline": "Slogan / haslo",
+    "faqContent": "Treść FAQ",
+    "blogPosts": "Posty na blogu (istniejące)",
+    "legalText": "Teksty prawne (Regulamin, Polityka prywatności)",
+    "tagline": "Slogan / hasło",
     "callToAction": "Teksty CTA",
     "brochures": "Broszury / PDF do pobrania",
     "priceLists": "Cenniki / menu",
     "catalogues": "Katalogi",
     "certificates": "Certyfikaty / nagrody",
     "pressMentions": "Wzmianki prasowe / logo",
-    "clientLogos": "Logo klientow (dla sekcji \"zaufali nam\")",
-    "partnerLogos": "Logo partnerow",
-    "certificationBadges": "Odznaki certyfikatow",
-    "awardLogos": "Logo nagrod",
-    "asSeenIn": "Logo mediow \"widziane w\"",
+    "clientLogos": "Logo klientów (dla sekcji \"zaufali nam\")",
+    "partnerLogos": "Logo partnerów",
+    "certificationBadges": "Odznaki certyfikatów",
+    "awardLogos": "Logo nagród",
+    "asSeenIn": "Logo mediów \"widziane w\"",
     "starRatings": "Oceny gwiazdkowe / wyniki recenzji",
-    "existingContent": "Aktualna zawartosc strony do migracji",
-    "domainOwned": "Domena (juz posiadana)",
+    "existingContent": "Aktualna zawartość strony do migracji",
+    "domainOwned": "Domena (już posiadana)",
     "emailAccounts": "Konta email do zachowania",
-    "customerDatabase": "Istniejaca baza klientow",
-    "productDatabase": "Baza produktow / arkusz",
-    "socialAccounts": "Konta w mediach spolecznosciowych",
+    "customerDatabase": "Istniejąca baza klientów",
+    "productDatabase": "Baza produktów / arkusz",
+    "socialAccounts": "Konta w mediach społecznościowych",
     "googleBusiness": "Profil Google Moja Firma"
   }
 }
