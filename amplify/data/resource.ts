@@ -65,6 +65,40 @@ const schema = a.schema({
     })
     .authorization((allow) => [allow.authenticated('userPools')]),
 
+  // Design Asset metadata - one record per asset type per enquiry
+  EnquiryAsset: a
+    .model({
+      enquiryId: a.id().required(),
+      assetKey: a.string().required(), // e.g., 'logo', 'heroImage', 'homepageText'
+      status: a.string().required(), // 'yes', 'no', 'na', 'draft', etc.
+      textContent: a.string(), // For text-based assets (short content)
+      fileCount: a.integer(), // Number of files uploaded for this asset
+      lastUpdatedAt: a.datetime(),
+    })
+    .secondaryIndexes((index) => [
+      index('enquiryId').sortKeys(['assetKey']).queryField('listAssetsByEnquiry'),
+    ])
+    .authorization((allow) => [allow.authenticated('userPools')]),
+
+  // Individual file records for uploaded assets
+  EnquiryAssetFile: a
+    .model({
+      enquiryAssetId: a.id().required(), // References EnquiryAsset
+      enquiryId: a.id().required(), // Denormalized for easier querying
+      assetKey: a.string().required(), // Denormalized (e.g., 'logo', 'teamPhotos')
+      s3Key: a.string().required(), // S3 object key
+      fileName: a.string().required(), // Original filename
+      fileSize: a.integer().required(), // Size in bytes
+      mimeType: a.string().required(), // e.g., 'image/png', 'application/pdf'
+      thumbnailS3Key: a.string(), // For image/video thumbnails
+      description: a.string(), // Optional user description
+      uploadedAt: a.datetime().required(),
+    })
+    .secondaryIndexes((index) => [
+      index('enquiryId').sortKeys(['assetKey']).queryField('listFilesByEnquiry'),
+    ])
+    .authorization((allow) => [allow.authenticated('userPools')]),
+
   // Custom mutation to send confirmation email
   sendConfirmationEmail: a
     .mutation()

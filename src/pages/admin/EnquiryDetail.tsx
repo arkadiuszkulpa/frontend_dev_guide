@@ -219,10 +219,27 @@ export function EnquiryDetail() {
             ]}
           />
 
-          <EnquirySection
-            title="Design Assets"
-            fields={[{ label: 'Summary', value: summarizeAssets(designAssets) }]}
-          />
+          {/* Design Assets Section with Manage Link */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Design Assets</h3>
+              <Link
+                to={`/account/enquiries/${id}/assets`}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors"
+              >
+                Manage Assets
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+            <div className="text-gray-600">
+              <p className="text-sm">{summarizeAssets(designAssets)}</p>
+              <p className="text-xs text-gray-500 mt-2">
+                Click "Manage Assets" to upload files and provide your design materials.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Sidebar - Notes (Admin only) */}

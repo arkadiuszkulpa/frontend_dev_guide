@@ -8,6 +8,7 @@ import { AdminLayout } from './components/admin/AdminLayout';
 import { Dashboard } from './pages/admin/Dashboard';
 import { EnquiryList } from './pages/admin/EnquiryList';
 import { EnquiryDetail } from './pages/admin/EnquiryDetail';
+import { EnquiryAssets } from './pages/admin/EnquiryAssets';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="enquiries" element={<EnquiryList />} />
           <Route path="enquiries/:id" element={<EnquiryDetail />} />
+          <Route path="enquiries/:id/assets" element={<EnquiryAssets />} />
         </Route>
       </Routes>
     </BrowserRouter>

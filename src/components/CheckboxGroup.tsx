@@ -41,7 +41,7 @@ export function CheckboxGroup({ options, selected, onChange }: CheckboxGroupProp
             className="sr-only"
           />
           <div
-            className={`w-5 h-5 rounded border-2 mr-4 mt-0.5 flex items-center justify-center transition-colors ${
+            className={`w-5 h-5 min-w-5 min-h-5 flex-shrink-0 rounded border-2 mr-4 mt-0.5 flex items-center justify-center transition-colors ${
               selected.includes(option.value)
                 ? 'bg-primary-500 border-primary-500'
                 : 'border-gray-300'

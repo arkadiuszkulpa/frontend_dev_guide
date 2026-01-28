@@ -2,11 +2,13 @@ import { defineBackend } from '@aws-amplify/backend';
 import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
 import { auth } from './auth/resource';
 import { data, sendEmailHandler } from './data/resource';
+import { storage } from './storage/resource';
 
 const backend = defineBackend({
   auth,
   data,
   sendEmailHandler,
+  storage,
 });
 
 // Grant SES permissions to the Lambda function for enquiry emails
