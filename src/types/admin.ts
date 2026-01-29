@@ -49,3 +49,30 @@ export const NOTE_TYPE_COLORS: Record<NoteType, string> = {
   follow_up: 'bg-purple-100 text-purple-700',
   general: 'bg-gray-100 text-gray-700',
 };
+
+// Section keys for section-specific notes (visible to enquiry owner)
+export type SectionKey =
+  | 'contact'
+  | 'workingRelationship'
+  | 'websiteRequirements'
+  | 'aiFeatures'
+  | 'businessInfo'
+  | 'designAssets';
+
+export const SECTION_LABELS: Record<SectionKey, string> = {
+  contact: 'Contact Information',
+  workingRelationship: 'Working Relationship',
+  websiteRequirements: 'Website Requirements',
+  aiFeatures: 'AI Features',
+  businessInfo: 'Business Information',
+  designAssets: 'Design Assets',
+};
+
+export interface SectionNote {
+  id: string;
+  enquiryId: string;
+  sectionKey: SectionKey;
+  content: string;
+  createdBy: string;
+  createdAt: string;
+}

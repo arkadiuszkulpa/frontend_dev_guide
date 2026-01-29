@@ -99,6 +99,27 @@ const schema = a.schema({
     ])
     .authorization((allow) => [allow.authenticated('userPools')]),
 
+  // Section-specific notes visible to both admin AND enquiry owner
+  // Different from EnquiryNote which is admin-only
+  EnquirySectionNote: a
+    .model({
+      enquiryId: a.id().required(),
+      sectionKey: a.enum([
+        'contact',
+        'workingRelationship',
+        'websiteRequirements',
+        'aiFeatures',
+        'businessInfo',
+        'designAssets',
+      ]),
+      content: a.string().required(),
+      createdBy: a.string().required(), // Admin email who created the note
+    })
+    .secondaryIndexes((index) => [
+      index('enquiryId').queryField('listSectionNotesByEnquiry'),
+    ])
+    .authorization((allow) => [allow.authenticated('userPools')]),
+
   // Custom mutation to send confirmation email
   sendConfirmationEmail: a
     .mutation()
