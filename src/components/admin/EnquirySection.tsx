@@ -1,3 +1,8 @@
+import { useState, useCallback } from 'react';
+import { SectionNoteDisplay } from './SectionNoteDisplay';
+import { AddSectionNoteForm } from './AddSectionNoteForm';
+import type { SectionKey, SectionNote } from '../../types/admin';
+
 type FieldValue = string | (string | null)[] | boolean | null | undefined;
 
 interface FieldProps {
@@ -53,12 +58,68 @@ function Field({ label, value }: FieldProps) {
 interface EnquirySectionProps {
   title: string;
   fields: Array<{ label: string; value: FieldValue }>;
+  sectionKey?: SectionKey;
+  notes?: SectionNote[];
+  isAdmin?: boolean;
+  onAddNote?: (content: string) => Promise<void>;
+  onDeleteNote?: (noteId: string) => Promise<void>;
 }
 
-export function EnquirySection({ title, fields }: EnquirySectionProps) {
+export function EnquirySection({
+  title,
+  fields,
+  sectionKey,
+  notes = [],
+  isAdmin = false,
+  onAddNote,
+  onDeleteNote,
+}: EnquirySectionProps) {
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  const handleAddNote = useCallback(
+    async (content: string) => {
+      if (onAddNote) {
+        await onAddNote(content);
+        setShowAddForm(false);
+      }
+    },
+    [onAddNote]
+  );
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+      {/* Header with title and add note button */}
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+        {isAdmin && sectionKey && onAddNote && !showAddForm && (
+          <button
+            onClick={() => setShowAddForm(true)}
+            className="text-sm text-teal-600 hover:text-teal-700 flex items-center gap-1 transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Add note
+          </button>
+        )}
+      </div>
+
+      {/* Add note form (admin only) */}
+      {showAddForm && (
+        <AddSectionNoteForm
+          onSubmit={handleAddNote}
+          onCancel={() => setShowAddForm(false)}
+        />
+      )}
+
+      {/* Section notes (visible to both admin and owner) */}
+      <SectionNoteDisplay
+        notes={notes}
+        onDelete={isAdmin ? onDeleteNote : undefined}
+        isAdmin={isAdmin}
+      />
+
+      {/* Field data */}
       <dl className="space-y-4">
         {fields.map((field, index) => (
           <Field key={index} label={field.label} value={field.value} />

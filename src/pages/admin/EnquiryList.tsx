@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useEnquiries } from '../../hooks/useEnquiries';
 import { EnquiryStatusBadge } from '../../components/admin/EnquiryStatusBadge';
 import { STATUS_LABELS, type EnquiryStatus } from '../../types/admin';
@@ -16,14 +17,25 @@ const statusFilters: Array<{ value: EnquiryStatus | 'all'; label: string }> = [
 ];
 
 export function EnquiryList() {
+  const { user } = useAuthenticator((context) => [context.user]);
+  const userEmail = user?.signInDetails?.loginId;
   const [activeFilter, setActiveFilter] = useState<EnquiryStatus | 'all'>('all');
-  const { enquiries, isLoading, error } = useEnquiries({ statusFilter: activeFilter });
+  const { enquiries, isLoading, error, isAdmin } = useEnquiries({
+    statusFilter: activeFilter,
+    userEmail,
+  });
 
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Enquiries</h1>
-        <p className="text-gray-600 mt-1">Manage all your website enquiries</p>
+        <h1 className="text-2xl font-bold text-gray-900">
+          {isAdmin ? 'All Enquiries' : 'Your Enquiries'}
+        </h1>
+        <p className="text-gray-600 mt-1">
+          {isAdmin
+            ? 'Manage all website enquiries'
+            : 'View enquiries submitted with your email address'}
+        </p>
       </div>
 
       {/* Filter Tabs */}
@@ -99,7 +111,7 @@ export function EnquiryList() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <Link
-                        to={`/admin/enquiries/${enquiry.id}`}
+                        to={`/account/enquiries/${enquiry.id}`}
                         className="text-primary-600 hover:text-primary-700 font-medium text-sm"
                       >
                         View
