@@ -8,7 +8,7 @@ import { isAdmin } from '../utils/authWhitelist';
 const client = generateClient<Schema>();
 
 interface UseEnquiryAssetsOptions {
-  userEmail?: string;
+  userGroups?: string[];
 }
 
 interface AssetData {
@@ -17,8 +17,8 @@ interface AssetData {
 }
 
 export function useEnquiryAssets(enquiryId: string, options: UseEnquiryAssetsOptions = {}) {
-  const { userEmail } = options;
-  const userIsAdmin = isAdmin(userEmail);
+  const { userGroups } = options;
+  const userIsAdmin = isAdmin(userGroups);
 
   // Map of assetKey -> { asset, files }
   const [assetsMap, setAssetsMap] = useState<Map<string, AssetData>>(new Map());
@@ -49,12 +49,7 @@ export function useEnquiryAssets(enquiryId: string, options: UseEnquiryAssetsOpt
         throw new Error('Enquiry not found');
       }
 
-      // Check permission
-      if (!userIsAdmin && userEmail) {
-        if (enquiry.email.toLowerCase() !== userEmail.toLowerCase()) {
-          throw new Error('You do not have permission to access this enquiry');
-        }
-      }
+      // Authorization is handled by GraphQL - if we got data, user has access
 
       // Parse original design assets
       let parsedAssets: DesignAssets | null = null;
@@ -127,7 +122,7 @@ export function useEnquiryAssets(enquiryId: string, options: UseEnquiryAssetsOpt
     } finally {
       setIsLoading(false);
     }
-  }, [enquiryId, userEmail, userIsAdmin]);
+  }, [enquiryId]);
 
   useEffect(() => {
     fetchAssets();

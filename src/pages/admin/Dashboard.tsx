@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useEnquiries } from '../../hooks/useEnquiries';
+import { useUserGroups } from '../../hooks/useUserGroups';
 import { StatsCard } from '../../components/admin/StatsCard';
 import { EnquiryStatusBadge } from '../../components/admin/EnquiryStatusBadge';
 import type { EnquiryStatus } from '../../types/admin';
 
 export function Dashboard() {
   const { user } = useAuthenticator((context) => [context.user]);
-  const userEmail = user?.signInDetails?.loginId;
-  const { enquiries, isLoading, stats, isAdmin } = useEnquiries({ userEmail });
+  const { groups } = useUserGroups();
+  const { enquiries, isLoading, stats, isAdmin } = useEnquiries({ userGroups: groups });
 
   const recentEnquiries = enquiries.slice(0, 5);
 

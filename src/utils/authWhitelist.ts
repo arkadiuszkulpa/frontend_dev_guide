@@ -1,33 +1,14 @@
 /**
- * Admin whitelist for role-based access control
+ * Admin check using Cognito groups
  *
- * Admin users can see and edit all enquiries.
- * Regular users can only see enquiries matching their email.
+ * Admin users (in 'Admins' group) can see and edit all enquiries.
+ * Regular users can only see enquiries they own.
  */
 
 /**
- * Parse admin whitelist from environment variable
+ * Check if a user has admin privileges based on their Cognito groups
  */
-function getAdminEmails(): string[] {
-  const whitelist = import.meta.env.VITE_ADMIN_EMAILS || '';
-  return whitelist
-    .split(',')
-    .map((email) => email.trim().toLowerCase())
-    .filter((email) => email.length > 0);
-}
-
-/**
- * Check if a user email has admin privileges
- */
-export function isAdmin(email: string | undefined): boolean {
-  if (!email) return false;
-
-  const adminEmails = getAdminEmails();
-
-  // If no admin list configured, no one is admin (fail-safe)
-  if (adminEmails.length === 0) {
-    return false;
-  }
-
-  return adminEmails.includes(email.toLowerCase().trim());
+export function isAdmin(groups: string[] | undefined): boolean {
+  if (!groups || groups.length === 0) return false;
+  return groups.includes('Admins');
 }

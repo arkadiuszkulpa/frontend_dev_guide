@@ -52,8 +52,9 @@ const schema = a.schema({
       lastContactedAt: a.datetime(),
     })
     .authorization((allow) => [
-      allow.publicApiKey().to(['create', 'read']),
-      allow.authenticated('userPools'),
+      allow.publicApiKey().to(['create']),        // Anyone can submit enquiry
+      allow.owner().to(['read']),                  // Creators can only READ their own
+      allow.groups(['Admins']),                    // Admins have full CRUD access
     ]),
 
   EnquiryNote: a
@@ -63,7 +64,7 @@ const schema = a.schema({
       createdBy: a.string().required(),
       noteType: a.enum(['context', 'call_summary', 'quote_sent', 'follow_up', 'general']),
     })
-    .authorization((allow) => [allow.authenticated('userPools')]),
+    .authorization((allow) => [allow.groups(['Admins'])]),
 
   // Design Asset metadata - one record per asset type per enquiry
   EnquiryAsset: a
@@ -78,7 +79,7 @@ const schema = a.schema({
     .secondaryIndexes((index) => [
       index('enquiryId').sortKeys(['assetKey']).queryField('listAssetsByEnquiry'),
     ])
-    .authorization((allow) => [allow.authenticated('userPools')]),
+    .authorization((allow) => [allow.groups(['Admins'])]),
 
   // Individual file records for uploaded assets
   EnquiryAssetFile: a
@@ -97,7 +98,7 @@ const schema = a.schema({
     .secondaryIndexes((index) => [
       index('enquiryId').sortKeys(['assetKey']).queryField('listFilesByEnquiry'),
     ])
-    .authorization((allow) => [allow.authenticated('userPools')]),
+    .authorization((allow) => [allow.groups(['Admins'])]),
 
   // Section-specific notes visible to both admin AND enquiry owner
   // Different from EnquiryNote which is admin-only
@@ -118,7 +119,7 @@ const schema = a.schema({
     .secondaryIndexes((index) => [
       index('enquiryId').queryField('listSectionNotesByEnquiry'),
     ])
-    .authorization((allow) => [allow.authenticated('userPools')]),
+    .authorization((allow) => [allow.groups(['Admins'])]),
 
   // Custom mutation to send confirmation email
   sendConfirmationEmail: a

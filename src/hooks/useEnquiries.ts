@@ -10,12 +10,12 @@ type Enquiry = Schema['Enquiry']['type'];
 
 interface UseEnquiriesOptions {
   statusFilter?: EnquiryStatus | 'all';
-  userEmail?: string;
+  userGroups?: string[];
 }
 
 export function useEnquiries(options: UseEnquiriesOptions = {}) {
-  const { statusFilter = 'all', userEmail } = options;
-  const userIsAdmin = isAdmin(userEmail);
+  const { statusFilter = 'all', userGroups } = options;
+  const userIsAdmin = isAdmin(userGroups);
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -25,6 +25,9 @@ export function useEnquiries(options: UseEnquiriesOptions = {}) {
     setError(null);
 
     try {
+      // GraphQL authorization handles filtering:
+      // - Admins see all enquiries
+      // - Regular users only see their own (owner-based)
       const { data, errors } = await client.models.Enquiry.list({
         authMode: 'userPool',
       });
@@ -35,14 +38,7 @@ export function useEnquiries(options: UseEnquiriesOptions = {}) {
 
       let filteredData = data || [];
 
-      // Apply owner filter for non-admin users
-      if (!userIsAdmin && userEmail) {
-        filteredData = filteredData.filter(
-          (e) => e.email.toLowerCase() === userEmail.toLowerCase()
-        );
-      }
-
-      // Apply status filter
+      // Apply status filter (client-side, after auth filtering)
       if (statusFilter !== 'all') {
         filteredData = filteredData.filter((e) => (e.status || 'new') === statusFilter);
       }
@@ -60,7 +56,7 @@ export function useEnquiries(options: UseEnquiriesOptions = {}) {
     } finally {
       setIsLoading(false);
     }
-  }, [statusFilter, userEmail, userIsAdmin]);
+  }, [statusFilter]);
 
   useEffect(() => {
     fetchEnquiries();

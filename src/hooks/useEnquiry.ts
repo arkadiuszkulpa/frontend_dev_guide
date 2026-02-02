@@ -11,12 +11,12 @@ type EnquiryNote = Schema['EnquiryNote']['type'];
 type EnquirySectionNote = Schema['EnquirySectionNote']['type'];
 
 interface UseEnquiryOptions {
-  userEmail?: string;
+  userGroups?: string[];
 }
 
 export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
-  const { userEmail } = options;
-  const userIsAdmin = isAdmin(userEmail);
+  const { userGroups } = options;
+  const userIsAdmin = isAdmin(userGroups);
   const [enquiry, setEnquiry] = useState<Enquiry | null>(null);
   const [notes, setNotes] = useState<EnquiryNote[]>([]);
   const [sectionNotes, setSectionNotes] = useState<Map<SectionKey, SectionNote[]>>(new Map());
@@ -39,23 +39,14 @@ export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
         throw new Error(errors[0]?.message || 'Failed to fetch enquiry');
       }
 
-      // Check if user has access to this enquiry
-      if (data && !userIsAdmin && userEmail) {
-        if (data.email.toLowerCase() !== userEmail.toLowerCase()) {
-          setError(new Error('You do not have permission to view this enquiry'));
-          setEnquiry(null);
-          setIsLoading(false);
-          return;
-        }
-      }
-
+      // Authorization is handled by GraphQL - if we got data, user has access
       setEnquiry(data);
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'));
     } finally {
       setIsLoading(false);
     }
-  }, [id, userEmail, userIsAdmin]);
+  }, [id]);
 
   const fetchNotes = useCallback(async () => {
     if (!id) return;
