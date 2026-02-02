@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.5.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.980.0",
     "aws-amplify": "^6.6.0",
     "i18next": "^25.8.0",
     "i18next-browser-languagedetector": "^8.2.0",
@@ -24,6 +25,7 @@
     "@aws-amplify/backend-cli": "^1.4.0",
     "@aws-sdk/client-ses": "^3.974.0",
     "@eslint/js": "^9.13.0",
+    "@types/aws-lambda": "^8.10.160",
     "@types/node": "^25.0.10",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",

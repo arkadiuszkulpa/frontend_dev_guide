@@ -4,6 +4,7 @@ import { useAuthenticator } from '@aws-amplify/ui-react';
 import { AssetCategorySection } from './AssetCategorySection';
 import { useEnquiryAssets } from '../../hooks/useEnquiryAssets';
 import { useAssetUpload } from '../../hooks/useAssetUpload';
+import { useUserGroups } from '../../hooks/useUserGroups';
 import { ASSET_CATEGORIES, type DesignAssets } from '../../types/enquiry';
 import type { UploadProgress } from '../../types/assets';
 
@@ -14,6 +15,7 @@ interface AssetUploadPageProps {
 
 export function AssetUploadPage({ enquiryId, enquiryName }: AssetUploadPageProps) {
   const { user } = useAuthenticator((context) => [context.user]);
+  const { groups } = useUserGroups();
   const userEmail = user?.signInDetails?.loginId;
 
   const {
@@ -26,7 +28,7 @@ export function AssetUploadPage({ enquiryId, enquiryName }: AssetUploadPageProps
     addFile,
     deleteFile,
     getSummary,
-  } = useEnquiryAssets(enquiryId, { userEmail });
+  } = useEnquiryAssets(enquiryId, { userGroups: groups, userEmail });
 
   // Track uploads per asset key
   const [uploadsMap, setUploadsMap] = useState<Map<string, UploadProgress[]>>(new Map());

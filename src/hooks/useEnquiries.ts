@@ -10,12 +10,13 @@ type Enquiry = Schema['Enquiry']['type'];
 
 interface UseEnquiriesOptions {
   statusFilter?: EnquiryStatus | 'all';
+  userGroups?: string[];
   userEmail?: string;
 }
 
 export function useEnquiries(options: UseEnquiriesOptions = {}) {
-  const { statusFilter = 'all', userEmail } = options;
-  const userIsAdmin = isAdmin(userEmail);
+  const { statusFilter = 'all', userGroups, userEmail } = options;
+  const userIsAdmin = isAdmin(userGroups);
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -35,7 +36,9 @@ export function useEnquiries(options: UseEnquiriesOptions = {}) {
 
       let filteredData = data || [];
 
-      // Apply owner filter for non-admin users
+      // For non-admin users, filter by email match
+      // This is frontend filtering - the backend allows all authenticated users to read
+      // but we only show enquiries matching their email
       if (!userIsAdmin && userEmail) {
         filteredData = filteredData.filter(
           (e) => e.email.toLowerCase() === userEmail.toLowerCase()
@@ -60,7 +63,7 @@ export function useEnquiries(options: UseEnquiriesOptions = {}) {
     } finally {
       setIsLoading(false);
     }
-  }, [statusFilter, userEmail, userIsAdmin]);
+  }, [statusFilter, userIsAdmin, userEmail]);
 
   useEffect(() => {
     fetchEnquiries();

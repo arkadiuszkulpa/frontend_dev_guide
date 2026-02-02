@@ -11,12 +11,13 @@ type EnquiryNote = Schema['EnquiryNote']['type'];
 type EnquirySectionNote = Schema['EnquirySectionNote']['type'];
 
 interface UseEnquiryOptions {
+  userGroups?: string[];
   userEmail?: string;
 }
 
 export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
-  const { userEmail } = options;
-  const userIsAdmin = isAdmin(userEmail);
+  const { userGroups, userEmail } = options;
+  const userIsAdmin = isAdmin(userGroups);
   const [enquiry, setEnquiry] = useState<Enquiry | null>(null);
   const [notes, setNotes] = useState<EnquiryNote[]>([]);
   const [sectionNotes, setSectionNotes] = useState<Map<SectionKey, SectionNote[]>>(new Map());
@@ -39,7 +40,7 @@ export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
         throw new Error(errors[0]?.message || 'Failed to fetch enquiry');
       }
 
-      // Check if user has access to this enquiry
+      // For non-admin users, verify email match
       if (data && !userIsAdmin && userEmail) {
         if (data.email.toLowerCase() !== userEmail.toLowerCase()) {
           setError(new Error('You do not have permission to view this enquiry'));
@@ -55,7 +56,7 @@ export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
     } finally {
       setIsLoading(false);
     }
-  }, [id, userEmail, userIsAdmin]);
+  }, [id, userIsAdmin, userEmail]);
 
   const fetchNotes = useCallback(async () => {
     if (!id) return;

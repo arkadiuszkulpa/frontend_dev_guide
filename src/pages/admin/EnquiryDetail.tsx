@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useEnquiry } from '../../hooks/useEnquiry';
+import { useUserGroups } from '../../hooks/useUserGroups';
 import { EnquiryStatusBadge } from '../../components/admin/EnquiryStatusBadge';
 import { EnquirySection } from '../../components/admin/EnquirySection';
 import { StatusDropdown } from '../../components/admin/StatusDropdown';
@@ -89,6 +90,7 @@ function summarizeAssets(assets: DesignAssets): string {
 export function EnquiryDetail() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuthenticator((context) => [context.user]);
+  const { groups } = useUserGroups();
   const userEmail = user?.signInDetails?.loginId;
   const {
     enquiry,
@@ -102,7 +104,7 @@ export function EnquiryDetail() {
     getSectionNotes,
     addSectionNote,
     deleteSectionNote,
-  } = useEnquiry(id || '', { userEmail });
+  } = useEnquiry(id || '', { userGroups: groups, userEmail });
 
   // State for design assets section note form
   const [showDesignAssetsNoteForm, setShowDesignAssetsNoteForm] = useState(false);

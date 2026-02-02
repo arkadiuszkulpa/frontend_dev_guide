@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useEnquiries } from '../../hooks/useEnquiries';
+import { useUserGroups } from '../../hooks/useUserGroups';
 import { EnquiryStatusBadge } from '../../components/admin/EnquiryStatusBadge';
 import { STATUS_LABELS, type EnquiryStatus } from '../../types/admin';
 
@@ -18,10 +19,12 @@ const statusFilters: Array<{ value: EnquiryStatus | 'all'; label: string }> = [
 
 export function EnquiryList() {
   const { user } = useAuthenticator((context) => [context.user]);
+  const { groups } = useUserGroups();
   const userEmail = user?.signInDetails?.loginId;
   const [activeFilter, setActiveFilter] = useState<EnquiryStatus | 'all'>('all');
   const { enquiries, isLoading, error, isAdmin } = useEnquiries({
     statusFilter: activeFilter,
+    userGroups: groups,
     userEmail,
   });
 
