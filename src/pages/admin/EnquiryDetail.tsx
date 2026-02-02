@@ -90,7 +90,7 @@ function summarizeAssets(assets: DesignAssets): string {
 export function EnquiryDetail() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuthenticator((context) => [context.user]);
-  const { groups } = useUserGroups();
+  const { groups, isLoading: groupsLoading } = useUserGroups();
   const userEmail = user?.signInDetails?.loginId;
   const {
     enquiry,
@@ -104,7 +104,7 @@ export function EnquiryDetail() {
     getSectionNotes,
     addSectionNote,
     deleteSectionNote,
-  } = useEnquiry(id || '', { userGroups: groups, userEmail });
+  } = useEnquiry(id || '', { userGroups: groups, userEmail, groupsLoading });
 
   // State for design assets section note form
   const [showDesignAssetsNoteForm, setShowDesignAssetsNoteForm] = useState(false);
