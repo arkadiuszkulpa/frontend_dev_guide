@@ -13,10 +13,11 @@ type EnquirySectionNote = Schema['EnquirySectionNote']['type'];
 interface UseEnquiryOptions {
   userGroups?: string[];
   userEmail?: string;
+  groupsLoading?: boolean;
 }
 
 export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
-  const { userGroups, userEmail } = options;
+  const { userGroups, userEmail, groupsLoading } = options;
   const userIsAdmin = isAdmin(userGroups);
   const [enquiry, setEnquiry] = useState<Enquiry | null>(null);
   const [notes, setNotes] = useState<EnquiryNote[]>([]);
@@ -41,7 +42,8 @@ export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
       }
 
       // For non-admin users, verify email match
-      if (data && !userIsAdmin && userEmail) {
+      // Skip check if groups are still loading (to avoid race condition)
+      if (data && !groupsLoading && !userIsAdmin && userEmail) {
         if (data.email.toLowerCase() !== userEmail.toLowerCase()) {
           setError(new Error('You do not have permission to view this enquiry'));
           setEnquiry(null);
@@ -56,7 +58,7 @@ export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
     } finally {
       setIsLoading(false);
     }
-  }, [id, userIsAdmin, userEmail]);
+  }, [id, userIsAdmin, userEmail, groupsLoading]);
 
   const fetchNotes = useCallback(async () => {
     if (!id) return;

@@ -8,9 +8,9 @@ import type { EnquiryStatus } from '../../types/admin';
 
 export function Dashboard() {
   const { user } = useAuthenticator((context) => [context.user]);
-  const { groups } = useUserGroups();
+  const { groups, isLoading: groupsLoading } = useUserGroups();
   const userEmail = user?.signInDetails?.loginId;
-  const { enquiries, isLoading, stats, isAdmin } = useEnquiries({ userGroups: groups, userEmail });
+  const { enquiries, isLoading, stats, isAdmin } = useEnquiries({ userGroups: groups, userEmail, groupsLoading });
 
   const recentEnquiries = enquiries.slice(0, 5);
 

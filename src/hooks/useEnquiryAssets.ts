@@ -10,6 +10,7 @@ const client = generateClient<Schema>();
 interface UseEnquiryAssetsOptions {
   userGroups?: string[];
   userEmail?: string;
+  groupsLoading?: boolean;
 }
 
 interface AssetData {
@@ -18,7 +19,7 @@ interface AssetData {
 }
 
 export function useEnquiryAssets(enquiryId: string, options: UseEnquiryAssetsOptions = {}) {
-  const { userGroups, userEmail } = options;
+  const { userGroups, userEmail, groupsLoading } = options;
   const userIsAdmin = isAdmin(userGroups);
 
   // Map of assetKey -> { asset, files }
@@ -51,7 +52,8 @@ export function useEnquiryAssets(enquiryId: string, options: UseEnquiryAssetsOpt
       }
 
       // For non-admin users, verify email match
-      if (!userIsAdmin && userEmail) {
+      // Skip check if groups are still loading (to avoid race condition)
+      if (!groupsLoading && !userIsAdmin && userEmail) {
         if (enquiry.email.toLowerCase() !== userEmail.toLowerCase()) {
           throw new Error('You do not have permission to access this enquiry');
         }
@@ -128,7 +130,7 @@ export function useEnquiryAssets(enquiryId: string, options: UseEnquiryAssetsOpt
     } finally {
       setIsLoading(false);
     }
-  }, [enquiryId, userIsAdmin, userEmail]);
+  }, [enquiryId, userIsAdmin, userEmail, groupsLoading]);
 
   useEffect(() => {
     fetchAssets();

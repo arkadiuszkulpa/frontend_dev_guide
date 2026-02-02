@@ -7,11 +7,11 @@ import { AssetUploadPage } from '../../components/assets';
 export function EnquiryAssets() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuthenticator((context) => [context.user]);
-  const { groups } = useUserGroups();
+  const { groups, isLoading: groupsLoading } = useUserGroups();
   const userEmail = user?.signInDetails?.loginId;
 
   // Fetch basic enquiry info for the header
-  const { enquiry, isLoading: isLoadingEnquiry } = useEnquiry(id || '', { userGroups: groups, userEmail });
+  const { enquiry, isLoading: isLoadingEnquiry } = useEnquiry(id || '', { userGroups: groups, userEmail, groupsLoading });
 
   if (!id) {
     return (
