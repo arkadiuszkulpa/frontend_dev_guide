@@ -14,8 +14,9 @@ interface AssetUploadPageProps {
 }
 
 export function AssetUploadPage({ enquiryId, enquiryName }: AssetUploadPageProps) {
-  useAuthenticator((context) => [context.user]);
+  const { user } = useAuthenticator((context) => [context.user]);
   const { groups } = useUserGroups();
+  const userEmail = user?.signInDetails?.loginId;
 
   const {
     isLoading,
@@ -27,7 +28,7 @@ export function AssetUploadPage({ enquiryId, enquiryName }: AssetUploadPageProps
     addFile,
     deleteFile,
     getSummary,
-  } = useEnquiryAssets(enquiryId, { userGroups: groups });
+  } = useEnquiryAssets(enquiryId, { userGroups: groups, userEmail });
 
   // Track uploads per asset key
   const [uploadsMap, setUploadsMap] = useState<Map<string, UploadProgress[]>>(new Map());

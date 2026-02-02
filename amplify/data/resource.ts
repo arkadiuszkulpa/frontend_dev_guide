@@ -52,8 +52,8 @@ const schema = a.schema({
       lastContactedAt: a.datetime(),
     })
     .authorization((allow) => [
-      allow.publicApiKey().to(['create']),        // Anyone can submit enquiry
-      allow.owner().to(['read']),                  // Creators can only READ their own
+      allow.publicApiKey().to(['create']),         // Anyone can submit enquiry (anonymous)
+      allow.authenticated('userPools').to(['read']), // Authenticated users can read (filtered by email in frontend)
       allow.groups(['Admins']),                    // Admins have full CRUD access
     ]),
 

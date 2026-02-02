@@ -18,12 +18,14 @@ const statusFilters: Array<{ value: EnquiryStatus | 'all'; label: string }> = [
 ];
 
 export function EnquiryList() {
-  useAuthenticator((context) => [context.user]);
+  const { user } = useAuthenticator((context) => [context.user]);
   const { groups } = useUserGroups();
+  const userEmail = user?.signInDetails?.loginId;
   const [activeFilter, setActiveFilter] = useState<EnquiryStatus | 'all'>('all');
   const { enquiries, isLoading, error, isAdmin } = useEnquiries({
     statusFilter: activeFilter,
     userGroups: groups,
+    userEmail,
   });
 
   return (

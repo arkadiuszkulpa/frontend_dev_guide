@@ -91,6 +91,7 @@ export function EnquiryDetail() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuthenticator((context) => [context.user]);
   const { groups } = useUserGroups();
+  const userEmail = user?.signInDetails?.loginId;
   const {
     enquiry,
     notes,
@@ -103,7 +104,7 @@ export function EnquiryDetail() {
     getSectionNotes,
     addSectionNote,
     deleteSectionNote,
-  } = useEnquiry(id || '', { userGroups: groups });
+  } = useEnquiry(id || '', { userGroups: groups, userEmail });
 
   // State for design assets section note form
   const [showDesignAssetsNoteForm, setShowDesignAssetsNoteForm] = useState(false);

@@ -9,6 +9,7 @@ const client = generateClient<Schema>();
 
 interface UseEnquiryAssetsOptions {
   userGroups?: string[];
+  userEmail?: string;
 }
 
 interface AssetData {
@@ -17,7 +18,7 @@ interface AssetData {
 }
 
 export function useEnquiryAssets(enquiryId: string, options: UseEnquiryAssetsOptions = {}) {
-  const { userGroups } = options;
+  const { userGroups, userEmail } = options;
   const userIsAdmin = isAdmin(userGroups);
 
   // Map of assetKey -> { asset, files }
@@ -49,7 +50,12 @@ export function useEnquiryAssets(enquiryId: string, options: UseEnquiryAssetsOpt
         throw new Error('Enquiry not found');
       }
 
-      // Authorization is handled by GraphQL - if we got data, user has access
+      // For non-admin users, verify email match
+      if (!userIsAdmin && userEmail) {
+        if (enquiry.email.toLowerCase() !== userEmail.toLowerCase()) {
+          throw new Error('You do not have permission to access this enquiry');
+        }
+      }
 
       // Parse original design assets
       let parsedAssets: DesignAssets | null = null;
@@ -122,7 +128,7 @@ export function useEnquiryAssets(enquiryId: string, options: UseEnquiryAssetsOpt
     } finally {
       setIsLoading(false);
     }
-  }, [enquiryId]);
+  }, [enquiryId, userIsAdmin, userEmail]);
 
   useEffect(() => {
     fetchAssets();
