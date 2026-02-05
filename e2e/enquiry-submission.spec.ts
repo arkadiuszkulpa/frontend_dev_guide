@@ -44,10 +44,10 @@ test.describe('Enquiry Form Submission Journey', () => {
     await page.getByText(/do it for me/i).click();
     await page.getByText(/you manage/i).click();
 
-    // Click next
-    const nextButton = page.getByRole('button', { name: /next/i });
-    await expect(nextButton).toBeVisible();
-    await nextButton.click();
+    // Click continue (the button text from translations)
+    const continueButton = page.getByRole('button', { name: /continue/i });
+    await expect(continueButton).toBeVisible({ timeout: 5000 });
+    await continueButton.click();
 
     // Should advance - look for step 2 content
     await expect(page.getByText(/simple.*static/i)).toBeVisible({ timeout: 5000 });
@@ -59,13 +59,13 @@ test.describe('Enquiry Form Submission Journey', () => {
     // Complete step 1
     await page.getByText(/do it for me/i).click();
     await page.getByText(/you manage/i).click();
-    await page.getByRole('button', { name: /next/i }).click();
+    await page.getByRole('button', { name: /continue/i }).click();
 
     // Wait for step 2
     await expect(page.getByText(/simple.*static/i)).toBeVisible({ timeout: 5000 });
 
     // Go back
-    const backButton = page.getByRole('button', { name: /back|previous/i });
+    const backButton = page.getByRole('button', { name: /back/i });
     await backButton.click();
 
     // Should be back on step 1
