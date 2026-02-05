@@ -61,7 +61,11 @@ export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
   }, [id, userIsAdmin, userEmail, groupsLoading]);
 
   const fetchNotes = useCallback(async () => {
-    if (!id) return;
+    // Only admins can access EnquiryNote - skip if not admin or groups still loading
+    if (!id || groupsLoading || !userIsAdmin) {
+      setNotes([]);
+      return;
+    }
 
     try {
       // Use list with filter instead of custom query
@@ -86,10 +90,14 @@ export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
     } catch (err) {
       console.error('Failed to fetch notes:', err);
     }
-  }, [id]);
+  }, [id, groupsLoading, userIsAdmin]);
 
   const fetchSectionNotes = useCallback(async () => {
-    if (!id) return;
+    // Only admins can access EnquirySectionNote - skip if not admin or groups still loading
+    if (!id || groupsLoading || !userIsAdmin) {
+      setSectionNotes(new Map());
+      return;
+    }
 
     try {
       const { data, errors } = await client.models.EnquirySectionNote.listSectionNotesByEnquiry(
@@ -128,7 +136,7 @@ export function useEnquiry(id: string, options: UseEnquiryOptions = {}) {
     } catch (err) {
       console.error('Failed to fetch section notes:', err);
     }
-  }, [id]);
+  }, [id, groupsLoading, userIsAdmin]);
 
   useEffect(() => {
     fetchEnquiry();
