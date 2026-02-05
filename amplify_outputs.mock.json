@@ -1,0 +1,20 @@
+{
+  "version": "1.3",
+  "auth": {
+    "user_pool_id": "us-east-1_TESTPOOL",
+    "user_pool_client_id": "test-client-id",
+    "aws_region": "us-east-1",
+    "identity_pool_id": "us-east-1:test-identity-pool"
+  },
+  "data": {
+    "url": "https://test-api.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_region": "us-east-1",
+    "api_key": "test-api-key",
+    "default_authorization_type": "API_KEY",
+    "authorization_types": ["API_KEY", "AMAZON_COGNITO_USER_POOLS"]
+  },
+  "storage": {
+    "bucket_name": "test-bucket",
+    "aws_region": "us-east-1"
+  }
+}
