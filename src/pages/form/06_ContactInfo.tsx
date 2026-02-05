@@ -4,23 +4,7 @@ import { TextInput } from '../../components/TextInput';
 import { RadioGroup } from '../../components/RadioGroup';
 import { EnquiryFormData } from '../../types/enquiry';
 import { usePreferredContactOptions } from '../../hooks/useTranslatedOptions';
-
-// Email validation
-const isValidEmail = (email: string): boolean => {
-  if (!email || email.trim() === '') return false;
-  // Standard email regex pattern
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email.trim());
-};
-
-// E.164 phone format validation: + followed by 1-15 digits
-const isValidPhone = (phone: string): boolean => {
-  if (!phone || phone.trim() === '') return false;
-  // Remove spaces and dashes before validation
-  const cleaned = phone.replace(/[\s-]/g, '');
-  const e164Regex = /^\+[1-9]\d{1,14}$/;
-  return e164Regex.test(cleaned);
-};
+import { isValidEmail, isValidPhone } from '../../utils/validators';
 
 interface StepProps {
   formData: EnquiryFormData;

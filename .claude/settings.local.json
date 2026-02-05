@@ -10,7 +10,9 @@
       "Bash(npx tsc:*)",
       "WebFetch(domain:docs.amplify.aws)",
       "Bash(npx ampx sandbox delete:*)",
-      "Bash(npx ampx:*)"
+      "Bash(npx ampx:*)",
+      "Bash(npm i:*)",
+      "Bash(npm run test:run:*)"
     ]
   }
 }
