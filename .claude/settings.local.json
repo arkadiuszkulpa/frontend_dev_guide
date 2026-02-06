@@ -12,7 +12,9 @@
       "Bash(npx ampx sandbox delete:*)",
       "Bash(npx ampx:*)",
       "Bash(npm i:*)",
-      "Bash(npm run test:run:*)"
+      "Bash(npm run test:run:*)",
+      "Bash(ls:*)",
+      "Bash(npm run lint:*)"
     ]
   }
 }
