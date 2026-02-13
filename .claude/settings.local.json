@@ -14,7 +14,22 @@
       "Bash(npm i:*)",
       "Bash(npm run test:run:*)",
       "Bash(ls:*)",
-      "Bash(npm run lint:*)"
+      "Bash(npm run lint:*)",
+      "WebFetch(domain:vitalets.github.io)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.browserstack.com)",
+      "WebFetch(domain:www.testmu.ai)",
+      "WebFetch(domain:www.testmuai.com)",
+      "WebFetch(domain:ediblecode.com)",
+      "WebFetch(domain:medium.com)",
+      "Bash(npx bddgen)",
+      "Bash(npx playwright test:*)",
+      "Bash(curl:*)",
+      "Bash(npx cross-env:*)",
+      "Bash(npm run e2e:*)",
+      "Bash(findstr:*)",
+      "Bash(npm run e2e:setup:*)"
     ]
   }
 }

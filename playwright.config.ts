@@ -1,16 +1,24 @@
 import { defineConfig, devices } from '@playwright/test';
+import { defineBddConfig } from 'playwright-bdd';
 
 // Use deployed URL if available, otherwise localhost
-const baseURL = process.env.BASE_URL || 'http://localhost:5173';
-const isDeployedEnv = baseURL !== 'http://localhost:5173';
+// Port 5177 matches vite.config.ts server.port
+const baseURL = process.env.BASE_URL || 'http://localhost:5177';
+const isDeployedEnv = baseURL !== 'http://localhost:5177';
+
+// BDD configuration - generates test files from .feature files
+const testDir = defineBddConfig({
+  paths: ['features/**/*.feature'],
+  require: ['steps/**/*.ts'],
+});
 
 export default defineConfig({
-  testDir: './e2e',
+  testDir,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  timeout: 30000, // 30 second timeout per test
+  timeout: 30000,
   reporter: [
     ['html'],
     ['junit', { outputFile: 'test-results/e2e-results.xml' }],
@@ -38,12 +46,11 @@ export default defineConfig({
       use: { ...devices['Pixel 5'] },
     },
   ],
-  // Only start local dev server if not using a deployed environment
   webServer: isDeployedEnv
     ? undefined
     : {
         command: 'npm run dev',
-        url: 'http://localhost:5173',
+        url: 'http://localhost:5177',
         reuseExistingServer: !process.env.CI,
         timeout: 120000,
       },
