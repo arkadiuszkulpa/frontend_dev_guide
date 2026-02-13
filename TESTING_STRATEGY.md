@@ -549,4 +549,199 @@ Then('I should see my recently submitted enquiry', async ({ page }) => {
 
 ---
 
-*Last updated: 2026-02-09*
+## Setup Pitfalls & Troubleshooting
+
+Lessons learned from setting up this testing infrastructure. Reference this when things break.
+
+### Port Synchronisation (Vite + Playwright)
+
+**Problem:** Vite defaults to port 5173. If another app is on that port, Vite silently picks a different one. Playwright then connects to the wrong server (or the wrong app entirely).
+
+**Solution:** Pin the port in both configs and fail loudly if busy:
+
+```typescript
+// vite.config.ts
+server: {
+  port: 5177,
+  strictPort: true, // Fail if port is busy, don't silently pick another
+}
+
+// playwright.config.ts
+const baseURL = process.env.BASE_URL || 'http://localhost:5177';
+```
+
+**Rule:** The port number must match in exactly 3 places:
+1. `vite.config.ts` → `server.port`
+2. `playwright.config.ts` → `baseURL` fallback
+3. `playwright.config.ts` → `webServer.url`
+
+If you change the port, grep for the old one across all config files.
+
+### Amplify Config in CI (`amplify_outputs.json`)
+
+**Problem:** `amplify_outputs.json` is gitignored (contains environment-specific AWS config). Without it, `npm run build`, `tsc --noEmit`, and the dev server all fail.
+
+**Solution:** A mock file `amplify_outputs.mock.json` is committed to the repo. CI copies it before any step that needs it:
+
+```yaml
+- name: Create mock Amplify config
+  run: cp amplify_outputs.mock.json amplify_outputs.json
+```
+
+**Where it's needed:**
+- Type Check job (for `tsc --noEmit`)
+- E2E UI job (for `npm run dev` via webServer)
+- NOT needed for Lint or Unit Tests (they don't import Amplify config)
+
+### Test User Accounts (Cognito)
+
+**Problem:** E2E CORE tests require authenticated users. Test users don't exist in a fresh Cognito sandbox.
+
+**Solution:** Run `npm run e2e:setup` once per sandbox/environment. This creates:
+
+| User | Email | Cognito Groups |
+|------|-------|---------------|
+| Regular | `test_user@arkadiuszkulpa.co.uk` | `Users` |
+| Admin | `test_admin@arkadiuszkulpa.co.uk` | `Admins`, `Users` |
+
+**When to re-run:** After destroying and recreating a sandbox, or when deploying to a new environment.
+
+**Credentials flow:**
+- **Local:** Hardcoded fallbacks in `e2e/test-config.ts` (sandbox only)
+- **CI:** Environment variables from GitHub Secrets → `e2e/test-config.ts` reads `process.env.*`
+
+### GitHub Actions & Amplify: CI vs CD
+
+**Problem:** Amplify has its own build pipeline, so adding GitHub Actions can feel redundant or conflicting. Who owns what?
+
+**Answer:** They serve different purposes and don't conflict:
+
+```
+GitHub Actions = CI (quality gate)    →  "Can this code be merged?"
+AWS Amplify    = CD (deployment)      →  "Deploy the merged code"
+```
+
+**Flow:**
+1. Developer pushes `feature/xyz` → creates PR to `dev`
+2. GitHub Actions runs: lint → type-check → unit tests → E2E
+3. Branch protection blocks merge until checks pass
+4. Developer merges PR
+5. Amplify detects push to `dev` → builds → deploys
+
+**They never step on each other** because GitHub Actions runs on the PR (before merge) and Amplify runs after merge.
+
+### GitHub Repository Configuration Checklist
+
+Everything that needs to be configured in GitHub Settings for CI to work:
+
+**Default Branch** (Settings → General):
+- Set to `dev` (not `main`) so PRs auto-target `dev`
+
+**Repository Variables** (Settings → Secrets and variables → Actions → Variables):
+
+| Variable | Value | Used By |
+|----------|-------|---------|
+| `DEV_APP_URL` | Your Amplify dev URL (e.g. `https://dev.d1abc2def.amplifyapp.com`) | E2E Core Tests |
+
+**Repository Secrets** (Settings → Secrets and variables → Actions → Secrets):
+
+| Secret | Used By |
+|--------|---------|
+| `E2E_TEST_USER_EMAIL` | E2E Core Tests |
+| `E2E_TEST_USER_PASSWORD` | E2E Core Tests |
+| `E2E_ADMIN_EMAIL` | E2E Core Tests |
+| `E2E_ADMIN_PASSWORD` | E2E Core Tests |
+
+**Branch Protection Rulesets** (Settings → Rules → Rulesets):
+
+Create separate rulesets for `dev` and `main`:
+
+| Setting | `dev` ruleset | `main` ruleset |
+|---------|--------------|----------------|
+| Require PR before merging | Yes | Yes |
+| Require status checks | Lint, Type Check, Unit Tests, E2E UI Tests | Same + E2E Core Tests |
+| Require branch up to date | Yes | Yes |
+| Allow force pushes | No | No |
+
+**Note:** Status check names must match the `name:` field in the workflow YAML exactly (e.g. `Lint`, not `lint`).
+
+### Playwright Strict Mode Errors
+
+**Problem:** Playwright's strict mode throws when a locator matches more than one element. Common culprits:
+
+| Locator | Why It Fails | Fix |
+|---------|-------------|-----|
+| `getByText(/enquir/i)` | Matches nav link, heading, and paragraph | Use `getByRole('heading', { name: /enquiries/i })` |
+| `getByText(/thank you/i)` | Matches h1 and confirmation paragraph | Use `getByRole('heading', { name: /thank you/i })` |
+| `getByRole('button', { name: /add/i })` | Matches multiple "Add note" buttons | Use `{ name: 'Add Note', exact: true }` |
+| `getByText(/[E2E-TEST]/i)` | Brackets are regex special chars, matches everything | Escape brackets: `.replace(/[[\]]/g, '\\$&')` |
+
+**General rules:**
+- Prefer `getByRole()` over `getByText()` — roles are more specific
+- Use `{ exact: true }` when you need an exact match
+- Use `.first()` when multiple matches are expected (e.g. notes from previous runs)
+- Scope locators with `.locator('table tbody')` to avoid matching nav/header elements
+
+### ESLint in CI vs Local
+
+**Problem:** Code works locally but CI lint fails with `no-unused-vars` or `no-explicit-any`.
+
+**Common patterns that fail lint:**
+
+```typescript
+// ✗ Unused import
+import { UsernameExistsException } from '...'; // Remove if only checking error.name
+
+// ✗ catch(error) unused
+} catch (error) {     // → } catch (_error) {
+
+// ✗ any type
+} catch (error: any) { // → } catch (error: unknown) {
+  error.message         //     (error instanceof Error ? error.message : error)
+
+// ✗ Assigned but unused variable
+const success = page.getByText(...); // → const _success = ...
+```
+
+**Rule:** Always prefix intentionally unused variables with `_` (underscore).
+
+### E2E Test Categories: UI vs CORE
+
+**Problem:** Running all E2E tests in every context wastes time and fails due to missing credentials.
+
+**Solution:** Tests are tagged and run selectively:
+
+| Context | What Runs | Why |
+|---------|-----------|-----|
+| CI (every push/PR) | `@ui`, `@validation`, `@navigation` | No auth needed, runs against localhost |
+| CI (PRs only, when DEV_APP_URL set) | `@core`, `@admin`, `@member` | Needs real backend + test credentials |
+| Local development | All (if sandbox running) | Full suite against local sandbox |
+
+**The `e2e-core` job has a guard:**
+```yaml
+if: github.event_name == 'pull_request' && vars.DEV_APP_URL != ''
+```
+This means core tests only run on PRs AND only when `DEV_APP_URL` is configured. If the variable is missing, the job is skipped silently (not failed).
+
+### Branching Workflow
+
+**Problem:** PRs defaulting to `main` instead of `dev`, or accidentally merging feature branches directly to `main`.
+
+**Solution:**
+1. Set `dev` as the **default branch** in GitHub (Settings → General)
+2. All feature branches PR into `dev` (happens automatically with default branch set)
+3. `dev` → `main` PRs are manual, for releases only
+4. Both branches are protected — no direct pushes
+
+```
+feature/xyz → PR → dev (CI runs) → merge → Amplify deploys to dev
+                    dev → PR → main (CI runs) → merge → Amplify deploys to prod
+```
+
+**If branches get out of sync** (e.g. something merged directly to main):
+- Create a PR from `main` → `dev` to bring dev up to date
+- Or locally: `git checkout dev && git merge origin/main && git push`
+
+---
+
+*Last updated: 2026-02-13*
