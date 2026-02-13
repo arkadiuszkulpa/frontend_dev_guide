@@ -232,7 +232,8 @@ export default defineConfig({
 import { defineConfig } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
-const baseURL = process.env.BASE_URL || 'http://localhost:5173';
+// Port 5177 matches vite.config.ts server.port
+const baseURL = process.env.BASE_URL || 'http://localhost:5177';
 
 const testDir = defineBddConfig({
   paths: ['features/**/*.feature'],
@@ -260,7 +261,8 @@ export default defineConfig({
     "test:coverage": "vitest run --coverage",
     "e2e": "npx bddgen && playwright test",
     "e2e:ui": "npx bddgen && playwright test --ui",
-    "e2e:headed": "npx bddgen && playwright test --headed"
+    "e2e:headed": "npx bddgen && playwright test --headed",
+    "e2e:setup": "npx tsx e2e/setup-test-users.ts"
   }
 }
 ```
@@ -276,14 +278,20 @@ npm test
 # Unit tests with coverage
 npm run test:coverage
 
+# Setup test users (once per sandbox/environment)
+npm run e2e:setup
+
 # E2E tests against local dev server
 npm run e2e
 
 # E2E tests against deployed environment
 npx cross-env BASE_URL=https://dev.example.com npm run e2e
 
-# Run only smoke tests
-npm run e2e -- --grep "@smoke"
+# Run by category
+npm run e2e -- --grep "@core"       # CORE data persistence
+npm run e2e -- --grep "@ui"         # UI navigation
+npm run e2e -- --grep "@admin"      # Admin panel
+npm run e2e -- --grep "@member"     # Member panel
 
 # Debug E2E with UI
 npm run e2e:ui
@@ -291,48 +299,98 @@ npm run e2e:ui
 
 ---
 
-## CI/CD Integration
+## CI/CD Architecture
 
-```yaml
-# .github/workflows/test.yml
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+### Overview
 
-      - run: npm ci
-      - run: npm run test:coverage
-      - run: npx playwright install --with-deps chromium
-
-      # Run CORE tests (require auth) - P0/P1
-      - run: npm run e2e -- --grep "@core"
-        env:
-          BASE_URL: ${{ secrets.DEV_URL }}
-          E2E_TEST_USER_EMAIL: ${{ secrets.E2E_TEST_USER_EMAIL }}
-          E2E_TEST_USER_PASSWORD: ${{ secrets.E2E_TEST_USER_PASSWORD }}
-          E2E_ADMIN_EMAIL: ${{ secrets.E2E_ADMIN_EMAIL }}
-          E2E_ADMIN_PASSWORD: ${{ secrets.E2E_ADMIN_PASSWORD }}
-
-      # Run UI tests (no auth needed) - P3
-      - run: npm run e2e -- --grep "@ui"
-        env:
-          BASE_URL: ${{ secrets.DEV_URL }}
+```
+feature/xyz branch
+     │
+     │  PR to dev
+     ▼
+┌─────────────────────────────────────────────────┐
+│  GitHub Actions (CI)                            │
+│                                                 │
+│  ┌──────┐  ┌───────────┐  ┌────────────┐       │
+│  │ Lint │  │ Type Check│  │ Unit Tests │       │
+│  └──┬───┘  └─────┬─────┘  └─────┬──────┘       │
+│     │            │              │               │
+│     └────────────┼──────────────┘               │
+│                  │                              │
+│         ┌────────┴────────┐                     │
+│         │                 │                     │
+│    ┌────▼─────┐    ┌─────▼──────┐               │
+│    │ E2E UI   │    │ E2E CORE   │               │
+│    │(localhost)│    │(deployed   │               │
+│    │          │    │ dev URL)   │               │
+│    └──────────┘    └────────────┘               │
+│                                                 │
+│  ALL must pass ──→ PR can be merged             │
+└─────────────────────────────────────────────────┘
+     │
+     │  Merge to dev
+     ▼
+┌─────────────────────────────────────────────────┐
+│  AWS Amplify (CD)                               │
+│                                                 │
+│  1. npx ampx pipeline-deploy (backend)          │
+│  2. npm run build (frontend)                    │
+│  3. Deploy to CloudFront                        │
+└─────────────────────────────────────────────────┘
 ```
 
-### Required GitHub Secrets
+### Why This Split
+
+| Concern | Owner | Why |
+|---------|-------|-----|
+| Tests pass? | GitHub Actions (CI) | Fast feedback, blocks bad merges |
+| Code deployed? | Amplify (CD) | Already configured, handles infra |
+| Branch protection? | GitHub (settings) | Enforces the workflow |
+
+### GitHub Actions Jobs
+
+```
+jobs:
+  lint          ──┐
+  type-check    ──┤── run in parallel (fast)
+  unit-tests    ──┘
+                  │
+                  ▼
+  e2e-ui        ──┐── run after fast checks pass
+  e2e-core      ──┘   (also in parallel with each other)
+```
+
+- **e2e-ui**: Runs against localhost with mock Amplify config. No secrets needed.
+- **e2e-core**: Runs against deployed dev URL. Requires `DEV_APP_URL` variable and test user secrets. Only runs on PRs (not every push).
+
+### Required GitHub Configuration
+
+**Repository Variables** (Settings > Variables > Actions):
+
+| Variable | Example Value | Purpose |
+|----------|---------------|---------|
+| `DEV_APP_URL` | `https://dev.d1abc2def.amplifyapp.com` | Deployed dev URL |
+
+**Repository Secrets** (Settings > Secrets > Actions):
 
 | Secret | Purpose |
 |--------|---------|
-| `DEV_URL` | Base URL for test environment |
 | `E2E_TEST_USER_EMAIL` | Regular test user email |
 | `E2E_TEST_USER_PASSWORD` | Regular test user password |
 | `E2E_ADMIN_EMAIL` | Admin test user email |
 | `E2E_ADMIN_PASSWORD` | Admin test user password |
+
+### Branch Protection Rules
+
+Both `main` and `dev` branches should be protected:
+
+| Setting | Value |
+|---------|-------|
+| Require pull request before merging | Yes |
+| Require status checks to pass | Yes |
+| Required checks | `Lint`, `Type Check`, `Unit Tests`, `E2E UI Tests` |
+| Require branches to be up to date | Yes |
+| Allow force pushes | No |
 
 ---
 
