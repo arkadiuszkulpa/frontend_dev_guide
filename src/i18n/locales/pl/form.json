@@ -3,7 +3,21 @@
     "title": "Zbudujmy Twoją Stronę",
     "subtitle": "Opowiedz nam o swojej firmie i czego potrzebujesz.\nWiedza techniczna nie jest wymagana.",
     "startButton": "Nowe zapytanie",
-    "timeEstimate": "Zajmie około 5 minut"
+    "timeEstimate": "Zajmie około 5 minut",
+    "loginSection": {
+      "text": "Już wysłałeś zapytanie? Zaloguj się, aby śledzić postęp wyceny, przeglądać aktualizacje i zobaczyć notatki od naszego zespołu.",
+      "button": "Zaloguj się, aby zobaczyć swoje zapytania"
+    }
+  },
+  "login": {
+    "title": "Logowanie do konta",
+    "backToHome": "Powrót na stronę główną",
+    "signUpFooter": "Utwórz konto, aby przeglądać swoje wyceny."
+  },
+  "validation": {
+    "invalidEmail": "Wprowadź prawidłowy adres e-mail",
+    "invalidPhone": "Wprowadź prawidłowy numer telefonu z kodem kraju",
+    "phoneHelper": "Wprowadź kod kraju (np. +48 123 456 789)"
   },
   "thankYou": {
     "title": "Dziękujemy!",

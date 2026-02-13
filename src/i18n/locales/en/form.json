@@ -3,7 +3,21 @@
     "title": "Let's Build Your Website",
     "subtitle": "Tell us about your business and what you need.\nNo technical knowledge required.",
     "startButton": "New Enquiry",
-    "timeEstimate": "Takes about 5 minutes to complete"
+    "timeEstimate": "Takes about 5 minutes to complete",
+    "loginSection": {
+      "text": "Already submitted an enquiry? Log in to track your quote progress, view updates, and see any notes from our team.",
+      "button": "Log in to view your enquiries"
+    }
+  },
+  "login": {
+    "title": "Account Login",
+    "backToHome": "Back to home",
+    "signUpFooter": "Create an account to view your quotes."
+  },
+  "validation": {
+    "invalidEmail": "Please enter a valid email address",
+    "invalidPhone": "Please enter a valid phone number with country code",
+    "phoneHelper": "Include country code (e.g., +44 1234 567890)"
   },
   "thankYou": {
     "title": "Thank you!",

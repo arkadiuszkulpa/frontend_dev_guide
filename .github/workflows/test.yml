@@ -1,0 +1,138 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches: [main, dev]
+  push:
+    branches: [main, dev]
+
+# Cancel in-progress runs for the same PR/branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ──────────────────────────────────────────────
+  # FAST CHECKS - run in parallel, no E2E overhead
+  # ──────────────────────────────────────────────
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Create mock Amplify config for type checking
+        run: cp amplify_outputs.mock.json amplify_outputs.json
+      - run: npx tsc --noEmit
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test:coverage
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false
+
+  # ──────────────────────────────────────────────
+  # E2E UI TESTS - run against localhost (no auth needed)
+  # ──────────────────────────────────────────────
+
+  e2e-ui:
+    name: E2E UI Tests
+    runs-on: ubuntu-latest
+    needs: [lint, type-check, unit-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+
+      - name: Create mock Amplify config
+        run: cp amplify_outputs.mock.json amplify_outputs.json
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run UI E2E tests
+        run: npm run e2e -- --grep "@ui|@validation|@navigation" --project=chromium
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: e2e-ui-results
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+
+  # ──────────────────────────────────────────────
+  # E2E CORE TESTS - run against deployed dev (auth required)
+  # Only on PRs to main/dev (not needed on every push)
+  # ──────────────────────────────────────────────
+
+  e2e-core:
+    name: E2E Core Tests
+    runs-on: ubuntu-latest
+    needs: [lint, type-check, unit-tests]
+    if: |
+      github.event_name == 'pull_request' &&
+      vars.DEV_APP_URL != ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run CORE E2E tests against dev
+        run: npm run e2e -- --grep "@core|@admin|@member" --project=chromium
+        env:
+          BASE_URL: ${{ vars.DEV_APP_URL }}
+          E2E_TEST_USER_EMAIL: ${{ secrets.E2E_TEST_USER_EMAIL }}
+          E2E_TEST_USER_PASSWORD: ${{ secrets.E2E_TEST_USER_PASSWORD }}
+          E2E_ADMIN_EMAIL: ${{ secrets.E2E_ADMIN_EMAIL }}
+          E2E_ADMIN_PASSWORD: ${{ secrets.E2E_ADMIN_PASSWORD }}
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: e2e-core-results
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
