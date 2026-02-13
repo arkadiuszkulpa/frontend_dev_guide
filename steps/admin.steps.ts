@@ -103,7 +103,7 @@ Then('the status should be updated', async ({ page }) => {
 
 Then('I should see a success confirmation', async ({ page }) => {
   // Look for toast/notification or success message
-  const success = page.getByText(/success|saved|updated/i)
+  const _success = page.getByText(/success|saved|updated/i)
     .or(page.locator('[role="alert"]'));
   // This may not always show - status being visible is enough
   await page.waitForTimeout(500);

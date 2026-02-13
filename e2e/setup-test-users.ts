@@ -18,7 +18,6 @@ import {
   AdminSetUserPasswordCommand,
   AdminAddUserToGroupCommand,
   AdminGetUserCommand,
-  UsernameExistsException,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { readFileSync } from 'fs';
 import { testConfig } from './test-config';
@@ -31,7 +30,7 @@ function getAmplifyConfig() {
       userPoolId: outputs.auth.user_pool_id,
       region: outputs.auth.aws_region,
     };
-  } catch (error) {
+  } catch (_error) {
     console.error('Error: Could not read amplify_outputs.json');
     console.error('Make sure your Amplify sandbox is running: npx ampx sandbox');
     process.exit(1);
@@ -45,8 +44,8 @@ async function userExists(client: CognitoIdentityProviderClient, userPoolId: str
       Username: email,
     }));
     return true;
-  } catch (error: any) {
-    if (error.name === 'UserNotFoundException') {
+  } catch (error: unknown) {
+    if (error instanceof Error && error.name === 'UserNotFoundException') {
       return false;
     }
     throw error;
@@ -78,8 +77,8 @@ async function createTestUser(
         MessageAction: 'SUPPRESS', // Don't send welcome email
       }));
       console.log(`  ✓ User created`);
-    } catch (error: any) {
-      if (error.name === 'UsernameExistsException') {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === 'UsernameExistsException') {
         console.log(`  ✓ User already exists`);
       } else {
         throw error;
@@ -96,8 +95,8 @@ async function createTestUser(
       Permanent: true,
     }));
     console.log(`  ✓ Password set`);
-  } catch (error: any) {
-    console.error(`  ✗ Failed to set password: ${error.message}`);
+  } catch (error: unknown) {
+    console.error(`  ✗ Failed to set password: ${error instanceof Error ? error.message : error}`);
     throw error;
   }
 
@@ -110,8 +109,8 @@ async function createTestUser(
         GroupName: group,
       }));
       console.log(`  ✓ Added to group: ${group}`);
-    } catch (error: any) {
-      console.error(`  ✗ Failed to add to group ${group}: ${error.message}`);
+    } catch (error: unknown) {
+      console.error(`  ✗ Failed to add to group ${group}: ${error instanceof Error ? error.message : error}`);
     }
   }
 }
