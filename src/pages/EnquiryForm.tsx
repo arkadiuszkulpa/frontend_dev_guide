@@ -7,14 +7,24 @@ import { ProgressBar } from '../components/ProgressBar';
 import { FormNavigation } from '../components/FormNavigation';
 import { useEnquiryForm } from '../hooks/useEnquiryForm';
 
-import { InvolvementLevel, validateInvolvementLevel } from './form/01_InvolvementLevel';
-import { WebsiteComplexity, validateWebsiteComplexity } from './form/02_WebsiteComplexity';
-import { Features, validateFeatures } from './form/02b_Features';
-import { AIFeatures, validateAIFeatures } from './form/03_AIFeatures';
-import { YourBusiness, validateYourBusiness } from './form/04_YourBusiness';
-import { DesignAssetsStep, validateDesignAssets } from './form/05_DesignAssets';
-import { ContactInfo, validateContactInfo } from './form/06_ContactInfo';
-import { PricingSummary, validatePricingSummary } from './form/07_PricingSummary';
+import { InvolvementLevel } from './form/01_InvolvementLevel';
+import { WebsiteComplexity } from './form/02_WebsiteComplexity';
+import { Features } from './form/02b_Features';
+import { AIFeatures } from './form/03_AIFeatures';
+import { YourBusiness } from './form/04_YourBusiness';
+import { DesignAssetsStep } from './form/05_DesignAssets';
+import { ContactInfo } from './form/06_ContactInfo';
+import { PricingSummary } from './form/07_PricingSummary';
+import {
+  validateInvolvementLevel,
+  validateWebsiteComplexity,
+  validateFeatures,
+  validateAIFeatures,
+  validateYourBusiness,
+  validateDesignAssets,
+  validateContactInfo,
+  validatePricingSummary,
+} from '../utils/formValidators';
 
 const client = generateClient<Schema>();
 

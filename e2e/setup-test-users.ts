@@ -30,7 +30,7 @@ function getAmplifyConfig() {
       userPoolId: outputs.auth.user_pool_id,
       region: outputs.auth.aws_region,
     };
-  } catch (_error) {
+  } catch {
     console.error('Error: Could not read amplify_outputs.json');
     console.error('Make sure your Amplify sandbox is running: npx ampx sandbox');
     process.exit(1);

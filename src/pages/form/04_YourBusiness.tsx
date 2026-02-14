@@ -69,9 +69,3 @@ export function YourBusiness({ formData, updateFormData }: StepProps) {
     </FormCard>
   );
 }
-
-export function validateYourBusiness(formData: EnquiryFormData): boolean {
-  const hasDescription = formData.businessDescription.trim().length >= 10;
-  const hasAtLeastOneCompetitor = formData.competitorWebsites.some(url => url.trim() !== '');
-  return hasDescription && hasAtLeastOneCompetitor;
-}

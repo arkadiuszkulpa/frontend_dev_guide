@@ -109,7 +109,3 @@ export function Features({ formData, updateFormData }: StepProps) {
     </FormCard>
   );
 }
-
-export function validateFeatures(formData: EnquiryFormData): boolean {
-  return formData.corePages.length > 0;
-}

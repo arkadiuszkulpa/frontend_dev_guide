@@ -45,8 +45,3 @@ export function PricingSummary({ formData }: StepProps) {
     </FormCard>
   );
 }
-
-export function validatePricingSummary(): boolean {
-  // Always valid - this is just a summary step
-  return true;
-}

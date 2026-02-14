@@ -23,7 +23,3 @@ export function WebsiteComplexity({ formData, updateFormData }: StepProps) {
     </FormCard>
   );
 }
-
-export function validateWebsiteComplexity(formData: EnquiryFormData): boolean {
-  return formData.websiteComplexity !== '';
-}

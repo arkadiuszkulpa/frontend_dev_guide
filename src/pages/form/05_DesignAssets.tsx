@@ -168,8 +168,3 @@ export function DesignAssetsStep({ formData, updateFormData }: StepProps) {
     </FormCard>
   );
 }
-
-export function validateDesignAssets(formData: EnquiryFormData): boolean {
-  const assets = formData.designAssets;
-  return assets.logo !== '' && assets.brandColours !== '';
-}
