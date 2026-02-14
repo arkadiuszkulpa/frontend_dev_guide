@@ -29,7 +29,9 @@
       "Bash(npx cross-env:*)",
       "Bash(npm run e2e:*)",
       "Bash(findstr:*)",
-      "Bash(npm run e2e:setup:*)"
+      "Bash(npm run e2e:setup:*)",
+      "Bash(gh auth status:*)",
+      "Bash(where:*)"
     ]
   }
 }

@@ -56,7 +56,3 @@ export function AIFeatures({ formData, updateFormData }: StepProps) {
     </FormCard>
   );
 }
-
-export function validateAIFeatures(formData: EnquiryFormData): boolean {
-  return formData.aiFeatures.length > 0;
-}

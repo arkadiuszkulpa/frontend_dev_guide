@@ -3,16 +3,6 @@ import { createBdd } from 'playwright-bdd';
 
 const { Given, When, Then } = createBdd();
 
-// Helper to dismiss cookie banner if present
-async function dismissCookieBanner(page: import('@playwright/test').Page) {
-  const acceptButton = page.getByRole('button', { name: /accept all/i });
-  if (await acceptButton.isVisible({ timeout: 3000 }).catch(() => false)) {
-    await acceptButton.click();
-    await acceptButton.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
-    await page.waitForTimeout(500);
-  }
-}
-
 // ============ GIVEN STEPS ============
 // Note: "I am on the enquiry form" is defined in journey.steps.ts
 

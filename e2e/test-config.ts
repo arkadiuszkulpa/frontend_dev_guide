@@ -19,7 +19,7 @@ export const testConfig = {
   },
 
   // Base URL for the application
-  baseUrl: process.env.BASE_URL || 'http://localhost:5173',
+  baseUrl: process.env.BASE_URL || 'http://localhost:5177',
 
   // AWS region for API calls
   awsRegion: process.env.AWS_REGION || 'eu-west-2',

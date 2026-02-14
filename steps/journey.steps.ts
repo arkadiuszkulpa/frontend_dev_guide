@@ -254,7 +254,7 @@ When('I navigate forward again', async ({ page }) => {
 
 Then('my previous selections should be preserved', async ({ page }) => {
   // Check that "Do it for me" is still selected
-  const selected = page.locator('[aria-selected="true"], [data-selected="true"], .selected').getByText(/do it for me/i);
+  const _selected = page.locator('[aria-selected="true"], [data-selected="true"], .selected').getByText(/do it for me/i);
   // Just verify we're back on step 1 with options visible
   await expect(page.getByText(/do it for me/i)).toBeVisible();
 });

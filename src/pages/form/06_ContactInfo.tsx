@@ -75,12 +75,3 @@ export function ContactInfo({ formData, updateFormData }: StepProps) {
     </FormCard>
   );
 }
-
-export function validateContactInfo(formData: EnquiryFormData): boolean {
-  return (
-    formData.fullName.trim() !== '' &&
-    isValidEmail(formData.email) &&
-    isValidPhone(formData.phone) &&
-    formData.preferredContact !== ''
-  );
-}

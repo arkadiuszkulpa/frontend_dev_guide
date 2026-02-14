@@ -44,9 +44,3 @@ export function InvolvementLevel({ formData, updateFormData }: StepProps) {
     </FormCard>
   );
 }
-
-export function validateInvolvementLevel(formData: EnquiryFormData): boolean {
-  if (formData.involvementLevel === '') return false;
-  if (formData.involvementLevel !== 'guide-me' && formData.accountManagement === '') return false;
-  return true;
-}
